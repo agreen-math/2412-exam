@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<knowl mode="exercise" xmlns="https://spatext.clontz.org" version="0.2">
+    <content>
+        <p>Use a sum or difference identity to find the exact value of the expression.</p>
+        <p><me>{{expr}}</me></p>
+    </content>
+    {{{outtro}}}
+</knowl>

@@ -36,5 +36,37 @@ Solve quadratic trigonometric equations (Non-Calculator).
 Solve inverse trigonometric equations (Non-Calculator).
             </description>
         </outcome>
+        <outcome>
+            <title>ID - Simp Fund</title>
+            <slug>ID-1</slug>
+            <path>outcomes/ID-1</path>
+            <description>
+Simplify using fundamental trigonometric identities.
+            </description>
+        </outcome>
+        <outcome>
+            <title>ID - Proof DA</title>
+            <slug>ID-2</slug>
+            <path>outcomes/ID-2</path>
+            <description>
+Prove trigonometric identities.
+            </description>
+        </outcome>
+        <outcome>
+            <title>ID - Sum/Diff</title>
+            <slug>ID-3</slug>
+            <path>outcomes/ID-3</path>
+            <description>
+Use sum and difference identities.
+            </description>
+        </outcome>
+        <outcome>
+            <title>ID - Trig Sub DA</title>
+            <slug>ID-4</slug>
+            <path>outcomes/ID-4</path>
+            <description>
+Use identities to find trig values from clues.
+            </description>
+        </outcome>
     </outcomes>
 </bank>
