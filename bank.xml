@@ -68,5 +68,13 @@ Use sum and difference identities.
 Use identities to find trig values from clues.
             </description>
         </outcome>
+        <outcome>
+            <title>APP - Trig EQ</title>
+            <slug>APP-1</slug>
+            <path>outcomes/APP-1</path>
+            <description>
+Apply trigonometric equations to solve problems.
+            </description>
+        </outcome>
     </outcomes>
 </bank>
