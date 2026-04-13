@@ -1,0 +1,89 @@
+from sage.all import *
+from random import randint, choice, sample
+
+class Generator(BaseGenerator):
+    def data(self):
+        # 1. Generate Cubic Function Data
+        roots = sample(range(-5, 6), 3)
+        factors = []
+        for r in roots:
+            if r == 0:
+                factors.insert(0, "x")
+            elif r < 0:
+                factors.append(f"(x + {-r})")
+            else:
+                factors.append(f"(x - {r})")
+        cub_expr = "".join(factors)
+        
+        cubic_data = {
+            "expr": cub_expr,
+            "ans_domain": "(-\\infty, \\infty)",
+            "ans_range": "(-\\infty, \\infty)",
+            "domain_expl": "Polynomial functions do not have division by zero or even roots, so their domain is all real numbers.",
+            "domain_math": "\\text{Domain: } (-\\infty, \\infty)",
+            "range_expl": "Since this is an odd-degree polynomial (a cubic), its ends point in opposite directions, meaning the range is also all real numbers.",
+            "range_math": "\\text{Range: } (-\\infty, \\infty)"
+        }
+        
+        # 2. Generate Rational Function Data
+        a = choice([1, 2, 3, 4, 5])
+        b = choice([-5, -4, -3, -2, -1, 1, 2, 3, 4, 5])
+        c = choice([2, 3, 4, 5])
+        d = choice([-5, -4, -3, -2, -1, 1, 2, 3, 4, 5])
+        
+        # Ensure numerator and denominator don't share a common factor
+        while a*d + b == 0:  
+            b = choice([-5, -4, -3, -2, -1, 1, 2, 3, 4, 5])
+        
+        num_a = "" if a == 1 else str(a)
+        num_b = f" + {b}" if b > 0 else f" - {-b}"
+        num_str = f"{num_a}x{num_b}"
+        
+        den_d = f" - {d}" if d > 0 else f" + {-d}"
+        den_str = f"{c}(x{den_d})"
+        
+        rat_expr = f"\\displaystyle \\frac{{{num_str}}}{{{den_str}}}"
+        
+        # Evaluate horizontal asymptote fraction cleanly
+        frac = Rational(a, c)
+        if frac.denominator() == 1:
+            rat_range_str = f"{frac.numerator()}"
+            ha_calc = f"y = \\frac{{{a}}}{{{c}}} = {rat_range_str}"
+        else:
+            rat_range_str = f"\\frac{{{frac.numerator()}}}{{{frac.denominator()}}}"
+            if a == frac.numerator() and c == frac.denominator():
+                ha_calc = f"y = \\frac{{{a}}}{{{c}}}"
+            else:
+                ha_calc = f"y = \\frac{{{a}}}{{{c}}} = {rat_range_str}"
+                
+        rat_data = {
+            "expr": rat_expr,
+            "ans_domain": f"x \\neq {d}",
+            "ans_range": f"y \\neq {rat_range_str}",
+            "domain_expl": "The domain is restricted by the denominator, which cannot equal zero.",
+            "domain_math": f"x {den_d} \\neq 0 \\implies x \\neq {d}",
+            "range_expl": "The range is restricted by the horizontal asymptote, which is the ratio of the leading coefficients.",
+            "range_math": f"{ha_calc} \\implies y \\neq {rat_range_str}"
+        }
+        
+        # 3. Shuffle and Assign to parts (a) and (b)
+        items = [cubic_data, rat_data]
+        shuffle(items)
+        
+        return {
+            "expr_a": items[0]["expr"],
+            "ans_domain_a": items[0]["ans_domain"],
+            "ans_range_a": items[0]["ans_range"],
+            "domain_expl_a": items[0]["domain_expl"],
+            "domain_math_a": items[0]["domain_math"],
+            "range_expl_a": items[0]["range_expl"],
+            "range_math_a": items[0]["range_math"],
+            
+            "expr_b": items[1]["expr"],
+            "ans_domain_b": items[1]["ans_domain"],
+            "ans_range_b": items[1]["ans_range"],
+            "domain_expl_b": items[1]["domain_expl"],
+            "domain_math_b": items[1]["domain_math"],
+            "range_expl_b": items[1]["range_expl"],
+            "range_math_b": items[1]["range_math"]
+        }

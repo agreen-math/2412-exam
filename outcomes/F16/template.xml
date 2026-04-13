@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<knowl mode="exercise" xmlns="https://spatext.clontz.org" version="0.2">
+    <intro>
+        <p>Use the graph of the polynomial function <m>f(x)</m> below to answer the questions that follow.</p>
+        <p>
+            <me>
+                {{graph_tikz}}
+            </me>
+        </p>
+    </intro>
+    <content>
+        <list>
+            <item><p>(a) Is the degree of the polynomial even or odd? \underline{\hspace{3cm}}</p></item>
+            <item><p>(b) Is the lead coefficient of the polynomial positive or negative? \underline{\hspace{3cm}}</p></item>
+            <item><p>(c) Is the constant of the polynomial positive or negative? \underline{\hspace{3cm}}</p></item>
+            <item><p>(d) What is the minimum degree of the polynomial? \underline{\hspace{3cm}}</p></item>
+        </list>
+    </content>
+    <outtro>
+        <p>Solution:</p>
+        <list>
+            <item><p>(a) The degree is {{deg_ans}}.</p></item>
+            <item><p>(b) The lead coefficient is {{lead_ans}}.</p></item>
+            <item><p>(c) The constant is {{const_ans}}.</p></item>
+            <item><p>(d) The minimum degree is {{min_deg_ans}}.</p></item>
+        </list>
+        <p>
+            <em>(For instructor reference, the function equation is <m>{{equation_latex}}</m>)</em>
+        </p>
+    </outtro>
+</knowl>
