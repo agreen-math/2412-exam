@@ -3,70 +3,67 @@ import random
 
 class Generator(BaseGenerator):
     def data(self):
-        # Generate relatively prime A and B to ensure fully reduced fractions
-        configs = []
-        for a in range(1, 6):
-            for b in range(1, 6):
-                if gcd(a, b) == 1:
-                    configs.append((a, b))
-        
-        A, B = random.choice(configs)
-        
-        # Format the algebraic components for LaTeX
-        Au_str = "u" if A == 1 else f"{A}u"
-        Asq_u2_str = "u^2" if A == 1 else f"{A**2}u^2"
-        
-        if B == 1:
-            arg_tex = Au_str
-            tan_ratio = rf"\frac{{{Au_str}}}{{1}}"
-        else:
-            arg_tex = rf"\frac{{{Au_str}}}{{{B}}}"
-            tan_ratio = arg_tex
-            
-        r_tex = rf"\sqrt{{{Asq_u2_str} + {B**2}}}"
-        r_sq_tex = rf"{Asq_u2_str} + {B**2}"
-        
-        # Construct the prompt strictly for cosine
-        prompt_tex = rf"\cos\left(2\tan^{{-1}}\left({arg_tex}\right)\right)"
-        
-        # Preliminary Steps: Geometric Setup
-        prelim1 = rf"\text{{Let }} \theta = \tan^{{-1}}\left({arg_tex}\right) \implies \tan\theta = {tan_ratio} = \frac{{y}}{{x}}"
-        prelim2 = rf"r = \sqrt{{x^2 + y^2}} = \sqrt{{({B})^2 + ({Au_str})^2}} = {r_tex}"
-        
-        cos_val_num = f"{B}"
-        cos_val_tex = rf"\frac{{{cos_val_num}}}{{{r_tex}}}"
-        
-        prelim3 = rf"\cos\theta = \frac{{x}}{{r}} = {cos_val_tex}"
-        
-        # Double-Angle Identity Substitution and Algebra
-        step1 = r"\cos(2\theta) = 2\cos^2\theta - 1"
-        step2 = rf"= 2\left({cos_val_tex}\right)^2 - 1"
-        
-        two_B_sq = 2 * B**2
-        step3 = rf"= 2 \cdot \frac{{{B**2}}}{{{r_sq_tex}}} - 1"
-        step4 = rf"= \frac{{{two_B_sq}}}{{{r_sq_tex}}} - \frac{{{r_sq_tex}}}{{{r_sq_tex}}}"
-        step5 = rf"= \frac{{{two_B_sq} - {Asq_u2_str} - {B**2}}}{{{r_sq_tex}}}"
-        
-        final_num_tex = f"{B**2} - {Asq_u2_str}"
-        final_ans = rf"\frac{{{final_num_tex}}}{{{r_sq_tex}}}"
-        final_sol = rf"\boxed{{{final_ans}}}"
-        
-        # Assemble the outtro using the Zero-Text Rule
-        outtro_lines = [
-            f"    <p><m>{prelim1}</m></p>",
-            f"    <p><m>{prelim2}</m></p>",
-            f"    <p><m>{prelim3}</m></p>",
-            f"    <p><m>{step1}</m></p>",
-            f"    <p><m>{step2}</m></p>",
-            f"    <p><m>{step3}</m></p>",
-            f"    <p><m>{step4}</m></p>",
-            f"    <p><m>{step5}</m></p>",
-            f"    <p><m>{final_sol}</m></p>"
+        # Restricted to the smallest primitive Pythagorean triples for non-calculator arithmetic
+        triples = [
+            (3, 4, 5), (4, 3, 5),
+            (5, 12, 13), (12, 5, 13)
         ]
-            
-        outtro = "<outtro>\n" + "\n".join(outtro_lines) + "\n</outtro>"
+
+        # Quadrant mappings: (quad_num, x_sign, y_sign, interval_latex)
+        quadrants = [
+            (1, 1, 1, r"0 < \theta < \frac{\pi}{2}"),
+            (2, -1, 1, r"\frac{\pi}{2} < \theta < \pi"),
+            (3, -1, -1, r"\pi < \theta < \frac{3\pi}{2}"),
+            (4, 1, -1, r"\frac{3\pi}{2} < \theta < 2\pi")
+        ]
+
+        # Randomly select the triangle and quadrant
+        x_mag, y_mag, r = random.choice(triples)
+        quad_num, x_sign, y_sign, interval = random.choice(quadrants)
+
+        # Apply quadrant signs
+        x = x_mag * x_sign
+        y = y_mag * y_sign
+
+        # Calculate exact rational trigonometric ratios
+        sin_val = Integer(y) / Integer(r)
+        cos_val = Integer(x) / Integer(r)
+        tan_val = Integer(y) / Integer(x)
+
+        # Select which ratio to give to the student
+        funcs = [
+            ("sin", sin_val),
+            ("cos", cos_val),
+            ("tan", tan_val)
+        ]
+        given_func, given_val = random.choice(funcs)
+        prompt_given = rf"\{given_func} \theta = {latex(given_val)}"
+
+        # Step 1: State the double-angle identity
+        step1 = r"\sin(2\theta) = 2\sin\theta\cos\theta"
         
+        # Step 2: Establish the known sine and cosine values based on the reference triangle
+        step2 = rf"\sin\theta = {latex(sin_val)} \quad \cos\theta = {latex(cos_val)}"
+        
+        # Step 3: Substitute into the identity
+        step3 = rf"= 2 \left({latex(sin_val)}\right) \left({latex(cos_val)}\right)"
+
+        # Step 4: Final exact evaluation
+        final_ans = 2 * sin_val * cos_val
+        final_sol = rf"\boxed{{{latex(final_ans)}}}"
+
+        # Assemble the outtro strictly following the Zero-Text Rule
+        outtro = (
+            f"<outtro>\n"
+            f"    <p><m>{step1}</m></p>\n"
+            f"    <p><m>{step2}</m></p>\n"
+            f"    <p><m>{step3}</m></p>\n"
+            f"    <p><m>{final_sol}</m></p>\n"
+            f"</outtro>"
+        )
+
         return {
-            "prompt": prompt_tex,
+            "given": prompt_given,
+            "interval": interval,
             "outtro": outtro
         }

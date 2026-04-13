@@ -69,6 +69,14 @@ Use identities to find trig values from clues.
             </description>
         </outcome>
         <outcome>
+            <title>ID - Trig Sub DA ALG</title>
+            <slug>ID-5</slug>
+            <path>outcomes/ID-5</path>
+            <description>
+Use identities to write algebraic expressions.
+            </description>
+        </outcome>
+        <outcome>
             <title>APP - Trig EQ</title>
             <slug>APP-1</slug>
             <path>outcomes/APP-1</path>
