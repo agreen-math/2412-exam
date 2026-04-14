@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <bank xmlns="https://checkit.clontz.org" version="0.2">
-    <title>MC 1314 Exam Bank SP26</title>
-    <slug>mc-1314-exam-sp26</slug>
-    <url>https://github.com/agreen-math/1314-exam</url>
+    <title>MC 2412 Exam Bank SP26</title>
+    <slug>mc-2412-exam-sp26</slug>
+    <url>https://github.com/agreen-math/2412-exam</url>
     <outcomes>
         <outcome>
             <title>Solve EQ - Frac Angle (NC)</title>
@@ -141,6 +141,56 @@ Solve inverse trigonometric equations (Non-Calculator).
             </description>
         </outcome>
 
+        <outcome>
+            <title>ID - Simp Fund</title>
+            <slug>ID-1</slug>
+            <path>outcomes/ID-1</path>
+            <description>
+                Simplify using fundamental trigonometric identities.
+            </description>
+        </outcome>
+        <outcome>
+            <title>ID - Proof DA</title>
+            <slug>ID-2</slug>
+            <path>outcomes/ID-2</path>
+            <description>
+                Prove trigonometric identities.
+            </description>
+        </outcome>
+        <outcome>
+            <title>ID - Sum/Diff</title>
+            <slug>ID-3</slug>
+            <path>outcomes/ID-3</path>
+            <description>
+                Use sum and difference identities.
+            </description>
+        </outcome>
+        <outcome>
+            <title>ID - Trig Sub DA</title>
+            <slug>ID-4</slug>
+            <path>outcomes/ID-4</path>
+            <description>
+                Use identities to find trig values from clues.
+            </description>
+        </outcome>
+        <outcome>
+            <title>ID - Trig Sub DA ALG</title>
+            <slug>ID-5</slug>
+            <path>outcomes/ID-5</path>
+            <description>
+                Use identities to write algebraic expressions.
+            </description>
+        </outcome>
+        <outcome>
+            <title>APP - Trig EQ</title>
+            <slug>APP-1</slug>
+            <path>outcomes/APP-1</path>
+            <description>
+                Apply trigonometric equations to solve problems.
+            </description>
+        </outcome>
 
     </outcomes>
 </bank>
+
+        
