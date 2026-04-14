@@ -1,0 +1,40 @@
+<knowl xmlns="http://checkit.sagemath.org/" version="1.0" type="problem">
+
+    <intro>
+        <p>
+            Two forces act on a single point.
+        </p>
+    </intro>
+
+    <content>
+        <p>
+            Force <m>X</m> has magnitude <m>{{F1}}</m> pounds and force <m>Y</m>
+            has magnitude <m>{{F2}}</m> pounds. The angle between the two forces
+            is <m>{{theta}}^\circ</m>.
+        </p>
+
+        <p>
+            (a) Find the magnitude of the equilibrant.<br/>
+            (b) Find the angle between the equilibrant and the
+            <m>{{F1}}</m>-pound force.
+        </p>
+
+        <p>
+            Round answers to the nearest tenth.
+        </p>
+    </content>
+
+    <outtro>
+        <p>
+            The magnitude of the equilibrant is
+            <m>{{R}}</m> pounds.
+        </p>
+
+        <p>
+            The angle between the equilibrant and the
+            <m>{{F1}}</m>-pound force is
+            <m>{{phi}}^\circ</m>.
+        </p>
+    </outtro>
+
+</knowl>

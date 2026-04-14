@@ -142,6 +142,17 @@ Solve inverse trigonometric equations (Non-Calculator).
         </outcome>
 
         <outcome>
+            <title>Forces and the Equilibrant</title>
+            <slug>Forces_Equilibrant_Law_of_Cosines</slug>
+            <path>outcomes/Forces_Equilibrant_Law_of_Cosines</path>
+            <description>
+                Two forces act at a point with a given angle between them. Find the
+                magnitude of the equilibrant and the angle between the equilibrant
+                and one of the forces. (Calculator)
+            </description>
+        </outcome>
+
+        <outcome>
             <title>ID - Simp Fund</title>
             <slug>ID-1</slug>
             <path>outcomes/ID-1</path>
