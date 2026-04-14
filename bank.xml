@@ -36,12 +36,117 @@ Solve quadratic trigonometric equations (Non-Calculator).
 Solve inverse trigonometric equations (Non-Calculator).
             </description>
         </outcome>
+
+        <outcome>
+            <title>Oblique Triangle (ASA) — Law of Sines</title>
+            <slug>Oblique_Triangles_LoS_ASA</slug>
+            <path>outcomes/Oblique_Triangles_LoS_ASA</path>
+            <description>
+                Solve the triangle. (Calculator)
+            </description>
+        </outcome>
+
+        
+        <outcome>
+            <title>Oblique Triangle (AAS) — Law of Sines</title>
+            <slug>Oblique_Triangles_LoS_AAS</slug>
+            <path>outcomes/Oblique_Triangles_LoS_AAS</path>
+            <description>
+                Solve the triangle. (Calculator)
+            </description>
+        </outcome>
+
+        <outcome>
+            <title>Oblique Triangle (SSA-2)</title>
+            <slug>Oblique_Triangles_LoS_Ambiguous_2</slug>
+            <path>outcomes/Oblique_Triangles_LoS_Ambiguous_2</path>
+            <description>
+                Solve the triangle. (Calculator)
+            </description>
+        </outcome>
+
+        <outcome>
+            <title>Oblique Triangle (SSA-1) — Law of Sines</title>
+            <slug>Oblique_Triangles_LoS_Ambiguous_1</slug>
+            <path>outcomes/Oblique_Triangles_LoS_Ambiguous_1</path>
+            <description>
+                Solve the triangle. (Calculator)
+            </description>
+        </outcome>
+
+        <outcome>
+            <title>Oblique Triangle (SSA-0) — Law of Sines</title>
+            <slug>Oblique_Triangles_LoS_Ambiguous_0</slug>
+            <path>outcomes/Oblique_Triangles_LoS_Ambiguous_0</path>
+            <description>
+                Solve the triangle. (Calculator)
+            </description>
+        </outcome>
+
+        
+        <outcome>
+            <title>Oblique Triangle (SSS) — Law of Cosines</title>
+            <slug>Oblique_Triangles_LoC_SSS</slug>
+            <path>outcomes/Oblique_Triangles_LoC_SSS</path>
+            <description>
+                Solve the triangle. (Calculator)
+            </description>
+        </outcome>
+
+        <outcome>
+            <title>Oblique Triangle (SAS) — Law of Cosines</title>
+            <slug>Oblique_Triangles_LoC_SAS</slug>
+            <path>outcomes/Oblique_Triangles_LoC_SAS</path>
+            <description>
+                Solve the triangle. (Calculator)
+            </description>
+        </outcome>
+
+        <outcome>
+            <title>Area of a Triangle Using Heron's Formula</title>
+            <slug>Oblique_Triangles_Area_Herons_Law</slug>
+            <path>outcomes/Oblique_Triangles_Area_Herons_Law</path>
+            <description>
+                Find the area of the triangle. (Calculator)
+            </description>
+        </outcome>
+
+        <outcome>
+            <title>Area of a Triangle Using the Sine Formula</title>
+            <slug>Oblique_Triangles_Area_Sine_Formula</slug>
+            <path>outcomes/Oblique_Triangles_Area_Sine_Formula</path>
+            <description>
+                Find the area of the triangle. (Calculator)
+            </description>
+        </outcome>
+
+        <outcome>
+            <title>Vector Operations: Magnitude, Direction, and Angle Between Vectors</title>
+            <slug>Vectors_Magnitude_Direction_Angle_Between</slug>
+            <path>outcomes/Vectors_Magnitude_Direction_Angle_Between</path>
+            <description>
+                Find each of the following values.
+                (Calculator)
+            </description>
+        </outcome>
+
+        <outcome>
+            <title>Vector Components from Magnitude and Direction Angle</title>
+            <slug>Vectors_Components_From_Magnitude_Direction</slug>
+            <path>outcomes/Vectors_Components_From_Magnitude_Direction</path>
+            <description>
+                Find the horizontal and vertical components of a vector given its
+                magnitude and direction angle, and write the vector in component
+                form. (Calculator)
+            </description>
+        </outcome>
+
         <outcome>
             <title>ID - Simp Fund</title>
             <slug>ID-1</slug>
             <path>outcomes/ID-1</path>
             <description>
-Simplify using fundamental trigonometric identities.
+                Simplify using fundamental trigonometric identities.
             </description>
         </outcome>
         <outcome>
@@ -49,7 +154,7 @@ Simplify using fundamental trigonometric identities.
             <slug>ID-2</slug>
             <path>outcomes/ID-2</path>
             <description>
-Prove trigonometric identities.
+                Prove trigonometric identities.
             </description>
         </outcome>
         <outcome>
@@ -57,7 +162,7 @@ Prove trigonometric identities.
             <slug>ID-3</slug>
             <path>outcomes/ID-3</path>
             <description>
-Use sum and difference identities.
+                Use sum and difference identities.
             </description>
         </outcome>
         <outcome>
@@ -65,7 +170,7 @@ Use sum and difference identities.
             <slug>ID-4</slug>
             <path>outcomes/ID-4</path>
             <description>
-Use identities to find trig values from clues.
+                Use identities to find trig values from clues.
             </description>
         </outcome>
         <outcome>
@@ -73,7 +178,7 @@ Use identities to find trig values from clues.
             <slug>ID-5</slug>
             <path>outcomes/ID-5</path>
             <description>
-Use identities to write algebraic expressions.
+                Use identities to write algebraic expressions.
             </description>
         </outcome>
         <outcome>
@@ -81,8 +186,11 @@ Use identities to write algebraic expressions.
             <slug>APP-1</slug>
             <path>outcomes/APP-1</path>
             <description>
-Apply trigonometric equations to solve problems.
+                Apply trigonometric equations to solve problems.
             </description>
         </outcome>
+
     </outcomes>
 </bank>
+
+        

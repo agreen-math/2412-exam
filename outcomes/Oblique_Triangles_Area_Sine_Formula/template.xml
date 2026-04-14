@@ -1,0 +1,29 @@
+<knowl xmlns="http://checkit.sagemath.org/" version="1.0" type="problem">
+
+  <intro>
+    <p>
+      Use the area formula involving sine to find the area of the triangle.
+    </p>
+  </intro>
+
+  <content>
+    <p>
+      Triangle <m>ABC</m> satisfies
+      <m>a = {{a}}</m>,
+      <m>b = {{b}}</m>, and
+      <m>\angle C = {{C}}^\circ</m>.
+    </p>
+
+    <p>
+      Round your answer to the nearest hundredth.
+    </p>
+  </content>
+
+  <outtro>
+    <p>
+      The area of the triangle is approximately
+      <m>{{area}}</m> square units.
+    </p>
+  </outtro>
+
+</knowl>
