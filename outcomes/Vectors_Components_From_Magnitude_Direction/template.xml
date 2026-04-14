@@ -1,0 +1,38 @@
+<knowl xmlns="http://checkit.sagemath.org/" version="1.0" type="problem">
+
+    <intro>
+        <p>
+            Given the magnitude and direction angle of a vector, find its
+            horizontal and vertical components.
+        </p>
+    </intro>
+
+    <content>
+        <p>
+            A vector has magnitude <m>{{r}}</m> and direction angle
+            <m>{{theta}}^\circ</m>.
+        </p>
+
+        <p>
+            (a) Find the horizontal and vertical components of the vector.<br/>
+            (b) Write the vector as an ordered pair.
+        </p>
+
+        <p>
+            Round all answers to the nearest hundredth.
+        </p>
+    </content>
+
+    <outtro>
+        <p>
+            The horizontal component is <m>{{x}}</m> and the vertical
+            component is <m>{{y}}</m>.
+        </p>
+
+        <p>
+            The vector written as an ordered pair is
+            <m>\langle {{x}}, {{y}} \rangle</m>.
+        </p>
+    </outtro>
+
+</knowl>

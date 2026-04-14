@@ -1,0 +1,38 @@
+<knowl xmlns="http://checkit.sagemath.org/" version="1.0" type="problem">
+
+  <intro>
+    <p>
+      Given the vectors below, perform the indicated operations.
+    </p>
+  </intro>
+
+  <content>
+    <p>
+      Let
+      <m>\mathbf{u} = \langle {{ux}}, {{uy}} \rangle</m>
+      and
+      <m>\mathbf{v} = \langle {{vx}}, {{vy}} \rangle</m>.
+    </p>
+
+    <p>
+      (a) Find <m>2\mathbf{u} + \mathbf{v}</m>.<br/>
+      (b) Find the magnitude of <m>2\mathbf{u} + \mathbf{v}</m>.<br/>
+      (c) Find the direction angle of <m>2\mathbf{u} + \mathbf{v}</m>.<br/>
+      (d) Find the angle between <m>\mathbf{u}</m> and <m>\mathbf{v}</m>.
+    </p>
+
+    <p>
+      Round magnitudes and angles to the nearest tenth.
+    </p>
+  </content>
+
+  <outtro>
+    <p>
+      (a) <m>2\mathbf{u} + \mathbf{v} = \langle {{wx}}, {{wy}} \rangle</m><br/>
+      (b) <m>\|2\mathbf{u} + \mathbf{v}\| \approx {{mag_w}}</m><br/>
+      (c) Direction angle <m>\approx {{theta_w}}^\circ</m><br/>
+      (d) Angle between the vectors <m>\approx {{phi}}^\circ</m>
+    </p>
+  </outtro>
+
+</knowl>

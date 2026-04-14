@@ -1,0 +1,29 @@
+<knowl xmlns="http://checkit.sagemath.org/" version="1.0" type="problem">
+
+  <intro>
+    <p>
+      Given the information the information below, solve for all possible triangles.</p>
+  </intro>
+
+<content>
+  <p>
+    Triangle <m>ABC</m> satisfies
+    <m>\angle A = {{A}}^\circ</m>,
+    <m>\angle B = {{B}}^\circ</m>, and
+    <m>c = {{c}}</m>.
+  </p>
+
+  <p>
+    Round sides to the nearest hundredth and angles to the nearest tenth of a degree.
+  </p>
+</content>
+
+  <outtro>
+    <p>
+      <m>\angle C \approx {{C}}^\circ</m><br/>
+      <m>a \approx {{a}}</m><br/>
+      <m>b \approx {{b}}</m>
+    </p>
+  </outtro>
+
+</knowl>
