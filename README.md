@@ -23,8 +23,13 @@ Quick instructions:
 ```
 sage --python -m checkit generate  # add -ri to get images (slow)
 sage --python -m checkit viewer
-sage --python -m http.server -d docs
+sage --python -m http.server 8000 -d docs --bind 0.0.0.0
 ```
+This regenerates a particular outcome:
+
+sage --python -m checkit generate -r -o name_of_outcome_folder
+
+If you open forwarded port 8000 before starting the server, Codespaces will return HTTP 502.
 
 ## About CheckIt
 

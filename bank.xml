@@ -176,14 +176,27 @@ Solve inverse trigonometric equations (Non-Calculator).
                 Use sum and difference identities.
             </description>
         </outcome>
+
         <outcome>
-            <title>ID - Trig Sub DA</title>
-            <slug>ID-4</slug>
-            <path>outcomes/ID-4</path>
+            <title>Evaluate a Trig Composition with Inverse Functions</title>
+            <slug>Composition_SineCosine_SumDifference</slug>
+            <path>outcomes/Composition_SineCosine_SumDifference</path>
             <description>
-                Use identities to find trig values from clues.
+                Evaluate an exact trigonometric expression involving sine or cosine
+                composed with the sum or difference of two inverse trigonometric functions.
+                The problem may involve Pythagorean triples, non-triple ratios, or a mix.
             </description>
         </outcome>
+
+
+
+
+
+
+
+
+
+
         <outcome>
             <title>ID - Trig Sub DA ALG</title>
             <slug>ID-5</slug>
@@ -200,6 +213,39 @@ Solve inverse trigonometric equations (Non-Calculator).
                 Apply trigonometric equations to solve problems.
             </description>
         </outcome>
+
+        <outcome>
+            <title>Hiker Navigation with Two Bearings</title>
+            <slug>Bearing_Turn_Turn_Hiker</slug>
+            <path>outcomes/Bearing_Turn_Turn_Hiker</path>
+            <description>
+                A hiker travels in two stages from a campsite using given bearings,
+                speeds, and times, and must determine the distance and bearing
+                required to return directly to the campsite.
+            </description>
+        </outcome>
+
+        <outcome>
+            <title>Area of an Oblique Triangle (Engineering Context)</title>
+            <slug>Oblique_Triangles_Area_Sine_Formula_Engineer</slug>
+            <path>outcomes/Oblique_Triangles_Area_Sine_Formula_Engineer</path>
+            <description>
+                Find the area of an oblique triangle using two side lengths and the included angle
+                in an engineering support-brace context.
+            </description>
+        </outcome>
+
+
+        <outcome>
+            <title>Fundamental Unit Circle Values</title>
+            <slug>Fundamentals_1</slug>
+            <path>outcomes/Fundamentals_1</path>
+            <description>
+                Give the exact value for each expression.
+            </description>
+        </outcome>
+
+
 
     </outcomes>
 </bank>

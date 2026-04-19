@@ -1,0 +1,27 @@
+<knowl xmlns="http://checkit.mit.edu/knowl" version="1.0">
+    <intro>
+        <p>
+            An engineer is designing a triangular support brace made from two metal beams.
+            The beams have lengths <m>{{a}}</m> meters and <m>{{b}}</m> meters,
+            and they are joined at an angle of <m>{{angle_deg}}</m> degrees.
+        </p>
+    </intro>
+
+    <content>
+        <p>
+            Determine the area of the triangular brace.
+            Round your answer to the nearest hundredth.
+        </p>
+    </content>
+
+    <outtro>
+        <p>
+            <strong>Answer:</strong>
+            <m>{{area}}</m> square meters
+        </p>
+        <p>
+            <strong>Explanation:</strong>
+            {{solution}}
+        </p>
+    </outtro>
+</knowl>

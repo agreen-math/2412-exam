@@ -1,0 +1,22 @@
+Include the following utility function near the top of the generator file (after imports) and reuse it everywhere significant digits matter:
+
+def sigfig(x, n):
+    """
+    Round x to n significant figures.
+    x must be nonzero.
+    """
+    if x == 0:
+        return 0
+    return round(x, n - int(math.floor(math.log10(abs(x)))) - 1)
+
+When generating angles for trigonometry problems, explicitly exclude unit‑circle angles (e.g., 30, 45, 60, 90, etc.).
+Rounding alone is insufficient, because values can drift onto special angles.
+Required pattern:
+
+forbidden = {30, 45, 60, 90, 120, 135, 150}
+
+while True:
+    angle_candidate = sigfig(random.uniform(25.0, 155.0), random.randint(3, 6))
+    if round(angle_candidate) not in forbidden:
+        angle_deg = angle_candidate
+        break

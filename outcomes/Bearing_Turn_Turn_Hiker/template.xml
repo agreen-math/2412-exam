@@ -1,0 +1,40 @@
+<knowl xmlns="http://www.checkit.org/ns/knowl/1.0" version="1.0">
+  <intro>
+    <p>
+      A hiker leaves their campsite and hikes in two stages.
+    </p>
+  </intro>
+
+  <content>
+    <p>
+      First, the hiker leaves the campsite on a bearing of
+      <m>{{b1_card}}</m> (also written as <m>{{b1_num}}</m>),
+      hiking at <m>{{speed1}}</m> units per hour for
+      <m>{{time1}}</m> hours.
+    </p>
+
+    <p>
+      The hiker then turns and continues on a bearing of
+      <m>{{b2_card}}</m> (also written as <m>{{b2_num}}</m>),
+      hiking at <m>{{speed2}}</m> units per hour for
+      <m>{{time2}}</m> hours.
+    </p>
+
+    <p>
+      Determine the <b>distance</b> and <b>bearing</b> the hiker must travel
+      to return directly to the original campsite.
+      Give the bearing in both forms shown above.
+    </p>
+  </content>
+
+  <outtro>
+    <p>
+      The hiker must travel <m>{{dist_back}}</m> units to return to the campsite.
+    </p>
+
+    <p>
+      The required bearing is <m>{{bearing_cardinal}}</m>,
+      which may also be written as <m>{{bearing_num}}^\circ</m>.
+    </p>
+  </outtro>
+</knowl>
