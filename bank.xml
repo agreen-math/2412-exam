@@ -254,6 +254,15 @@ Solve inverse trigonometric equations (Non-Calculator).
             </description>
         </outcome>
 
+        <outcome>
+            <title>Find Exact Trig Angles on Standard Intervals</title>
+            <slug>Fundamentals_9</slug>
+            <path>outcomes/Fundamentals_9</path>
+            <description>
+                Find all exact angle solutions for trigonometric equations and undefined ratios on standard degree and radian intervals.
+            </description>
+        </outcome>
+
 
 
     </outcomes>

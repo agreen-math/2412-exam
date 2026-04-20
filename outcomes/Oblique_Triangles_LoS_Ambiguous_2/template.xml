@@ -23,4 +23,18 @@
 
   <outtro>
     <p>
-      <b>Triangle 1:</b><br
+      <b>Triangle 1:</b>
+      <m>\angle B = {{B1}}^\circ</m>,
+      <m>\angle C = {{C1}}^\circ</m>,
+      <m>c = {{c1}}</m>
+    </p>
+
+    <p>
+      <b>Triangle 2:</b>
+      <m>\angle B = {{B2}}^\circ</m>,
+      <m>\angle C = {{C2}}^\circ</m>,
+      <m>c = {{c2}}</m>
+    </p>
+  </outtro>
+
+</knowl>
