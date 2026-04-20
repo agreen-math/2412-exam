@@ -1,30 +1,9 @@
-<knowl xmlns="http://checkit.sagemath.org/" version="1.0" type="problem">
-
-  <intro>
-    <p>
-      Given the side lengths of a triangle, solve the triangle.
-    </p>
-  </intro>
-
-  <content>
-    <p>
-      Triangle <m>ABC</m> has side lengths
-      <m>a = {{a}}</m>,
-      <m>b = {{b}}</m>, and
-      <m>c = {{c}}</m>.
-    </p>
-
-    <p>
-      Round angle measures to the nearest tenth of a degree.
-    </p>
-  </content>
-
-  <outtro>
-    <p>
-      <m>\angle A \approx {{A}}^\circ</m><br/>
-      <m>\angle B \approx {{B}}^\circ</m><br/>
-      <m>\angle C \approx {{C}}^\circ</m>
-    </p>
-  </outtro>
-
+<?xml version='1.0' encoding='UTF-8'?>
+<knowl mode="exercise" xmlns="https://spatext.clontz.org" version="0.2">
+    <content>
+        <p>Given the side lengths of a triangle, solve the triangle.</p>
+        <p>Triangle <m>ABC</m> has side lengths <m>a = {{a}}</m>, <m>b = {{b}}</m>, and <m>c = {{c}}</m>.</p>
+        <p>Round angle measures to the nearest tenth of a degree.</p>
+    </content>
+    {{{outtro}}}
 </knowl>

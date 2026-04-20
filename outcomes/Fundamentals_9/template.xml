@@ -1,28 +1,8 @@
-<knowl xmlns="https://spatext.clontz.org" mode="exercise" version="0.2">
-  <intro>
-    <p>Find all exact values of <m>\theta</m> in the indicated units on the given interval.</p>
-  </intro>
-
-  <content>
-    <list>
-      <item><p><m>(a)\ [0^\circ,360^\circ): {{q1}},\ \theta=\underline{\hspace{1.2in}}</m></p></item>
-      <item><p><m>(b)\ [0^\circ,360^\circ): {{q2}},\ \theta=\underline{\hspace{1.2in}}</m></p></item>
-      <item><p><m>(c)\ [0^\circ,360^\circ): {{q3}},\ \theta=\underline{\hspace{1.2in}}</m></p></item>
-      <item><p><m>(d)\ [0,2\pi): {{q4}},\ \theta=\underline{\hspace{1.2in}}</m></p></item>
-      <item><p><m>(e)\ [0,2\pi): {{q5}},\ \theta=\underline{\hspace{1.2in}}</m></p></item>
-      <item><p><m>(f)\ [0,2\pi): {{q6}},\ \theta=\underline{\hspace{1.2in}}</m></p></item>
-    </list>
-  </content>
-
-  <outtro>
-    <p><b>Solutions.</b></p>
-    <list>
-      <item><p><m>(a)\ \theta={{a1}}</m></p></item>
-      <item><p><m>(b)\ \theta={{a2}}</m></p></item>
-      <item><p><m>(c)\ \theta={{a3}}</m></p></item>
-      <item><p><m>(d)\ \theta={{a4}}</m></p></item>
-      <item><p><m>(e)\ \theta={{a5}}</m></p></item>
-      <item><p><m>(f)\ \theta={{a6}}</m></p></item>
-    </list>
-  </outtro>
+<?xml version='1.0' encoding='UTF-8'?>
+<knowl mode="exercise" xmlns="https://spatext.clontz.org" version="0.2">
+    <content>
+        <p>Find all exact values of <m>\theta</m> in the indicated units on the given interval.</p>
+        {{{content_list}}}
+    </content>
+    {{{outtro}}}
 </knowl>

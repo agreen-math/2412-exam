@@ -28,20 +28,26 @@ class Generator(BaseGenerator):
 
         angle_rad = angle_deg * pi / 180
 
+        # Calculate exact and rounded area
         area_val = (1/2) * a * b * sin(angle_rad)
         area = round(float(area_val), 2)
 
-        solution = (
-            "Use the area formula for an oblique triangle, "
-            "A = (1/2)ab sin(C). "
-            "Substitute a = {a}, b = {b}, and C = {angle} degrees to obtain "
-            "A ≈ {area} square meters."
-        ).format(a=a, b=b, angle=angle_deg, area=area)
+        # Build the mathematical steps for the Zero-Text Rule
+        step1 = r"\text{Area} = \frac{1}{2}ab\sin(C)"
+        step2 = rf"= \frac{{1}}{{2}}({a})({b})\sin({angle_deg}^\circ)"
+        final_ans = rf"\approx {area} \text{{ m}}^2"
+
+        outtro = (
+            f"<outtro>\n"
+            f"    <p><m>{step1}</m></p>\n"
+            f"    <p><m>{step2}</m></p>\n"
+            f"    <p><m>{final_ans}</m></p>\n"
+            f"</outtro>"
+        )
 
         return {
             "a": a,
             "b": b,
             "angle_deg": angle_deg,
-            "area": area,
-            "solution": solution
+            "outtro": outtro
         }

@@ -20,11 +20,22 @@ class Generator(BaseGenerator):
 
         B = 180 - A - C
 
+        # Format solutions mathematically to adhere to the Zero-Text Rule
+        step1 = rf"\angle A \approx {round(float(A), 1)}^\circ"
+        step2 = rf"\angle B \approx {round(float(B), 1)}^\circ"
+        step3 = rf"\angle C \approx {round(float(C), 1)}^\circ"
+
+        outtro = (
+            f"<outtro>\n"
+            f"    <p><m>{step1}</m></p>\n"
+            f"    <p><m>{step2}</m></p>\n"
+            f"    <p><m>{step3}</m></p>\n"
+            f"</outtro>"
+        )
+
         return {
             "a": a,
             "b": b,
             "c": c,
-            "A": round(float(A), 1),
-            "B": round(float(B), 1),
-            "C": round(float(C), 1)
+            "outtro": outtro
         }

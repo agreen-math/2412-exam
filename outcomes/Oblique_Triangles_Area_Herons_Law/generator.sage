@@ -16,9 +16,25 @@ class Generator(BaseGenerator):
         # Heron's formula
         area = sqrt(s * (s - a) * (s - b) * (s - c))
 
+        # Format variables for clean display
+        s_val = round(float(s), 2)
+        area_val = round(float(area), 2)
+
+        # Build the mathematical steps for the Zero-Text Rule
+        step1 = rf"s = \frac{{{a} + {b} + {c}}}{{2}} = {s_val}"
+        step2 = rf"\text{{Area}} = \sqrt{{{s_val}({s_val} - {a})({s_val} - {b})({s_val} - {c})}}"
+        step3 = rf"\text{{Area}} \approx {area_val}"
+
+        outtro_lines = [
+            f"    <p><m>{step1}</m></p>",
+            f"    <p><m>{step2}</m></p>",
+            f"    <p><m>{step3}</m></p>"
+        ]
+        outtro = "<outtro>\n" + "\n".join(outtro_lines) + "\n</outtro>"
+
         return {
             "a": a,
             "b": b,
             "c": c,
-            "area": round(float(area), 2)
+            "outtro": outtro
         }

@@ -1,35 +1,13 @@
-<knowl xmlns="http://www.mathbookxml.org/ns/mathbook"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.mathbookxml.org/ns/mathbook
-       http://www.mathbookxml.org/schema/mathbook.xsd"
-       version="0.6">
-
-    <intro>
-        <p>
-            Give the exact value for each expression.
-            If a value does not exist, enter <m>\text{undefined}</m>.
-            No calculator.
-        </p>
-    </intro>
-
+<?xml version='1.0' encoding='UTF-8'?>
+<knowl mode="exercise" xmlns="https://spatext.clontz.org" version="0.2">
     <content>
-        <p>(a) <m>\{{func1}}\left({{angle1}}\right)=</m></p>
-        <p>(b) <m>\{{func2}}\left({{angle2}}\right)=</m></p>
-        <p>(c) <m>\{{func3}}\left({{angle3}}\right)=</m></p>
-        <p>(d) <m>\{{func4}}\left({{angle4}}\right)=</m></p>
-        <p>(e) <m>\{{func5}}\left({{angle5}}\right)=</m></p>
-        <p>(f) <m>\{{func6}}\left({{angle6}}\right)=</m></p>
+        <p>Give the exact value for each expression. If a value does not exist, enter <m>\text{undefined}</m>. No calculator.</p>
+        <p>(a) <m>{{q1}} =</m></p>
+        <p>(b) <m>{{q2}} =</m></p>
+        <p>(c) <m>{{q3}} =</m></p>
+        <p>(d) <m>{{q4}} =</m></p>
+        <p>(e) <m>{{q5}} =</m></p>
+        <p>(f) <m>{{q6}} =</m></p>
     </content>
-
-    <outtro>
-        <p><b>Solutions.</b></p>
-
-        <p><m>\{{func1}}\left({{angle1}}\right) = {{answer1}}</m></p>
-        <p><m>\{{func2}}\left({{angle2}}\right) = {{answer2}}</m></p>
-        <p><m>\{{func3}}\left({{angle3}}\right) = {{answer3}}</m></p>
-        <p><m>\{{func4}}\left({{angle4}}\right) = {{answer4}}</m></p>
-        <p><m>\{{func5}}\left({{angle5}}\right) = {{answer5}}</m></p>
-        <p><m>\{{func6}}\left({{angle6}}\right) = {{answer6}}</m></p>
-    </outtro>
-
+    {{{outtro}}}
 </knowl>

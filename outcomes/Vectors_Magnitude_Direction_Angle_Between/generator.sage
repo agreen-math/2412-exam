@@ -28,16 +28,27 @@ class Generator(BaseGenerator):
         cos_phi = (u.dot_product(v)) / (sqrt(u.dot_product(u)) * sqrt(v.dot_product(v)))
         phi = arccos(cos_phi) * 180 / pi
 
+        # Format variables using latex() so the radicals render beautifully
+        prompt_u = rf"\langle {ux}, {uy} \rangle"
+        prompt_v = rf"\langle {latex(vx)}, {vy} \rangle"
+        w_tex = rf"\langle {latex(w[0])}, {w[1]} \rangle"
+
+        # Format solutions mathematically to adhere to the Zero-Text Rule
+        step_a = rf"(a) \quad 2\mathbf{{u}} + \mathbf{{v}} = {w_tex}"
+        step_b = rf"(b) \quad \|2\mathbf{{u}} + \mathbf{{v}}\| \approx {round(float(mag_w), 1)}"
+        step_c = rf"(c) \quad \text{{Direction angle}} \approx {round(float(theta_w), 1)}^\circ"
+        step_d = rf"(d) \quad \text{{Angle between the vectors}} \approx {round(float(phi), 1)}^\circ"
+
+        outtro_lines = [
+            f"    <p><m>{step_a}</m></p>",
+            f"    <p><m>{step_b}</m></p>",
+            f"    <p><m>{step_c}</m></p>",
+            f"    <p><m>{step_d}</m></p>"
+        ]
+        outtro = "<outtro>\n" + "\n".join(outtro_lines) + "\n</outtro>"
+
         return {
-            "ux": ux,
-            "uy": uy,
-            "vx": vx,
-            "vy": vy,
-
-            "wx": w[0],
-            "wy": w[1],
-
-            "mag_w": round(float(mag_w), 1),
-            "theta_w": round(float(theta_w), 1),
-            "phi": round(float(phi), 1)
+            "u_tex": prompt_u,
+            "v_tex": prompt_v,
+            "outtro": outtro
         }

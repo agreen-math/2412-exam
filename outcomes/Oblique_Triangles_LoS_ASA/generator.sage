@@ -17,13 +17,25 @@ class Generator(BaseGenerator):
         a = c * sin(A * pi / 180) / sin(C * pi / 180)
         b = c * sin(B * pi / 180) / sin(C * pi / 180)
 
+        # Format solutions mathematically to adhere to the Zero-Text Rule
+        C_val = round(float(C), 1)
+        a_val = round(float(a), 2)
+        b_val = round(float(b), 2)
+
+        step1 = rf"\angle C \approx {C_val}^\circ"
+        step2 = rf"a \approx {a_val}"
+        step3 = rf"b \approx {b_val}"
+
+        outtro_lines = [
+            f"    <p><m>{step1}</m></p>",
+            f"    <p><m>{step2}</m></p>",
+            f"    <p><m>{step3}</m></p>"
+        ]
+        outtro = "<outtro>\n" + "\n".join(outtro_lines) + "\n</outtro>"
+
         return {
             "A": A,
             "B": B,
-            
-"C": round(C, 1),
-            "a": round(float(a), 2),
-            "b": round(float(b), 2),
-            "c": c
+            "c": c,
+            "outtro": outtro
         }
-

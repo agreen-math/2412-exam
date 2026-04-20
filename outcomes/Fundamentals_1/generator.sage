@@ -1,7 +1,6 @@
 from sage.all import *
 import random
 
-
 class Generator(BaseGenerator):
     def data(self):
         # Unit-circle angles:
@@ -46,13 +45,14 @@ class Generator(BaseGenerator):
         ]
 
         data = {}
+        outtro_lines = []
 
         for i in range(1, 7):
             func = random.choice(functions)
             deg, rad, rad_tex = random.choice(angles)
 
-            # Parts a–c: degrees; parts d–f: radians
-            angle_tex = latex(deg) + r"^\circ" if i <= 3 else rad_tex
+            # Parts a-c: degrees; parts d-f: radians
+            angle_tex = f"{deg}^\\circ" if i <= 3 else rad_tex
 
             try:
                 val = {
@@ -77,8 +77,15 @@ class Generator(BaseGenerator):
             except ZeroDivisionError:
                 answer = r"\text{undefined}"
 
-            data[f"func{i}"] = func
-            data[f"angle{i}"] = angle_tex
-            data[f"answer{i}"] = answer
+            # Format the question and answer neatly
+            prompt_tex = rf"\{func}\left({angle_tex}\right)"
+            data[f"q{i}"] = prompt_tex
+            
+            letter = chr(96 + i) # dynamically gets a, b, c, d, e, f
+            step = rf"({letter}) \quad {prompt_tex} = {answer}"
+            outtro_lines.append(f"    <p><m>{step}</m></p>")
+
+        outtro = "<outtro>\n" + "\n".join(outtro_lines) + "\n</outtro>"
+        data["outtro"] = outtro
 
         return data

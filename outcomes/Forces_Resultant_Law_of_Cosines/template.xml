@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<knowl mode="exercise" xmlns="https://spatext.clontz.org" version="0.2">
+    <content>
+        <p>Two forces act on a single point.</p>
+        <p>Force <m>X</m> has a magnitude of <m>{{F1}}</m> pounds and force <m>Y</m> has a magnitude of <m>{{F2}}</m> pounds. The angle between the two forces is <m>{{theta}}^\circ</m>.</p>
+        <p>(a) Find the magnitude of the resultant.</p>
+        <p>(b) Find the angle between the resultant and the <m>{{F1}}</m>-pound force.</p>
+        <p>Round answers to the nearest tenth.</p>
+    </content>
+    {{{outtro}}}
+</knowl>

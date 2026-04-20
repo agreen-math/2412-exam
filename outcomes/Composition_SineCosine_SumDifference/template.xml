@@ -1,26 +1,8 @@
-<knowl xmlns="http://checkit.math.psu.edu"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://checkit.math.psu.edu checkit.xsd"
-       version="0.9">
-
-  <intro>
-    Evaluate the following expression exactly. No calculator is allowed.
-  </intro>
-
-  <content>
-    <p>
-      <m>{{expression}}</m>
-    </p>
-  </content>
-
-  <outtro>
-    <p>
-      Category: {{category}}
-    </p>
-  </outtro>
-
-  <answer>
-    <me>{{answer}}</me>
-  </answer>
-
+<?xml version='1.0' encoding='UTF-8'?>
+<knowl mode="exercise" xmlns="https://spatext.clontz.org" version="0.2">
+    <content>
+        <p>Evaluate the following expression exactly. No calculator is allowed.</p>
+        <p><me>{{expression}}</me></p>
+    </content>
+    {{{outtro}}}
 </knowl>

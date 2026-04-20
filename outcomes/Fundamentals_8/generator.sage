@@ -55,17 +55,25 @@ class Generator(BaseGenerator):
         # Pick two distinct functions
         f1, f2 = sample(list(trig_vals.keys()), 2)
 
-        # Simplify the values so SageMath produces clean fractions
-        v1 = simplify(trig_vals[f1])
-        v2 = simplify(trig_vals[f2])
+        # Simplify the values fully so SageMath produces clean fractions
+        v1 = trig_vals[f1].simplify_full()
+        v2 = trig_vals[f2].simplify_full()
+
+        x_tex = latex(x)
+        y_tex = latex(y)
+
+        # Build the outtro to adhere to the Zero-Text Rule
+        outtro_lines = [
+            f"    <p>Using the reference triangle with the point <m>({x_tex}, {y_tex})</m>:</p>",
+            f"    <p><m>{trig_names[f1]} = {latex(v1)}</m></p>",
+            f"    <p><m>{trig_names[f2]} = {latex(v2)}</m></p>"
+        ]
+        outtro = "<outtro>\n" + "\n".join(outtro_lines) + "\n</outtro>"
 
         return {
-            "x_coord": latex(x),
-            "y_coord": latex(y),
-            "func1": trig_names[f1],
-            "func2": trig_names[f2],
+            "x_coord": x_tex,
+            "y_coord": y_tex,
             "expr1": trig_names[f1],
             "expr2": trig_names[f2],
-            "val1":  latex(v1),
-            "val2":  latex(v2),
+            "outtro": outtro
         }
