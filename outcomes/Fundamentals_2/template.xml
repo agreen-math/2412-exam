@@ -1,0 +1,34 @@
+<knowl xmlns="https://spatext.clontz.org" mode="exercise" version="0.2">
+<intro>
+<p>
+An angle
+<m>\theta</m>
+is in standard position. The terminal side passes through the point
+<m>({{x_coord}}, {{y_coord}})</m>
+.
+</p>
+</intro>
+<content>
+<p> (a) Draw the angle in standard position. </p>
+<p> (b) Find the exact values of the following trigonometric functions. </p>
+<p>
+<me>{{expr1}} </me>
+</p>
+<p>
+<me>{{expr2}} </me>
+</p>
+</content>
+<outtro>
+<p>
+Using the reference triangle with the point
+<m>({{x_coord}}, {{y_coord}})</m>
+:
+</p>
+<p>
+<me>{{expr1}} = {{val1}}</me>
+</p>
+<p>
+<me>{{expr2}} = {{val2}}</me>
+</p>
+</outtro>
+</knowl>

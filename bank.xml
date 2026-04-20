@@ -245,6 +245,15 @@ Solve inverse trigonometric equations (Non-Calculator).
             </description>
         </outcome>
 
+        <outcome>
+            <title>Exact Secant and Cotangent from a Point</title>
+            <slug>Fundamentals_2</slug>
+            <path>outcomes/Fundamentals_2</path>
+            <description>
+                Find the exact values.
+            </description>
+        </outcome>
+
 
 
     </outcomes>
