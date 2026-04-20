@@ -3,8 +3,6 @@ from sage.all import *
 class Generator(BaseGenerator):
     def data(self):
         # Use Sage RNG helpers so set_random_seed(seed) controls all randomness.
-        # Avoid importing Python's random module because checkit.wrapper uses
-        # a global variable named "random" for generation mode.
         input_type = choice([1, 2])
 
         if input_type == 1:
@@ -55,9 +53,9 @@ class Generator(BaseGenerator):
         # Pick two distinct functions
         f1, f2 = sample(list(trig_vals.keys()), 2)
 
-        # Simplify the values fully so SageMath produces clean fractions
-        v1 = trig_vals[f1].simplify_full()
-        v2 = trig_vals[f2].simplify_full()
+        # Safely simplify by casting to the Symbolic Ring (SR) first
+        v1 = SR(trig_vals[f1]).simplify_full()
+        v2 = SR(trig_vals[f2]).simplify_full()
 
         x_tex = latex(x)
         y_tex = latex(y)

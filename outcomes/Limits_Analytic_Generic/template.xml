@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<knowl mode="exercise" xmlns="https://spatext.clontz.org" version="0.2">
+    <content>
+        <p>Suppose <m>\displaystyle \lim_{x\to {{{c}}}} f(x) = {{{L_f}}}</m> and <m>\displaystyle \lim_{x\to {{{c}}}} g(x) = {{{L_g}}}</m>. Use limit properties to determine each of the following limits.</p>
+        <p>(a) <m>{{{lim_a}}}</m></p>
+        <p>(b) <m>{{{lim_b}}}</m></p>
+        <p>(c) <m>{{{lim_c}}}</m></p>
+        <p>(d) <m>{{{lim_d}}}</m></p>
+    </content>
+    {{{outtro}}}
+</knowl>

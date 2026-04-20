@@ -142,12 +142,12 @@ Solve inverse trigonometric equations (Non-Calculator).
         </outcome>
 
         <outcome>
-            <title>Forces and the Equilibrant</title>
-            <slug>Forces_Equilibrant_Law_of_Cosines</slug>
-            <path>outcomes/Forces_Equilibrant_Law_of_Cosines</path>
+            <title>Forces and the Resultant</title>
+            <slug>Forces_Resultant_Law_of_Cosines</slug>
+            <path>outcomes/Forces_Resultant_Law_of_Cosines</path>
             <description>
                 Two forces act at a point with a given angle between them. Find the
-                magnitude of the equilibrant and the angle between the equilibrant
+                magnitude of the resultant and the angle between the resultant
                 and one of the forces. (Calculator)
             </description>
         </outcome>
@@ -263,7 +263,41 @@ Solve inverse trigonometric equations (Non-Calculator).
             </description>
         </outcome>
 
+         <outcome>
+            <title>Eliminate the parameter</title>
+            <slug>Eliminate_Parameter_Simple</slug>
+            <path>outcomes/Eliminate_Parameter_Simple</path>
+            <description>
+                Eliminate the parameter in a pair of parametric equations.
+            </description>
+        </outcome>       
 
+         <outcome>
+            <title>Evaluate Limits Analytically</title>
+            <slug>Limits_Analytic_Generic</slug>
+            <path>outcomes/Limits_Analytic_Generic</path>
+            <description>
+                Evaluate limits analytically.
+            </description>
+        </outcome>   
+
+         <outcome>
+            <title>Evaluate Limits Analytically</title>
+            <slug>Limits_Analytic_Parts</slug>
+            <path>outcomes/Limits_Analytic_Parts</path>
+            <description>
+                Evaluate limits analytically.
+            </description>
+        </outcome>   
+
+         <outcome>
+            <title>Plot and Convert Polar Coordinates</title>
+            <slug>Polar_Points</slug>
+            <path>outcomes/Polar_Points</path>
+            <description>
+                Plot and convert polar coordinates.
+            </description>
+        </outcome>   
 
     </outcomes>
 </bank>
