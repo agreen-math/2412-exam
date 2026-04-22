@@ -5,5 +5,7 @@
         <p>Triangle <m>ABC</m> satisfies <m>\angle A = {{A}}^\circ</m>, <m>\angle B = {{B}}^\circ</m>, and <m>c = {{c}}</m>.</p>
         <p>Round sides to the nearest hundredth and angles to the nearest tenth of a degree.</p>
     </content>
-    {{{outtro}}}
+    <outtro>
+        {{{solution_steps}}}
+    </outtro>
 </knowl>

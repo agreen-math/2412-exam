@@ -8,5 +8,7 @@
         <p>(c) Find the direction angle of <m>2\mathbf{u} + \mathbf{v}</m>.</p>
         <p>(d) Find the angle between <m>\mathbf{u}</m> and <m>\mathbf{v}</m>.</p>
     </content>
-    {{{outtro}}}
+    <outtro>
+        {{{solution_steps}}}
+    </outtro>
 </knowl>

@@ -176,6 +176,15 @@ Solve inverse trigonometric equations (Non-Calculator).
                 Use sum and difference identities.
             </description>
         </outcome>
+        <outcome>
+            <title>ID - DA from clues</title>
+            <slug>ID-4</slug>
+            <path>outcomes/ID-4</path>
+            <description>
+                Use a double-angle identity to find the exact value.
+            </description>
+        </outcome>
+
 
         <outcome>
             <title>Evaluate a Trig Composition with Inverse Functions</title>
@@ -299,6 +308,41 @@ Solve inverse trigonometric equations (Non-Calculator).
             </description>
         </outcome>   
 
+         <outcome>
+            <title>Determine Limits - Graph</title>
+            <slug>Limits_Graphical</slug>
+            <path>outcomes/Limits_Graphical</path>
+            <description>
+                Determine limits from a graph.
+            </description>
+        </outcome>   
+
+         <outcome>
+            <title>Triangle Applications</title>
+            <slug>Oblique_Triangles_SSS_Area_Application</slug>
+            <path>outcomes/Oblique_Triangles_SSS_Area_Application</path>
+            <description>
+                Solve applications involving triangles.
+            </description>
+        </outcome>  
+
+         <outcome>
+            <title>Log Properties</title>
+            <slug>Log_Properties_General</slug>
+            <path>outcomes/Log_Properties_General</path>
+            <description>
+                Use log properties to simplify expressions.
+            </description>
+        </outcome> 
+
+         <outcome>
+            <title>Right Triangle - No Inverse</title>
+            <slug>Right_Triangles_SA</slug>
+            <path>outcomes/Right_Triangles_SA</path>
+            <description>
+                Solve a right triangle (no inverse trig required).
+            </description>
+        </outcome> 
     </outcomes>
 </bank>
 

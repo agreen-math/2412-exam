@@ -22,20 +22,39 @@ class Generator(BaseGenerator):
         a_val = round(float(a), 2)
         b_val = round(float(b), 2)
 
-        step1 = rf"\angle C \approx {C_val}^\circ"
-        step2 = rf"a \approx {a_val}"
-        step3 = rf"b \approx {b_val}"
+        # --- Step 1: Finding angle C ---
+        step1a = r"\angle C = 180^\circ - \angle A - \angle B"
+        step1b = rf"\angle C = 180^\circ - {A}^\circ - {B}^\circ"
+        step1c = rf"\angle C = {C_val}^\circ"
+
+        # --- Step 2: Finding side a ---
+        step2a = r"a = \frac{c\sin(A)}{\sin(C)}"
+        step2b = rf"a = \frac{{{c}\sin({A}^\circ)}}{{\sin({C_val}^\circ)}}"
+        step2c = rf"a \approx {a_val}"
+
+        # --- Step 3: Finding side b ---
+        step3a = r"b = \frac{c\sin(B)}{\sin(C)}"
+        step3b = rf"b = \frac{{{c}\sin({B}^\circ)}}{{\sin({C_val}^\circ)}}"
+        step3c = rf"b \approx {b_val}"
 
         outtro_lines = [
-            f"    <p><m>{step1}</m></p>",
-            f"    <p><m>{step2}</m></p>",
-            f"    <p><m>{step3}</m></p>"
+            f"    <p><m>{step1a}</m></p>",
+            f"    <p><m>{step1b}</m></p>",
+            f"    <p><m>{step1c}</m></p>",
+            f"    <p><m>{step2a}</m></p>",
+            f"    <p><m>{step2b}</m></p>",
+            f"    <p><m>{step2c}</m></p>",
+            f"    <p><m>{step3a}</m></p>",
+            f"    <p><m>{step3b}</m></p>",
+            f"    <p><m>{step3c}</m></p>"
         ]
-        outtro = "<outtro>\n" + "\n".join(outtro_lines) + "\n</outtro>"
+        
+        # We now only return the inner HTML blocks, not the <outtro> tags themselves
+        solution_steps = "\n".join(outtro_lines)
 
         return {
             "A": A,
             "B": B,
             "c": c,
-            "outtro": outtro
+            "solution_steps": solution_steps
         }

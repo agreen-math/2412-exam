@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<knowl mode="exercise" xmlns="https://spatext.clontz.org" version="0.2">
+    <content>
+        <p>A city is developing a new public park in a triangular lot left over from a new highway-interchange project. The three sides of the lot are bordered by existing roads and measure approximately <m>{{a}}</m> feet on the first street, <m>{{b}}</m> feet on the second street, and <m>{{c}}</m> feet along the highway. How many square feet of sod need to be ordered to cover the entire lot?</p>
+    </content>
+    <outtro>
+{{{solution_steps}}}
+    </outtro>
+</knowl>

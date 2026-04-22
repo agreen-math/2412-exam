@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<knowl mode="exercise" xmlns="https://spatext.clontz.org" version="0.2">
+    <content>
+        <p>Use the provided graph of <m>y = f(x)</m> to evaluate the given expressions.</p>
+        <p><m>{{{tikz_graph}}}</m></p>
+        
+        <p>Evaluate the limits and function value at <m>x = {{{c1}}}</m>. If a value does not exist, write <em>DNE</em>.</p>
+        <p>(a) <m>{{{limit_a_q}}}</m></p>
+        <p>(b) <m>{{{limit_b_q}}}</m></p>
+        <p>(c) <m>{{{limit_c_q}}}</m></p>
+        <p>(d) <m>{{{limit_d_q}}}</m></p>
+        
+        <p>Evaluate the end behavior limit.</p>
+        <p><m>{{{lim2_q}}}</m></p>
+        
+        <p>Conceptual analysis.</p>
+        <p>{{{concept_q}}}</p>
+    </content>
+    {{{outtro}}}
+</knowl>

@@ -47,40 +47,33 @@ class Generator(BaseGenerator):
             r = r_vals[i]
             pts.append(rf"\left({r}, {theta_str}\right)")
             
-            # Use exact radical arithmetic for rectangular answers
-            x_coord = r * cos(theta_eval)
-            y_coord = r * sin(theta_eval)
-            rects.append(rf"\left({latex(x_coord)}, {latex(y_coord)}\right)")
+            # Exact rectangular coordinates
+            x_c = r * cos(theta_eval)
+            y_c = r * sin(theta_eval)
+            rects.append(rf"\left({latex(x_c)}, {latex(y_c)}\right)")
             
-        # Convert radian angles to numerical degrees for TikZ plotting
-        deg_a = (theta_evals[0] * 180 / pi).n()
-        deg_b = (theta_evals[1] * 180 / pi).n()
+        # Convert angles to degrees for TikZ
+        deg_a = float(theta_evals[0] * 180 / pi)
+        deg_b = float(theta_evals[1] * 180 / pi)
         
-        # Construct the dynamic TikZ diagram inside a <latex-image> block
-        # This will be converted to SVG for Web and remain TikZ for LaTeX export
-        image_xml = (
-            f"    <image>\n"
-            f"      <latex-image>\n"
-            f"        <![CDATA[\n"
-            f"          \\begin{{tikzpicture}}[scale=0.6]\n"
-            f"            \\draw[lightgray, very thin] (0,0) circle (1) circle (2) circle (3) circle (4) circle (5);\n"
-            f"            \\foreach \\a in {{0,15,...,345}} \\draw[lightgray, very thin] (0,0) -- (\\a:5);\n"
-            f"            \\draw[gray, thin] (0,0) circle (1) circle (2) circle (3) circle (4) circle (5);\n"
-            f"            \\foreach \\a in {{0,30,...,330}} \\draw[gray, thin] (0,0) -- (\\a:5);\n"
-            f"            \\draw[->, thick] (-5.5,0) -- (5.5,0) node[right] {{$x$}};\n"
-            f"            \\draw[->, thick] (0,-5.5) -- (0,5.5) node[above] {{$y$}};\n"
-            f"            \\fill[blue] ({deg_a}:{r_vals[0]}) circle (3pt) node[above right, blue, fill=white, inner sep=1pt, opacity=0.8, text opacity=1] {{A}};\n"
-            f"            \\fill[red] ({deg_b}:{r_vals[1]}) circle (3pt) node[above right, red, fill=white, inner sep=1pt, opacity=0.8, text opacity=1] {{B}};\n"
-            f"          \\end{{tikzpicture}}\n"
-            f"        ]]>\n"
-            f"      </latex-image>\n"
-            f"    </image>"
+        # Build TikZ string - wrapped in <p><m> to satisfy Zero-Text Rule
+        tikz_code = (
+            r"\begin{tikzpicture}[scale=0.5,baseline=(current bounding box.center)]"
+            r"\draw[lightgray,very thin] (0,0) circle (1) circle (2) circle (3) circle (4) circle (5);"
+            r"\foreach \a in {0,15,...,345} \draw[lightgray,very thin] (0,0) -- (\a:5);"
+            r"\draw[gray,thin] (0,0) circle (1) circle (2) circle (3) circle (4) circle (5);"
+            r"\foreach \a in {0,30,...,330} \draw[gray,thin] (0,0) -- (\a:5);"
+            r"\draw[->,thick] (-5.5,0) -- (5.5,0) node[right] {$x$};"
+            r"\draw[->,thick] (0,-5.5) -- (0,5.5) node[above] {$y$};"
+            f"\\fill[blue] ({deg_a}:{r_vals[0]}) circle (3pt) node[above right,blue,fill=white,inner sep=1pt] {{A}};"
+            f"\\fill[red] ({deg_b}:{r_vals[1]}) circle (3pt) node[above right,red,fill=white,inner sep=1pt] {{B}};"
+            r"\end{tikzpicture}"
         )
             
-        # Adhering to the Zero-Text Rule for the <outtro>
+        # Every component of the outtro is now a <p><m> block
         outtro = (
             f"<outtro>\n"
-            f"{image_xml}\n"
+            f"    <p><m>{tikz_code}</m></p>\n"
             f"    <p><m>A: (x, y) = {rects[0]}</m></p>\n"
             f"    <p><m>B: (x, y) = {rects[1]}</m></p>\n"
             f"</outtro>"
