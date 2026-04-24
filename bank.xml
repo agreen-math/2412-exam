@@ -47,6 +47,15 @@ Solve linear trigonometric equations (Calculator).
             </description>
         </outcome>
 
+        <outcome>
+            <title>Solve EQ - Inverse (NC)</title>
+            <slug>EQ-4_Double-Angle</slug>
+            <path>outcomes/EQ-4_Double-Angle</path>
+            <description>
+                Solve inverse trigonometric equations (Non-Calculator).
+            </description>
+        </outcome>
+
 
         <outcome>
             <title>Oblique Triangle (ASA) — Law of Sines</title>
