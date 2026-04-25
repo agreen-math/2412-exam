@@ -256,7 +256,14 @@ Solve linear trigonometric equations (Calculator).
                 Apply trigonometric equations to solve problems.
             </description>
         </outcome>
-
+        <outcome>
+            <title>APP - Solve Tri (LoS-ASA)</title>
+            <slug>APP-2</slug>
+            <path>outcomes/APP-2</path>
+            <description>
+                Apply the Law of Sines to solve triangles given two angles and a side (ASA).
+            </description>
+        </outcome>
         <outcome>
             <title>Hiker Navigation with Two Bearings</title>
             <slug>Bearing_Turn_Turn_Hiker</slug>
