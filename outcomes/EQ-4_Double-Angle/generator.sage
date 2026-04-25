@@ -1,117 +1,106 @@
 from sage.all import *
 import random
-import math
 
 class Generator(BaseGenerator):
     def data(self):
-        for _ in range(200):
-
+        for _ in range(1000):
             primary = random.choice(["sin", "cos"])
             secondary = random.choice(["sin", "cos", "tan", "sec", "csc", "cot"])
 
-            # ----- Build ratio r -----
-            form = random.choice(["rat", "sqrt_num", "sqrt_den"])
+            # Standard Pythagorean triples to guarantee clean rational numbers
+            triples = [(3, 4, 5), 
+            (5, 12, 13)#, 
+#            (8, 15, 17), 
+#            (7, 24, 25)
+            ]
+            u, v, w = random.choice(triples)
+            
+            leg1 = random.choice([u, v])
+            leg2 = v if leg1 == u else u
+            sign = random.choice([1, -1])
 
-            if form == "rat":
-                a = random.choice([i for i in range(-9, 10) if i not in [-1, 0, 1]])
-                b = random.randint(2, 10)
-                r = QQ(a) / b
-                r_tex = "\\frac{%d}{%d}" % (a, b)
-
-            elif form == "sqrt_num":
-                n = random.choice([k for k in range(2, 41) if not is_square(k)])
-                k = random.randint(2, 6)
-                r = sqrt(n) / k
-                r_tex = "\\frac{\\sqrt{%d}}{%d}" % (n, k)
-
-            else:
-                n = random.choice([k for k in range(2, 41) if not is_square(k)])
-                k = random.randint(2, 6)
-                r = k / sqrt(n)
-                r_tex = "\\frac{%d}{\\sqrt{%d}}" % (k, n)
-
-            # ----- Domain enforcement -----
-            if secondary in ["sin", "cos", "tan", "cot"]:
-                if not (abs(r) < 1 and r != 0):
-                    continue
-            else:
-                if abs(r) <= 1:
-                    continue
-
-            # ----- Compute numeric value of answer -----
-            r2 = r*r
-
+            # Construct ratio based on the secondary function definition
             if secondary in ["sin", "cos"]:
-                sin2 = 2*r*sqrt(1 - r2)
-                cos2 = 1 - 2*r2
-
+                r = sign * QQ(leg1) / QQ(w)
             elif secondary in ["tan", "cot"]:
-                sin2 = 2*r/(1 + r2)
-                cos2 = (1 - r2)/(1 + r2)
+                r = sign * QQ(leg1) / QQ(leg2)
+            else: # sec, csc
+                r = sign * QQ(w) / QQ(leg1)
 
-            elif secondary == "sec":
-                sin2 = 2*sqrt(r2 - 1)/(r2)
-                cos2 = (2 - r2)/r2
+            r_num = RR(r)
 
-            else:  # csc
-                sin2 = 2*sqrt(r2 - 1)/(r2)
-                cos2 = (r2 - 2)/r2
+            # Compute the angle theta
+            if secondary == "sin": theta = asin(r)
+            elif secondary == "cos": theta = acos(r)
+            elif secondary == "tan": theta = atan(r)
+            elif secondary == "cot": theta = acot(r)
+            elif secondary == "sec": theta = asec(r)
+            elif secondary == "csc": theta = acsc(r)
 
-            # ----- Choose x and enforce inverse domain -----
+            # CRITICAL DOMAIN CHECK:
+            # The equation requires 2*theta to be within the principal range of the Primary inverse function!
+            theta_num = RR(theta)
+            two_theta = 2 * theta_num
+
             if primary == "sin":
-                x_val = sin2
-                if not (abs(x_val) < 1 and x_val != 0):
+                if not (-RR(pi)/2 - 1e-6 <= two_theta <= RR(pi)/2 + 1e-6):
                     continue
-                primary_tex = "\\sin^{-1}"
-            else:
-                x_val = cos2
-                if not (0 < x_val < 1):
+            else: # primary == "cos"
+                if not (-1e-6 <= two_theta <= RR(pi) + 1e-6):
                     continue
-                primary_tex = "\\cos^{-1}"
 
-            # ----- MANUAL answer formatting (critical) -----
-            x_val = x_val.simplify()
-
-            if x_val in QQ:
-                answer = latex(x_val)
+            # Calculate the final x value
+            if primary == "sin":
+                ans = SR(sin(2*theta)).simplify_full()
             else:
-                # extract sqrt(N)/K form numerically
-                num = x_val.numerator()
-                den = x_val.denominator()
+                ans = SR(cos(2*theta)).simplify_full()
 
-                if num.operator() is sqrt:
-                    answer = "\\frac{\\sqrt{%s}}{%s}" % (
-                        num.operands()[0], den
-                    )
-                elif den.operator() is sqrt:
-                    answer = "\\frac{%s}{\\sqrt{%s}}" % (
-                        num, den.operands()[0]
-                    )
-                else:
-                    continue  # reject unsafe form
+            # Format the math beautifully
+            primary_tex = rf"\{primary}^{{-1}}"
+            secondary_tex = rf"\{secondary}^{{-1}}"
+            r_tex = latex(r)
 
-            secondary_tex = "\\" + secondary + "^{-1}"
-
+            # Randomize the equation structure
             eq_type = random.choice([1, 2, 3])
             if eq_type == 1:
-                equation = "%s(x)=2%s(%s)" % (
-                    primary_tex, secondary_tex, r_tex
-                )
+                equation = rf"{primary_tex}(x) = 2 {secondary_tex}\left({r_tex}\right)"
             elif eq_type == 2:
-                equation = "%s(x)-%s(%s)=%s(%s)" % (
-                    primary_tex, secondary_tex, r_tex,
-                    secondary_tex, r_tex
-                )
+                equation = rf"{primary_tex}(x) - {secondary_tex}\left({r_tex}\right) = {secondary_tex}\left({r_tex}\right)"
             else:
-                equation = "%s(%s)=%s(x)-%s(%s)" % (
-                    secondary_tex, r_tex,
-                    primary_tex,
-                    secondary_tex, r_tex
-                )
+                equation = rf"{secondary_tex}\left({r_tex}\right) = {primary_tex}(x) - {secondary_tex}\left({r_tex}\right)"
+
+            # --- Build the Step-by-Step Solution ---
+            step1a = rf"{primary_tex}(x) = 2 {secondary_tex}\left({r_tex}\right)"
+            step1b = rf"x = \{primary}\left(2 {secondary_tex}\left({r_tex}\right)\right)"
+
+            step2a = rf"\text{{Let }} \theta = {secondary_tex}\left({r_tex}\right), \text{{ so }} \{secondary}(\theta) = {r_tex}."
+            step2b = rf"\text{{Then }} x = \{primary}(2\theta)."
+
+            # Evaluate the individual pieces for the double angle formulas
+            sin_t = SR(sin(theta)).simplify_full()
+            cos_t = SR(cos(theta)).simplify_full()
+
+            if primary == "sin":
+                step3a = r"x = \sin(2\theta) = 2\sin(\theta)\cos(\theta)"
+                step3b = rf"x = 2\left({latex(sin_t)}\right)\left({latex(cos_t)}\right) = {latex(ans)}"
+            else:
+                step3a = r"x = \cos(2\theta) = 2\cos^2(\theta) - 1"
+                step3b = rf"x = 2\left({latex(cos_t)}\right)^2 - 1 = {latex(ans)}"
+
+            outtro_lines = [
+                f"    <p><m>{step1a}</m></p>",
+                f"    <p><m>{step1b}</m></p>",
+                f"    <p><m>{step2a}</m></p>",
+                f"    <p><m>{step2b}</m></p>",
+                f"    <p><m>{step3a}</m></p>",
+                f"    <p><m>{step3b}</m></p>"
+            ]
+            
+            solution_steps = "\n".join(outtro_lines)
 
             return {
                 "equation": equation,
-                "answer": answer
+                "solution_steps": solution_steps
             }
 
-        raise RuntimeError("Failed to generate problem.")
+        raise RuntimeError("Failed to generate a valid problem within 1000 attempts.")

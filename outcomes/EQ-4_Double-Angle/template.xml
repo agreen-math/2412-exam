@@ -1,18 +1,10 @@
-<knowl xmlns="http://checkit.sagemath.org/xml" version="1.0">
-  <intro>
-    <p>Solve for exact values of <m>x</m>:</p>
-  </intro>
-
-  <content>
-    <p>
-      <m>{{equation}}</m>
-    </p>
-
-  </content>
-
-  <outtro>
-    <p>
-      <b>Answer:</b> <m>{{answer}}</m>
-    </p>
-  </outtro>
+<?xml version='1.0' encoding='UTF-8'?>
+<knowl mode="exercise" xmlns="https://spatext.clontz.org" version="0.2">
+    <content>
+        <p>Solve for the exact value of <m>x</m>:</p>
+        <p><me>{{equation}}</me></p>
+    </content>
+    <outtro>
+        {{{solution_steps}}}
+    </outtro>
 </knowl>
