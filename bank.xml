@@ -25,17 +25,37 @@ Solve linear trigonometric equations (Calculator).
             <slug>EQ-3</slug>
             <path>outcomes/EQ-3</path>
             <description>
-Solve quadratic trigonometric equations (Non-Calculator).
+                Solve quadratic trigonometric equations (Non-Calculator).
             </description>
         </outcome>
+
         <outcome>
             <title>Solve EQ - Inverse (NC)</title>
             <slug>EQ-4</slug>
             <path>outcomes/EQ-4</path>
             <description>
-Solve inverse trigonometric equations (Non-Calculator).
+                Solve inverse trigonometric equations (Non-Calculator).
             </description>
         </outcome>
+
+        <outcome>
+            <title>Solve EQ - Inverse (NC)</title>
+            <slug>EQ-4-no_key_angles</slug>
+            <path>outcomes/EQ-4-no_key_angles</path>
+            <description>
+                Solve inverse trigonometric equations (Non-Calculator).
+            </description>
+        </outcome>
+
+        <outcome>
+            <title>Solve EQ - Inverse (NC)</title>
+            <slug>EQ-4_Double-Angle</slug>
+            <path>outcomes/EQ-4_Double-Angle</path>
+            <description>
+                Solve inverse trigonometric equations (Non-Calculator).
+            </description>
+        </outcome>
+
 
         <outcome>
             <title>Oblique Triangle (ASA) — Law of Sines</title>
@@ -44,7 +64,7 @@ Solve inverse trigonometric equations (Non-Calculator).
             <description>
                 Solve the triangle. (Calculator)
             </description>
-        </outcome>
+        </outcome>  
 
         
         <outcome>
