@@ -4,5 +4,7 @@
         <p>Solve for exact values of <m>x</m>:</p>
         <p><me>{{lhs}} = {{rhs}}</me></p>
     </content>
-    {{{outtro}}}
+    <outtro>
+        {{{solution_steps}}}
+    </outtro>
 </knowl>

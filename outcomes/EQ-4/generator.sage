@@ -94,8 +94,8 @@ class Generator(BaseGenerator):
         # Step 3: Apply the standard trigonometric function to isolate x
         step3 = rf"x = \{f1}\left({t1_tex}\right)"
         
-        # Final Box
-        final_sol = rf"\boxed{{x = {v1_tex}}}"
+        # Final explicit answer
+        final_sol = rf"x = {v1_tex}"
         
         outtro_lines = [
             f"    <p><m>{step1}</m></p>",
@@ -104,10 +104,11 @@ class Generator(BaseGenerator):
             f"    <p><m>{final_sol}</m></p>"
         ]
         
-        outtro = "<outtro>\n" + "\n".join(outtro_lines) + "\n</outtro>"
+        # We now only return the inner HTML blocks, not the <outtro> tags themselves
+        solution_steps = "\n".join(outtro_lines)
         
         return {
             "lhs": lhs_latex,
             "rhs": rhs_latex,
-            "outtro": outtro
+            "solution_steps": solution_steps
         }
