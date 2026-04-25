@@ -204,8 +204,22 @@ Solve linear trigonometric equations (Calculator).
                 Use a double-angle identity to find the exact value.
             </description>
         </outcome>
-
-
+        <outcome>
+            <title>ID - Sum/Diff</title>
+            <slug>ID-5</slug>
+            <path>outcomes/ID-5</path>
+            <description>
+                Use sum and difference identities.
+            </description>
+        </outcome>
+        <outcome>
+            <title>ID - More DA from Clues?</title>
+            <slug>ID-6</slug>
+            <path>outcomes/ID-6</path>
+            <description>
+                Find exact values using double-angle identities.
+            </description>
+        </outcome>
         <outcome>
             <title>Evaluate a Trig Composition with Inverse Functions</title>
             <slug>Composition_SineCosine_SumDifference</slug>

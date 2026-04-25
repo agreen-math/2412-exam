@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<knowl mode="exercise" xmlns="https://spatext.clontz.org" version="0.2">
+    <content>
+        <p>Find the exact value of the trigonometric functions given the following conditions:</p>
+        <p>
+            Given <m>{{f1_tex}} = {{val_tex}}</m> and <m>{{bound_tex}}</m>.
+        </p>
+        <p>(a) Find <m>{{f2a_tex}}</m></p>
+        <p>(b) Find <m>{{f2b_tex}}</m></p>
+    </content>
+    <outtro>
+        {{{solution_steps}}}
+    </outtro>
+</knowl>
