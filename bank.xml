@@ -9,7 +9,7 @@
             <slug>EQ-1</slug>
             <path>outcomes/EQ-1</path>
             <description>
-Solve linear trigonometric equations involving fractional angles (Non-Calculator).
+                Solve linear trigonometric equations involving fractional angles (Non-Calculator).
             </description>
         </outcome>
         <outcome>
@@ -17,7 +17,7 @@ Solve linear trigonometric equations involving fractional angles (Non-Calculator
             <slug>EQ-2</slug>
             <path>outcomes/EQ-2</path>
             <description>
-Solve linear trigonometric equations (Calculator).
+                Solve linear trigonometric equations (Calculator).
             </description>
         </outcome>
         <outcome>
@@ -220,14 +220,23 @@ Solve linear trigonometric equations (Calculator).
                 Find exact values using double-angle identities.
             </description>
         </outcome>
+
         <outcome>
             <title>Evaluate a Trig Composition with Inverse Functions</title>
             <slug>Composition_SineCosine_SumDifference</slug>
             <path>outcomes/Composition_SineCosine_SumDifference</path>
             <description>
-                Evaluate an exact trigonometric expression involving sine or cosine
-                composed with the sum or difference of two inverse trigonometric functions.
-                The problem may involve Pythagorean triples, non-triple ratios, or a mix.
+                Find the exact value.
+            </description>
+        </outcome>
+
+        
+        <outcome>
+            <title>Evaluate a Trig Composition with Inverse Functions</title>
+            <slug>Composition_SineCosine_Double_Angle</slug>
+            <path>outcomes/Composition_SineCosine_Double_Angle</path>
+            <description>
+                Find the exact value.
             </description>
         </outcome>
 

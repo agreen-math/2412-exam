@@ -3,46 +3,104 @@ import random
 
 class Generator(BaseGenerator):
     def data(self):
-        problem_type = random.choice(["all_triple", "mixed", "non_triple"])
 
-        if problem_type == "all_triple":
-            # 3-4-5 triangle
-            expr = r"\cos\left(\sin^{-1}\left(\frac{3}{5}\right)+\tan^{-1}\left(\frac{4}{3}\right)\right)"
-            answer = r"0"
-            category = "All values come from a Pythagorean triple."
-        elif problem_type == "mixed":
-            # One triple (5-12-13), one non-triple
-            expr = r"\sin\left(\tan^{-1}\left(\frac{5}{12}\right)+\sin^{-1}\left(\frac{2}{\sqrt{13}}\right)\right)"
-            answer = r"\frac{3\sqrt{13}}{13}"
-            category = "One inverse trig ratio comes from a Pythagorean triple."
+        def random_legs():
+            while True:
+                opp = random.choice([i for i in range(-20, 21) if i != 0])
+                adj = random.choice([i for i in range(-20, 21) if i != 0])
+                hyp2 = opp^2 + adj^2
+                if max(abs(opp), abs(adj), sqrt(hyp2)) <= 30:
+                    return opp, adj, hyp2
+
+        def inv_expr(inv, opp, adj, hyp2):
+            if inv == "sin":
+                return rf"\sin^{{-1}}\left(\frac{{{opp}}}{{\sqrt{{{hyp2}}}}}\right)"
+            if inv == "cos":
+                return rf"\cos^{{-1}}\left(\frac{{{adj}}}{{\sqrt{{{hyp2}}}}}\right)"
+            if inv == "tan":
+                return rf"\tan^{{-1}}\left(\frac{{{opp}}}{{{adj}}}\right)"
+            if inv == "csc":
+                return rf"\csc^{{-1}}\left(\frac{{\sqrt{{{hyp2}}}}}{{{opp}}}\right)"
+            if inv == "sec":
+                return rf"\sec^{{-1}}\left(\frac{{\sqrt{{{hyp2}}}}}{{{adj}}}\right)"
+            return rf"\cot^{{-1}}\left(\frac{{{adj}}}{{{opp}}}\right)"
+
+        opp1, adj1, hyp2_1 = random_legs()
+        opp2, adj2, hyp2_2 = random_legs()
+
+        inv_funcs = ["sin", "cos", "tan", "csc", "sec", "cot"]
+        inv1 = random.choice(inv_funcs)
+        inv2 = random.choice(inv_funcs)
+
+        op = random.choice(["+", "-"])
+        outer = random.choice(["sin", "cos"])
+
+        expression = rf"\{outer}\left({inv_expr(inv1, opp1, adj1, hyp2_1)} {op} {inv_expr(inv2, opp2, adj2, hyp2_2)}\right)"
+
+        # We must use double braces {{ }} here because these will be nested inside another f-string later.
+        sin_a = rf"\frac{{{opp1}}}{{\sqrt{{{hyp2_1}}}}}"
+        cos_a = rf"\frac{{{adj1}}}{{\sqrt{{{hyp2_1}}}}}"
+        sin_b = rf"\frac{{{opp2}}}{{\sqrt{{{hyp2_2}}}}}"
+        cos_b = rf"\frac{{{adj2}}}{{\sqrt{{{hyp2_2}}}}}"
+
+        if outer == "sin":
+            identity = r"\sin(\alpha\pm\beta)=\sin\alpha\cos\beta\pm\cos\alpha\sin\beta"
+            expanded = rf"{sin_a}\cdot{cos_b} {'+' if op=='+' else '-'} {cos_a}\cdot{sin_b}"
+            numeric = (
+                (opp1/sqrt(hyp2_1))*(adj2/sqrt(hyp2_2))
+                + (adj1/sqrt(hyp2_1))*(opp2/sqrt(hyp2_2))
+                if op == "+"
+                else
+                (opp1/sqrt(hyp2_1))*(adj2/sqrt(hyp2_2))
+                - (adj1/sqrt(hyp2_1))*(opp2/sqrt(hyp2_2))
+            )
         else:
-            # No triples
-            options = [
-                (
-                    r"\cos\left(\tan^{-1}\left(\frac{2}{\sqrt{5}}\right)-\cos^{-1}\left(\frac{1}{\sqrt{6}}\right)\right)",
-                    r"\frac{\sqrt{30}}{6}"
-                ),
-                (
-                    r"\sin\left(\sin^{-1}\left(\frac{3}{\sqrt{10}}\right)+\tan^{-1}\left(\frac{1}{\sqrt{3}}\right)\right)",
-                    r"\frac{3\sqrt{30}+\sqrt{10}}{20}"
-                ),
-                (
-                    r"\cos\left(\sec^{-1}\left(\frac{4}{\sqrt{7}}\right)+\sin^{-1}\left(\frac{1}{\sqrt{5}}\right)\right)",
-                    r"\frac{2\sqrt{35}-3\sqrt{5}}{20}"
-                )
-            ]
-            expr, answer = random.choice(options)
-            category = "No Pythagorean triples are used."
+            identity = r"\cos(\alpha\pm\beta)=\cos\alpha\cos\beta\mp\sin\alpha\sin\beta"
+            expanded = rf"{cos_a}\cdot{cos_b} {'-' if op=='+' else '+'} {sin_a}\cdot{sin_b}"
+            numeric = (
+                (adj1/sqrt(hyp2_1))*(adj2/sqrt(hyp2_2))
+                - (opp1/sqrt(hyp2_1))*(opp2/sqrt(hyp2_2))
+                if op == "+"
+                else
+                (adj1/sqrt(hyp2_1))*(adj2/sqrt(hyp2_2))
+                + (opp1/sqrt(hyp2_1))*(opp2/sqrt(hyp2_2))
+            )
 
-        # Assemble the outtro (incorporating the category note safely)
-        outtro = (
-            f"<outtro>\n"
-            f"    <p><m>\\text{{Answer: }} {answer}</m></p>\n"
-            f"    <p><em>Category: {category}</em></p>\n"
-            f"</outtro>"
-        )
+        final_ans = latex(simplify(numeric))
+
+        outtro = rf"""
+<outtro>
+    <p>
+        Let <m>\alpha</m> and <m>\beta</m> be the angles defined by the inverse trigonometric expressions.
+    </p>
+
+    <p>
+        From the reference triangles:
+        <m>\sin\alpha={sin_a}</m>,
+        <m>\cos\alpha={cos_a}</m>,
+        <m>\sin\beta={sin_b}</m>,
+        <m>\cos\beta={cos_b}</m>.
+    </p>
+
+    <p>
+        Using the identity <m>{identity}</m>:
+    </p>
+
+    <me>
+        = {expanded}
+    </me>
+
+    <p>
+        Simplifying, we find the final result:
+    </p>
+
+    <me>
+        = {final_ans}
+    </me>
+</outtro>
+        """
 
         return {
-            "expression": expr,
+            "expression": expression,
             "outtro": outtro
         }

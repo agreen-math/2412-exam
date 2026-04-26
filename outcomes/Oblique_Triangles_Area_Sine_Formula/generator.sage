@@ -1,34 +1,35 @@
 from sage.all import *
 import random
+import math
+
+
+def sigfig(x, n):
+    """
+    Round x to n significant figures.
+    x must be nonzero.
+    """
+    if x == 0:
+        return 0
+    return round(x, n - int(math.floor(math.log10(abs(x)))) - 1)
+
 
 class Generator(BaseGenerator):
     def data(self):
-        # Two sides and the included angle
-        a = round(random.uniform(6.0, 12.0), 2)
-        b = round(random.uniform(7.0, 13.0), 2)
+        # Side lengths
+        a = sigfig(random.uniform(5, 20), 3)
+        b = sigfig(random.uniform(6, 25), 3)
 
-        # Included angle (avoid 0 and 180 degrees)
-        C = random.randint(30, 150)
+        # Included angle (degrees)
+        C = sigfig(random.uniform(30, 150), 3)
+        C_rad = math.radians(C)
 
-        # Area formula: (1/2)ab sin(C)
-        area = 0.5 * a * b * sin(C * pi / 180)
-        area_val = round(float(area), 2)
-
-        # Build the mathematical steps for the Zero-Text Rule
-        step1 = r"\text{Area} = \frac{1}{2}ab\sin(C)"
-        step2 = rf"\text{Area} = \frac{{1}}{{2}}({a})({b})\sin({C}^\circ)"
-        step3 = rf"\text{Area} \approx {area_val} \text{{ square units}}"
-
-        outtro_lines = [
-            f"    <p><m>{step1}</m></p>",
-            f"    <p><m>{step2}</m></p>",
-            f"    <p><m>{step3}</m></p>"
-        ]
-        outtro = "<outtro>\n" + "\n".join(outtro_lines) + "\n</outtro>"
+        # Area using sine formula
+        Area = 0.5 * a * b * math.sin(C_rad)
+        Area = sigfig(Area, 3)
 
         return {
             "a": a,
             "b": b,
             "C": C,
-            "outtro": outtro
+            "Area": Area
         }
