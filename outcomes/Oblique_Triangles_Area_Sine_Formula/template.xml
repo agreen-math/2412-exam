@@ -1,31 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<knowl mode="exercise"
-       xmlns="https://spatext.clontz.org"
-       version="0.2">
-
+<knowl mode="exercise" xmlns="https://spatext.clontz.org" version="0.2">
     <content>
-        <p>
-            Find the area of the triangle.
-        </p>
-
-        <p>
-            Triangle <m>ABC</m> satisfies
-            <m>a = {{a}}</m>,
-            <m>b = {{b}}</m>, and
-            <m>\angle C = {{C}}^\circ</m>.
-        </p>
-
-        <p>
-            Round your answer to the nearest hundredth.
-        </p>
+        <p>Find the area of the triangle.</p>
+        <p>Triangle <m>ABC</m> satisfies <m>a = {{a}}</m>, <m>b = {{b}}</m>, and <m>\angle C = {{C}}^\circ</m>.</p>
+        <p>Round your answer to the nearest hundredth.</p>
     </content>
-
     <outtro>
-        <p>
-            The area of the triangle is
-            <m>{{Area}}</m>
-            square units.
-        </p>
+        {{{solution_steps}}}
     </outtro>
-
 </knowl>

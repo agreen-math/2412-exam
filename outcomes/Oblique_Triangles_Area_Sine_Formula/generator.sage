@@ -1,35 +1,41 @@
 from sage.all import *
 import random
-import math
-
-
-def sigfig(x, n):
-    """
-    Round x to n significant figures.
-    x must be nonzero.
-    """
-    if x == 0:
-        return 0
-    return round(x, n - int(math.floor(math.log10(abs(x)))) - 1)
-
 
 class Generator(BaseGenerator):
     def data(self):
-        # Side lengths
-        a = sigfig(random.uniform(5, 20), 3)
-        b = sigfig(random.uniform(6, 25), 3)
+        # Generate clean integer side lengths and angle
+        a = random.randint(5, 25)
+        b = random.randint(5, 25)
+        C = random.randint(30, 150)
 
-        # Included angle (degrees)
-        C = sigfig(random.uniform(30, 150), 3)
-        C_rad = math.radians(C)
+        # Calculate area using SageMath's exact pi and evaluate to float
+        area_val = 0.5 * a * b * float(sin(C * pi / 180))
+        
+        # Format strictly to the nearest hundredth as requested by the prompt
+        formatted_area = f"{area_val:.2f}"
 
-        # Area using sine formula
-        Area = 0.5 * a * b * math.sin(C_rad)
-        Area = sigfig(Area, 3)
+        # --- Build Step-by-Step Solution ---
+        step1 = r"\text{Area} = \frac{1}{2}ab\sin(C)"
+        step2 = rf"\text{{Area}} = \frac{{1}}{{2}}({a})({b})\sin({C}^\circ)"
+        
+        # Show the intermediate product of 1/2 * a * b
+        coeff = 0.5 * a * b
+        step3 = rf"\text{{Area}} = {coeff:g}\sin({C}^\circ)"
+        step4 = rf"\text{{Area}} \approx {formatted_area}"
+
+        outtro_lines = [
+            f"    <p>We are given two sides and the included angle (SAS). We use the trigonometric area formula:</p>",
+            f"    <p><m>{step1}</m></p>",
+            f"    <p><m>{step2}</m></p>",
+            f"    <p><m>{step3}</m></p>",
+            f"    <p><m>{step4}</m></p>"
+        ]
+
+        solution_steps = "\n".join(outtro_lines)
 
         return {
             "a": a,
             "b": b,
             "C": C,
-            "Area": Area
+            "solution_steps": solution_steps
         }

@@ -4,5 +4,7 @@
         <p>An engineer is designing a triangular support brace made from two metal beams. The beams have lengths <m>{{a}} \text{ m}</m> and <m>{{b}} \text{ m}</m>, and they are joined at an angle of <m>{{angle_deg}}^\circ</m>.</p>
         <p>Determine the area of the triangular brace. Round your answer to the nearest hundredth.</p>
     </content>
-    {{{outtro}}}
+    <outtro>
+        {{{solution_steps}}}
+    </outtro>
 </knowl>
