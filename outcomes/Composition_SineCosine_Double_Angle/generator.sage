@@ -1,68 +1,104 @@
 from sage.all import *
 import random
 
+
 class Generator(BaseGenerator):
     def data(self):
-        # Choose inverse trig type
-        inv_type = random.choice(["sin", "cos"])
 
-        # Choose non-Pythagorean triangle legs
-        # (a, b, hyp) with hyp = sqrt(a^2 + b^2), not a triple
-        a = random.choice([2, 3, 4, 5])
-        b = random.choice([3, 5, 6, 7])
+        outer_trig = random.choice(["sin", "cos"])
+        inverse_trig = random.choice(["sin", "cos", "tan", "csc", "sec", "cot"])
 
-        # Reject accidental triples
-        while a*a + b*b in [25, 169, 289]:
-            b = random.choice([3, 5, 6, 7])
+        allowed = list(range(-20, 21)) + [-30, -25, -24, 24, 25, 30]
+        allowed = [n for n in allowed if n != 0]
 
-        hyp = sqrt(a*a + b*b)
+        forbidden_rad = {1, 4, 9, 16, 25}
 
-        if inv_type == "sin":
-            expression = rf"\sin\left(2\sin^{{-1}}\left(\frac{{{a}}}{{\sqrt{{{a*a+b*b}}}}}\right)\right)"
-            sin_alpha = rf"\frac{{{a}}}{{\sqrt{{{a*a+b*b}}}}}"
-            cos_alpha = rf"\frac{{{b}}}{{\sqrt{{{a*a+b*b}}}}}"
-            answer = rf"\frac{{{2*a*b}}}{{{a*a+b*b}}}"
+        while True:
+            a = random.choice(allowed)
+            b = random.choice(allowed)
+            if a == b:
+                continue
+            rad = a*a + b*b
+            if rad >= 30 or rad in forbidden_rad:
+                continue
+            break
 
-            identity = r"\sin(2\alpha)=2\sin\alpha\cos\alpha"
+        sin_tex = rf"\frac{{{a}}}{{\sqrt{{{rad}}}}}"
+        cos_tex = rf"\frac{{{b}}}{{\sqrt{{{rad}}}}}"
 
+        inv_op = rf"\{inverse_trig}^{{-1}}"
+
+        def simp_frac(num, den):
+            return latex(Integer(num) / Integer(den))
+
+        if inverse_trig == "sin":
+            inv_input = sin_tex
+        elif inverse_trig == "cos":
+            inv_input = cos_tex
+        elif inverse_trig == "tan":
+            inv_input = simp_frac(a, b)
+        elif inverse_trig == "csc":
+            inv_input = rf"\frac{{\sqrt{{{rad}}}}}{{{a}}}"
+        elif inverse_trig == "sec":
+            inv_input = rf"\frac{{\sqrt{{{rad}}}}}{{{b}}}"
         else:
-            expression = rf"\cos\left(2\cos^{{-1}}\left(\frac{{{b}}}{{\sqrt{{{a*a+b*b}}}}}\right)\right)"
-            sin_alpha = rf"\frac{{{a}}}{{\sqrt{{{a*a+b*b}}}}}"
-            cos_alpha = rf"\frac{{{b}}}{{\sqrt{{{a*a+b*b}}}}}"
-            answer = rf"\frac{{{b*b - a*a}}}{{{a*a+b*b}}}"
+            inv_input = simp_frac(b, a)
 
+        if outer_trig == "sin":
+            expression = rf"\sin\left(2{inv_op}\left({inv_input}\right)\right)"
+            identity = r"\sin(2\alpha)=2\sin\alpha\cos\alpha"
+            plug_math = rf"2\times\frac{{{a}}}{{\sqrt{{{rad}}}}}\times\frac{{{b}}}{{\sqrt{{{rad}}}}}"
+            unsimplified = rf"\frac{{{2*a*b}}}{{{rad}}}"
+            value = Integer(2*a*b) / Integer(rad)
+        else:
+            expression = rf"\cos\left(2{inv_op}\left({inv_input}\right)\right)"
             identity = r"\cos(2\alpha)=\cos^2\alpha-\sin^2\alpha"
+            plug_math = (
+                rf"\left(\frac{{{b}}}{{\sqrt{{{rad}}}}}\right)^2"
+                rf"-\left(\frac{{{a}}}{{\sqrt{{{rad}}}}}\right)^2"
+            )
+            unsimplified = rf"\frac{{{b*b-a*a}}}{{{rad}}}"
+            value = Integer(b*b - a*a) / Integer(rad)
+
+        if value.is_integer():
+            final_answer = str(value)
+        else:
+            final_answer = latex(value)
 
         solution = rf"""
-        <p>
-            Let <m>\alpha</m> be the given inverse trigonometric angle.
-        </p>
+<p>
+    Let <m>\alpha</m> be the given inverse trigonometric angle.
+</p>
 
-        <p>
-            From the reference triangle,
-            <m>\sin\alpha = {sin_alpha}</m> and
-            <m>\cos\alpha = {cos_alpha}</m>.
-        </p>
+<p>
+    From the reference triangle,
+    <m>\sin\alpha = {sin_tex}</m> and
+    <m>\cos\alpha = {cos_tex}</m>.
+</p>
 
-        <p>
-            Using the identity <m>{identity}</m>:
-        </p>
+<p>
+    Using the identity <m>{identity}</m>:
+</p>
 
-        <me>
-            = {answer}
-        </me>
-        """
+<p>
+    <m>{plug_math}</m>
+</p>
+
+<me>
+    = {unsimplified}
+</me>
+"""
 
         outtro = rf"""
-        <outtro>
-            <p><strong>Solution:</strong></p>
-            {solution}
-            <p>
-                <strong>Final Answer:</strong>
-                <m>{answer}</m>
-            </p>
-        </outtro>
-        """
+<outtro>
+    <p><strong>Solution:</strong></p>
+    {solution}
+    <p>
+        <strong>Final Answer:</strong>
+        <m>{final_answer}</m>
+    </p>
+</outtro>
+"""
 
         return {
             "expression": expression,
