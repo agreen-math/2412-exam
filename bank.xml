@@ -240,6 +240,15 @@
             </description>
         </outcome>
 
+        
+        <outcome>
+            <title>Evaluate a Trig Composition with Inverse Functions</title>
+            <slug>Composition_SineCosine_Half_Angle</slug>
+            <path>outcomes/Composition_SineCosine_Half_Angle</path>
+            <description>
+                Find the exact value.
+            </description>
+        </outcome>
 
 
 

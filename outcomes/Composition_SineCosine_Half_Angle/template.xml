@@ -1,0 +1,15 @@
+<knowl xmlns="http://www.checkit.math.illinois.edu/ns" version="0.6">
+
+    <content>
+        <p>
+            Evaluate the following expression exactly.
+            No calculator is allowed.
+        </p>
+
+        <p>{{{expression_me}}}</p>
+    </content>
+
+    {{{outtro}}}
+
+</knowl>
+
