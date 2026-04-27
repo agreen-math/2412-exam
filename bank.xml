@@ -268,13 +268,50 @@
             </description>
         </outcome>
 
+        <outcome>
+            <title>Evaluate an Algebraic Double-Angle Composition</title>
+            <slug>Comp_Alg_DA_Small_Num</slug>
+            <path>outcomes/Comp_Alg_DA_Small_Num</path>
+            <description>
+                Write the expression as an algebraic expression in u (nice numbers).
+            </description>
+        </outcome>
 
+        <outcome>
+            <title>Evaluate an Algebraic Half-Angle Composition</title>
+            <slug>Comp_Alg_HA_Small_Num</slug>
+            <path>outcomes/Comp_Alg_HA_Small_Num</path>
+            <description>
+                Write the expression as an algebraic expression in u (nice numbers).
+            </description>
+        </outcome>
 
+        <outcome>
+            <title>Evaluate a Trig Composition with Inverse Functions</title>
+            <slug>Comp_SinCos_DA_Small_Num</slug>
+            <path>outcomes/Comp_SinCos_DA_Small_Num</path>
+            <description>
+                Find the exact value.
+            </description>
+        </outcome>
 
+        <outcome>
+            <title>Evaluate a Trig Composition with Inverse Functions</title>
+            <slug>Comp_SinCos_HA_Small_Num</slug>
+            <path>outcomes/Comp_SinCos_HA_Small_Num</path>
+            <description>
+                Find the exact value.
+            </description>
+        </outcome>
 
-
-
-
+        <outcome>
+            <title>Evaluate a Trig Composition with Inverse Functions</title>
+            <slug>Comp_SinCos_SumDiff_Small_Num</slug>
+            <path>outcomes/Comp_SinCos_SumDiff_Small_Num</path>
+            <description>
+                Find the exact value.
+            </description>
+        </outcome>
 
         <outcome>
             <title>ID - Trig Sub DA ALG</title>

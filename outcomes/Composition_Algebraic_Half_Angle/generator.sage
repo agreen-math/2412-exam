@@ -1,126 +1,162 @@
 from sage.all import *
 import random
-import math
-
 
 class Generator(BaseGenerator):
     def data(self):
+        # Define variable u and assume it's positive so radicals simplify cleanly
+        u = var('u')
+        assume(u > 0)
 
-        # ----------------------------
-        # Random choices
-        # ----------------------------
-
+        # Expand the multiplier and constant pool for practice problems
         k = random.choice([1, 2, 3, 4, 5])
-
-        allowed_c = (
-            list(range(-20, 21)) +
-            [-30, -25, -24, 24, 25, 30]
-        )
-        allowed_c = [x for x in allowed_c if x not in [-1, 0, 1]]
-        c = random.choice(allowed_c)
+        # Keep c positive to lock the reference triangle in Q1, but allow larger values
+        allowed_c = [2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20, 24, 25, 30]
+        c = Integer(random.choice(allowed_c))
 
         form = random.choice(["ku", "ku_over_c", "c_over_ku"])
-
         outer = random.choice(["sin", "cos", "tan"])
         inv = random.choice(["sin", "cos", "tan", "csc", "sec", "cot"])
 
-        # ----------------------------
-        # Build inverse‑trig argument
-        # ----------------------------
-
+        # Manually extract numerators and denominators to prevent SageMath 
+        # from factoring out the coefficients
         if form == "ku":
-            coef = "" if k == 1 else str(k)
-            arg = f"{coef}u"
-            arg_sq = f"{k^2}u^2" if k != 1 else "u^2"
-
+            num_expr = k * u
+            den_expr = SR(1)
+            num_tex = rf"{'' if k==1 else k}u"
+            den_tex = "1"
+            arg_tex = num_tex
         elif form == "ku_over_c":
-            coef = "" if k == 1 else str(k)
-            arg = rf"\frac{{{coef}u}}{{{c}}}"
-            arg_sq = rf"\frac{{{k^2}u^2}}{{{c^2}}}" if k != 1 else rf"\frac{{u^2}}{{{c^2}}}"
-
+            num_expr = k * u
+            den_expr = SR(c)
+            num_tex = rf"{'' if k==1 else k}u"
+            den_tex = str(c)
+            arg_tex = rf"\frac{{{num_tex}}}{{{den_tex}}}"
         else:  # c_over_ku
-            coef = "" if k == 1 else str(k)
-            arg = rf"\frac{{{c}}}{{{coef}u}}"
-            arg_sq = rf"\frac{{{c^2}}}{{{k^2}u^2}}" if k != 1 else rf"\frac{{{c^2}}}{{u^2}}"
+            num_expr = SR(c)
+            den_expr = k * u
+            num_tex = str(c)
+            den_tex = rf"{'' if k==1 else k}u"
+            arg_tex = rf"\frac{{{num_tex}}}{{{den_tex}}}"
 
-        # ----------------------------
-        # Expression (render‑safe)
-        # ----------------------------
+        # Build expression for the prompt
+        expression_tex = rf"\{outer}\left(2\{inv}^{{-1}}\left({arg_tex}\right)\right)"
 
-        expression_me = rf"<m>\{outer}\!\left(2\{inv}^{{-1}}\!\left({arg}\right)\right)</m>"
+        # Explicitly map the numerator and denominator to x, y, and r
+        if inv == "sin":
+            y = num_expr; y_tex = num_tex
+            r = den_expr; r_tex = den_tex
+            x = sqrt(r**2 - y**2); x_tex = latex(x)
+        elif inv == "cos":
+            x = num_expr; x_tex = num_tex
+            r = den_expr; r_tex = den_tex
+            y = sqrt(r**2 - x**2); y_tex = latex(y)
+        elif inv == "tan":
+            y = num_expr; y_tex = num_tex
+            x = den_expr; x_tex = den_tex
+            r = sqrt(x**2 + y**2); r_tex = latex(r)
+        elif inv == "csc":
+            r = num_expr; r_tex = num_tex
+            y = den_expr; y_tex = den_tex
+            x = sqrt(r**2 - y**2); x_tex = latex(x)
+        elif inv == "sec":
+            r = num_expr; r_tex = num_tex
+            x = den_expr; x_tex = den_tex
+            y = sqrt(r**2 - x**2); y_tex = latex(y)
+        else:  # cot
+            x = num_expr; x_tex = num_tex
+            y = den_expr; y_tex = den_tex
+            r = sqrt(x**2 + y**2); r_tex = latex(r)
 
-        # ----------------------------
-        # Trig values for alpha
-        # ----------------------------
+        # True mathematical ratios for calculation
+        sin_a = y / r
+        cos_a = x / r
+        tan_a = y / x
 
-        # For sin^{-1}, csc^{-1}
-        sin_a = rf"\frac{{{arg}}}{{\sqrt{{1+{arg_sq}}}}}"
-        cos_a = rf"\frac{{1}}{{\sqrt{{1+{arg_sq}}}}}"
+        # Custom formatted LaTeX ratios for the display
+        sin_a_tex = rf"\frac{{{y_tex}}}{{{r_tex}}}" if r_tex != "1" else y_tex
+        cos_a_tex = rf"\frac{{{x_tex}}}{{{r_tex}}}" if r_tex != "1" else x_tex
+        tan_a_tex = rf"\frac{{{y_tex}}}{{{x_tex}}}" if x_tex != "1" else y_tex
 
-        # For cos^{-1}, sec^{-1}
-        sin_b = rf"\frac{{1}}{{\sqrt{{1+{arg_sq}}}}}"
-        cos_b = rf"\frac{{{arg}}}{{\sqrt{{1+{arg_sq}}}}}"
-
-        # For tan^{-1}, cot^{-1}
-        sin_c = rf"\frac{{{arg}}}{{\sqrt{{1+{arg_sq}}}}}"
-        cos_c = rf"\frac{{1}}{{\sqrt{{1+{arg_sq}}}}}"
-
-        # ----------------------------
-        # Identity and final answer
-        # ----------------------------
-
-        if outer == "cos":
-            identity = r"\cos(2\alpha)=1-2\sin^2\alpha"
-
-            if inv in ["sin", "csc"]:
-                final_answer = rf"1-2\left({sin_a}\right)^2"
-            elif inv in ["cos", "sec"]:
-                final_answer = rf"2\left({cos_b}\right)^2-1"
+        # Apply double angle identities and let SageMath simplify algebraically
+        if outer == "sin":
+            identity = r"\sin(2\alpha) = 2\sin(\alpha)\cos(\alpha)"
+            plug_tex = rf"2\left({sin_a_tex}\right)\left({cos_a_tex}\right)"
+            ans = (2 * sin_a * cos_a).simplify_full()
+        elif outer == "cos":
+            if inv in ["cos", "sec"]:
+                identity = r"\cos(2\alpha) = 2\cos^2(\alpha) - 1"
+                plug_tex = rf"2\left({cos_a_tex}\right)^2 - 1"
+                ans = (2 * cos_a**2 - 1).simplify_full()
             else:
-                final_answer = rf"\frac{{1-{arg_sq}}}{{1+{arg_sq}}}"
+                identity = r"\cos(2\alpha) = 1 - 2\sin^2(\alpha)"
+                plug_tex = rf"1 - 2\left({sin_a_tex}\right)^2"
+                ans = (1 - 2 * sin_a**2).simplify_full()
+        else: # tan
+            identity = r"\tan(2\alpha) = \frac{2\tan(\alpha)}{1 - \tan^2(\alpha)}"
+            plug_tex = rf"\frac{{2\left({tan_a_tex}\right)}}{{1 - \left({tan_a_tex}\right)^2}}"
+            ans = ((2 * tan_a) / (1 - tan_a**2)).simplify_full()
 
-        elif outer == "sin":
-            identity = r"\sin(2\alpha)=2\sin\alpha\cos\alpha"
+        # Helper to force the final answer to render as \frac{num}{den}
+        def format_final(expr):
+            num = expr.numerator()
+            den = expr.denominator()
+            if den == 1:
+                return latex(num)
+            
+            num_str = latex(num)
+            den_str = latex(den)
+            # Safely extract negatives to the front of the fraction
+            if num_str.startswith("-"):
+                return rf"-\frac{{{num_str[1:]}}}{{{den_str}}}"
+            return rf"\frac{{{num_str}}}{{{den_str}}}"
 
-            if inv in ["sin", "csc"]:
-                final_answer = rf"2\left({sin_a}\right)\left({cos_a}\right)"
-            elif inv in ["cos", "sec"]:
-                final_answer = rf"2\left({sin_b}\right)\left({cos_b}\right)"
+        ans_tex = format_final(ans)
+
+        # --- Build the Step-by-Step Solution ---
+        step1 = rf"\text{{Let }} \alpha = \{inv}^{{-1}}\left({arg_tex}\right)."
+        step2 = r"\text{Using the reference triangle, we define the sides based on the inverse function:}"
+        step3 = rf"x = {x_tex}, \quad y = {y_tex}, \quad r = {r_tex}"
+        
+        step4 = r"\text{From this, we write the required trigonometric ratios:}"
+        
+        # Only show the identities needed for the specific formula
+        if outer == "sin":
+            step5 = rf"\sin(\alpha) = {sin_a_tex}, \quad \cos(\alpha) = {cos_a_tex}"
+        elif outer == "cos":
+            if inv in ["cos", "sec"]:
+                step5 = rf"\cos(\alpha) = {cos_a_tex}"
             else:
-                final_answer = rf"\frac{{2{arg}}}{{1+{arg_sq}}}"
+                step5 = rf"\sin(\alpha) = {sin_a_tex}"
+        else:
+            step5 = rf"\tan(\alpha) = {tan_a_tex}"
+        
+        step6 = r"\text{Apply the double-angle identity:}"
+        step7 = rf"\{outer}(2\alpha) = {identity}"
+        step8 = rf"\{outer}(2\alpha) = {plug_tex}"
+        
+        step9 = r"\text{Simplify the algebraic expression:}"
+        step10 = rf"\{outer}(2\alpha) = {ans_tex}"
 
-        else:  # tan
-            identity = r"\tan(2\alpha)=\frac{2\tan\alpha}{1-\tan^2\alpha}"
-            final_answer = rf"\frac{{2{arg}}}{{1-{arg_sq}}}"
+        outtro_lines = [
+            f"    <p><em>Solution:</em></p>",
+            f"    <p><m>{step1}</m></p>",
+            f"    <p><m>{step2}</m></p>",
+            f"    <p><m>{step3}</m></p>",
+            f"    <p><m>{step4}</m></p>",
+            f"    <p><m>{step5}</m></p>",
+            f"    <p><m>{step6}</m></p>",
+            f"    <p><m>{step7}</m></p>",
+            f"    <p><m>{step8}</m></p>",
+            f"    <p><m>{step9}</m></p>",
+            f"    <p><m>{step10}</m></p>"
+        ]
 
-        # ----------------------------
-        # Outro
-        # ----------------------------
+        solution_steps = "\n".join(outtro_lines)
 
-        outtro = rf"""
-<outtro>
-    <p><strong>Solution:</strong></p>
-
-    <p>
-        Let <m>\alpha=\{inv}^{{-1}}\!\left({arg}\right)</m>.
-    </p>
-
-    <p>
-        Using the identity <m>{identity}</m>:
-    </p>
-
-    <p>
-        <m>{final_answer}</m>
-    </p>
-
-    <p>
-        <strong>Final Answer:</strong>
-        <m>{final_answer}</m>
-    </p>
-</outtro>
-"""
+        # Clear assumptions so it doesn't pollute the next generation cycle
+        forget(u > 0)
 
         return {
-            "expression_me": expression_me,
-            "outtro": outtro
+            "expression_tex": expression_tex,
+            "solution_steps": solution_steps
         }
