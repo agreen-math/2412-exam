@@ -250,6 +250,24 @@
             </description>
         </outcome>
 
+        <outcome>
+            <title>Evaluate an Algebraic Half-Angle Composition</title>
+            <slug>Composition_Algebraic_Half_Angle</slug>
+            <path>outcomes/Composition_Algebraic_Half_Angle</path>
+            <description>
+                Write the expression as an algebraic expression in u.
+            </description>
+        </outcome>
+
+        <outcome>
+            <title>Evaluate an Algebraic Double-Angle Composition</title>
+            <slug>Composition_Algebraic_Double_Angle</slug>
+            <path>outcomes/Composition_Algebraic_Double_Angle</path>
+            <description>
+                Write the expression as an algebraic expression in u.
+            </description>
+        </outcome>
+
 
 
 

@@ -1,0 +1,15 @@
+<knowl xmlns="http://www.checkit.math.illinois.edu/ns" version="0.6">
+
+    <content>
+        <p>
+            Write the following expression as an algebraic
+            (non-trigonometric) expression in <m>u</m>.
+            Always assume <m>u&gt;0</m>.
+        </p>
+
+        <p>{{{expression_me}}}</p>
+    </content>
+
+    {{{outtro}}}
+
+</knowl>

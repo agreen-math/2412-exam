@@ -21,13 +21,28 @@ Finished configuring codespace.
 Quick instructions:
 
 ```
-sage --python -m checkit generate  # add -ri to get images (slow)
+sage --python scripts/checkit_generate.py -r -o ALL  # add -i to get images (slow)
 sage --python -m checkit viewer
 sage --python -m http.server 8000 -d docs --bind 0.0.0.0
 ```
+
+Note: `checkit viewer` builds files in `docs/` but does not start a web server.
+You must serve `docs/` over HTTP.
+
 This regenerates a particular outcome:
 
-sage --python -m checkit generate -r -o name_of_outcome_folder
+sage --python scripts/checkit_generate.py -r -o outcome_slug_from_bank_xml
+
+Example:
+
+sage --python scripts/checkit_generate.py -r -o Composition_Algebraic_Half_Angle
+
+If the viewer looks blank:
+
+1. Ensure data is generated for all outcomes: `sage --python scripts/checkit_generate.py -r -o ALL`
+2. Rebuild viewer files: `sage --python -m checkit viewer`
+3. Start server: `sage --python -m http.server 8000 -d docs --bind 0.0.0.0`
+4. Open forwarded port 8000 and hard refresh the page.
 
 If you open forwarded port 8000 before starting the server, Codespaces will return HTTP 502.
 
