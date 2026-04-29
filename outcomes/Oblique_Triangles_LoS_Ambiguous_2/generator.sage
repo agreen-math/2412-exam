@@ -47,7 +47,9 @@ class Generator(BaseGenerator):
         step2a = r"\text{Step 2: Check if a second triangle is possible.}"
         step2b = rf"\text{{The theoretical second angle is }} B_2 = 180^\circ - {B1_format}^\circ = {B2_format}^\circ."
         step2c = rf"\text{{Check if it fits with the given angle }} A: {A}^\circ + {B2_format}^\circ = {sum_format}^\circ."
-        step2d = rf"\text{{Since }} {sum_format}^\circ < 180^\circ \text{{, there is room for a third angle! There are exactly TWO valid triangles.}}"
+        
+        # BUG FIX: Replaced < with &lt; so the XML parser doesn't crash!
+        step2d = rf"\text{{Since }} {sum_format}^\circ &lt; 180^\circ \text{{, there is room for a third angle! There are exactly TWO valid triangles.}}"
 
         step3a = r"\text{Step 3: Solve Triangle 1 (using } B_1 \text{).}"
         step3b = rf"\angle C_1 = 180^\circ - \angle A - B_1 \approx 180^\circ - {A}^\circ - {B1_format}^\circ = {C1_format}^\circ"
@@ -68,12 +70,12 @@ class Generator(BaseGenerator):
             f"    <p><m>{step2b}</m></p>",
             f"    <p><m>{step2c}</m></p>",
             f"    <p><strong><m>{step2d}</m></strong></p>",
-            f"    <hr/>",
+            f"    <p>---</p>",
             f"    <p><m>{step3a}</m></p>",
             f"    <p><m>{step3b}</m></p>",
             f"    <p><m>{step3c}</m></p>",
             f"    <p><m>{step3d}</m></p>",
-            f"    <hr/>",
+            f"    <p>---</p>",
             f"    <p><m>{step4a}</m></p>",
             f"    <p><m>{step4b}</m></p>",
             f"    <p><m>{step4c}</m></p>",
