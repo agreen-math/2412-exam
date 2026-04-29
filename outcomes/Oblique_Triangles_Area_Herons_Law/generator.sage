@@ -3,38 +3,51 @@ import random
 
 class Generator(BaseGenerator):
     def data(self):
-        # Generate side lengths that satisfy the triangle inequality
-        a = round(random.uniform(6.0, 12.0), 2)
-        b = round(random.uniform(7.0, 13.0), 2)
+        # Generate side lengths rounded to 1 decimal place to keep input clean
+        a = round(random.uniform(15.0, 40.0), 1)
+        b = round(random.uniform(15.0, 40.0), 1)
+        
+        # Ensure c produces a valid oblique triangle (a + b > c, etc.)
+        c = round(random.uniform(abs(a - b) + 2.0, a + b - 2.0), 1)
 
-        # Ensure c produces a valid oblique triangle
-        c = round(random.uniform(abs(a - b) + 1.0, a + b - 1.0), 2)
+        # Calculate semi-perimeter
+        s = (a + b + c) / 2.0
 
-        # Semi-perimeter
-        s = (a + b + c) / 2
-
-        # Heron's formula
+        # Calculate area using Heron's formula
         area = sqrt(s * (s - a) * (s - b) * (s - c))
 
-        # Format variables for clean display
-        s_val = round(float(s), 2)
-        area_val = round(float(area), 2)
+        # Format to strictly two decimal places to match the prompt's instructions
+        s_format = f"{s:.2f}" 
+        area_format = f"{area:.2f}"
 
-        # Build the mathematical steps for the Zero-Text Rule
-        step1 = rf"s = \frac{{{a} + {b} + {c}}}{{2}} = {s_val}"
-        step2 = rf"\text{{Area}} = \sqrt{{{s_val}({s_val} - {a})({s_val} - {b})({s_val} - {c})}}"
-        step3 = rf"\text{{Area}} \approx {area_val}"
+        # --- Build Step-by-Step Solution ---
+        step1a = r"\text{Step 1: Calculate the semi-perimeter } s."
+        step1b = r"s = \frac{a + b + c}{2}"
+        step1c = rf"s = \frac{{{a} + {b} + {c}}}{{2}} = {s_format}"
+        
+        step2a = r"\text{Step 2: Apply Heron's Formula.}"
+        step2b = r"\text{Area} = \sqrt{s(s - a)(s - b)(s - c)}"
+        step2c = rf"\text{{Area}} = \sqrt{{{s_format}({s_format} - {a})({s_format} - {b})({s_format} - {c})}}"
+        
+        # Show the intermediate product inside the square root to help students catch calculation errors
+        inside_root = float(s * (s - a) * (s - b) * (s - c))
+        step2d = rf"\text{{Area}} = \sqrt{{{inside_root:.4f}}} \approx {area_format}"
 
         outtro_lines = [
-            f"    <p><m>{step1}</m></p>",
-            f"    <p><m>{step2}</m></p>",
-            f"    <p><m>{step3}</m></p>"
+            f"    <p><m>{step1a}</m></p>",
+            f"    <p><m>{step1b}</m></p>",
+            f"    <p><m>{step1c}</m></p>",
+            f"    <p><m>{step2a}</m></p>",
+            f"    <p><m>{step2b}</m></p>",
+            f"    <p><m>{step2c}</m></p>",
+            f"    <p><m>{step2d}</m></p>"
         ]
-        outtro = "<outtro>\n" + "\n".join(outtro_lines) + "\n</outtro>"
+        
+        solution_steps = "\n".join(outtro_lines)
 
         return {
             "a": a,
             "b": b,
             "c": c,
-            "outtro": outtro
+            "solution_steps": solution_steps
         }

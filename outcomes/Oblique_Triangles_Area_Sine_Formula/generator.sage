@@ -37,5 +37,6 @@ class Generator(BaseGenerator):
             "a": a,
             "b": b,
             "C": C,
+            "Area": formatted_area, # Fallback variable just in case!
             "solution_steps": solution_steps
         }

@@ -1,93 +1,97 @@
 from sage.all import *
-import re
+import random
+
+# ==============================================================================
+# MODULE-LEVEL PRECOMPUTATION:
+# Runs ONCE. Stores symbolic values and forces pretty LaTeX formatting.
+# ==============================================================================
+
+tex_map = {
+    0: r"0", 
+    1: r"1", 
+    -1: r"-1",
+    1/2: r"\frac{1}{2}", 
+    -1/2: r"-\frac{1}{2}",
+    2: r"2", 
+    -2: r"-2",
+    sqrt(3)/2: r"\frac{\sqrt{3}}{2}", 
+    -sqrt(3)/2: r"-\frac{\sqrt{3}}{2}",
+    sqrt(2)/2: r"\frac{\sqrt{2}}{2}", 
+    -sqrt(2)/2: r"-\frac{\sqrt{2}}{2}",
+    sqrt(3)/3: r"\frac{\sqrt{3}}{3}", 
+    -sqrt(3)/3: r"-\frac{\sqrt{3}}{3}",
+    2*sqrt(3)/3: r"\frac{2\sqrt{3}}{3}", 
+    -2*sqrt(3)/3: r"-\frac{2\sqrt{3}}{3}",
+    sqrt(3): r"\sqrt{3}", 
+    -sqrt(3): r"-\sqrt{3}",
+    sqrt(2): r"\sqrt{2}", 
+    -sqrt(2): r"-\sqrt{2}"
+}
+
+angles = [
+    0, pi/6, pi/4, pi/3, pi/2, 2*pi/3, 3*pi/4, 5*pi/6, 
+    pi, 7*pi/6, 5*pi/4, 4*pi/3, 3*pi/2, 5*pi/3, 7*pi/4, 11*pi/6
+]
+
+funcs = ["sin", "cos", "tan", "csc", "sec", "cot"]
+
+uc_table = {ang: {} for ang in angles}
+
+for ang in angles:
+    for f in funcs:
+        if f in ["tan", "sec"] and cos(ang) == 0:
+            uc_table[ang][f] = None
+        elif f in ["csc", "cot"] and sin(ang) == 0:
+            uc_table[ang][f] = None
+        else:
+            # Native SageMath evaluation
+            uc_table[ang][f] = {
+                "sin": sin(ang), "cos": cos(ang), "tan": tan(ang),
+                "csc": csc(ang), "sec": sec(ang), "cot": cot(ang)
+            }[f]
+
+
+# ==============================================================================
+# GENERATOR CLASS
+# ==============================================================================
 
 class Generator(BaseGenerator):
     def data(self):
-        # Build the unit circle dynamically for all 6 trig functions
-        # Stored as: (deg, rad, sin, cos, tan, csc, sec, cot)
-        uc = []
-        for deg, rad, s, c in [
-            (0, 0, 0, 1),
-            (30, pi/6, 1/2, sqrt(3)/2),
-            (45, pi/4, sqrt(2)/2, sqrt(2)/2),
-            (60, pi/3, sqrt(3)/2, 1/2),
-            (90, pi/2, 1, 0),
-            (120, 2*pi/3, sqrt(3)/2, -1/2),
-            (135, 3*pi/4, sqrt(2)/2, -sqrt(2)/2),
-            (150, 5*pi/6, 1/2, -sqrt(3)/2),
-            (180, pi, 0, -1),
-            (210, 7*pi/6, -1/2, -sqrt(3)/2),
-            (225, 5*pi/4, -sqrt(2)/2, -sqrt(2)/2),
-            (240, 4*pi/3, -sqrt(3)/2, -1/2),
-            (270, 3*pi/2, -1, 0),
-            (300, 5*pi/3, -sqrt(3)/2, 1/2),
-            (315, 7*pi/4, -sqrt(2)/2, sqrt(2)/2),
-            (330, 11*pi/6, -1/2, sqrt(3)/2)
-        ]:
-            t = s/c if c != 0 else None
-            csc = 1/s if s != 0 else None
-            sec = 1/c if c != 0 else None
-            cot = c/s if s != 0 else None
-            uc.append((deg, rad, s, c, t, csc, sec, cot))
+        data_dict = {}
 
-        funcs = ["sin", "cos", "tan", "csc", "sec", "cot"]
-        func_idx = {"sin": 2, "cos": 3, "tan": 4, "csc": 5, "sec": 6, "cot": 7}
-
-        def dfrac(x):
-            if x == 0:
-                return "0"
-            s = latex(x).replace(r"\frac{", r"\dfrac{")
-
-            def repl_sqrt(m):
-                num, den, rad = m.group(1), m.group(2), m.group(3)
-                if num == "1":
-                    return rf"\dfrac{{{rad}}}{{{den}}}"
-                return rf"\dfrac{{{num}{rad}}}{{{den}}}"
-
-            def repl_pi(m):
-                num, den = m.group(1), m.group(2)
-                if num == "1":
-                    return rf"\dfrac{{\pi}}{{{den}}}"
-                return rf"\dfrac{{{num}\pi}}{{{den}}}"
-
-            # Rewrite forms like \dfrac{1}{2} \, \sqrt{3} to \dfrac{\sqrt{3}}{2}
-            s = re.sub(r"\\dfrac\{([0-9]+)\}\{([0-9]+)\}\s*\\,\s*(\\sqrt\{[^}]+\})", repl_sqrt, s)
-            # Rewrite forms like \dfrac{1}{2} \, \pi to \dfrac{\pi}{2}
-            s = re.sub(r"\\dfrac\{([0-9]+)\}\{([0-9]+)\}\s*\\,\s*\\pi", repl_pi, s)
-            return s
-
-        content_lines = []
-        outtro_lines = []
-
-        for i in range(6):
-            is_degree = (i < 3)
-            func = choice(funcs)
-            idx = func_idx[func]
+        for i in range(1, 7):
+            is_degree = (i <= 3) # First 3 in degrees, last 3 in radians
+            func = random.choice(funcs)
             
-            # Pick a target value that actually exists in the unit circle for this function
-            target_val = choice(uc)[idx]
-
+            # Pick a random angle to guarantee we are searching for a valid unit-circle value
+            target_angle = random.choice(angles)
+            target_val = uc_table[target_angle][func]
+            
+            # Instant dictionary lookup to find all angles that match target_val
+            sols = []
+            for ang in angles:
+                val = uc_table[ang][func]
+                if target_val is None and val is None:
+                    sols.append(ang)
+                # Use boolean equality to safely compare the precomputed SageMath expressions
+                elif target_val is not None and val is not None and bool(val == target_val):
+                    sols.append(ang)
+            
+            # Format the prompt natively using our pretty tex_map!
             if target_val is None:
                 stmt = rf"\{func}\theta \text{{ is undefined}}"
             else:
-                stmt = rf"\{func}\theta = {dfrac(target_val)}"
+                pretty_val = tex_map.get(target_val, latex(target_val))
+                stmt = rf"\{func}\theta = {pretty_val}"
                 
-            sols = [u for u in uc if u[idx] == target_val]
-
+            # Format the solutions appropriately based on the domain
             if is_degree:
-                domain_str = r"[0^\circ, 360^\circ)"
-                answers = [rf"{u[0]}^\circ" for u in sols]
+                ans_str = ", ".join([rf"{int(ang * 180 / pi)}^\circ" for ang in sols])
             else:
-                domain_str = r"[0, 2\pi)"
-                answers = [dfrac(u[1]) for u in sols]
+                ans_str = ", ".join([latex(ang) for ang in sols])
+                
+            # Pass the raw variables directly to the XML
+            data_dict[f"q{i}_stmt"] = stmt
+            data_dict[f"q{i}_ans"] = ans_str
 
-            letter = chr(97 + i)  # 'a', 'b', 'c', etc.
-            ans_str = ", ".join(answers)
-
-            content_lines.append(f"    <p><m>({letter}) \\quad {domain_str}: \\quad {stmt}, \\quad \\theta = \\underline{{\\hspace{{1.2in}}}}</m></p>")
-            outtro_lines.append(f"    <p><m>({letter}) \\quad \\theta = {ans_str}</m></p>")
-
-        return {
-            "content_list": "\n".join(content_lines),
-            "outtro": "<outtro>\n" + "\n".join(outtro_lines) + "\n</outtro>"
-        }
+        return data_dict

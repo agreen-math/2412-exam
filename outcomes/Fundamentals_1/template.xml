@@ -9,5 +9,7 @@
         <p>(e) <m>{{q5}} =</m></p>
         <p>(f) <m>{{q6}} =</m></p>
     </content>
-    {{{outtro}}}
+    <outtro>
+        {{{solution_steps}}}
+    </outtro>
 </knowl>

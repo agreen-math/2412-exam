@@ -21,7 +21,7 @@ Finished configuring codespace.
 Quick instructions:
 
 ```
-sage --python scripts/checkit_generate.py -r -o ALL  # add -i to get images (slow)
+sage --python -m checkit generate -r -o # add -i to get images (slow)
 sage --python -m checkit viewer
 sage --python -m http.server 8000 -d docs --bind 0.0.0.0
 ```

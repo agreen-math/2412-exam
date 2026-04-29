@@ -5,5 +5,7 @@
         <p>Triangle <m>ABC</m> has side lengths <m>a = {{a}}</m>, <m>b = {{b}}</m>, and <m>c = {{c}}</m>.</p>
         <p>Round your answer to the nearest hundredth.</p>
     </content>
-    {{{outtro}}}
+    <outtro>
+        {{{solution_steps}}}
+    </outtro>
 </knowl>

@@ -7,5 +7,7 @@
         <p><me>{{expr1}}</me></p>
         <p><me>{{expr2}}</me></p>
     </content>
-    {{{outtro}}}
+    <outtro>
+        {{{solution_steps}}}
+    </outtro>
 </knowl>
