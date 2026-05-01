@@ -2,9 +2,9 @@
 <knowl mode="exercise" xmlns="https://spatext.clontz.org" version="0.2">
     <intro>
         <p>
-            Use the table to identify the transformations of the toolkit function described by the equation. Circle the option that applies and fill in the blanks as appropriate to describe the transformations of the given function. If one does not apply, you may leave it blank. Then sketch the graph of the transformed function on the grid below. Indicate any asymptotes with dashed lines.
+            Use the table to identify the transformations of the toolkit function described by the equation. Circle the option that applies and fill in the blanks as appropriate to describe the transformations of the given function. If one does not apply, you may leave it blank. Then sketch the transformed graph, indicating any asymptotes with dashed lines, and state the resulting domain and range.
         </p>
-        <p> <m>f(x) = {{expr}}</m></p>
+        <p><m>f(x) = {{expr}}</m></p>
     </intro>
     <content>
         <p>
@@ -47,5 +47,17 @@
                 {{graph_sol}}
             </me>
         </p>
-    </outtro>
+<p><strong>Domain and Range:</strong></p>
+        <list>
+            <item>
+                <p>
+                    <m>\textbf{Domain: } {{domain}}</m>
+                </p>
+            </item>
+            <item>
+                <p>
+                    <m>\textbf{Range: } {{range}}</m>
+                </p>
+            </item>
+        </list>    </outtro>
 </knowl>

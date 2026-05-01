@@ -68,8 +68,11 @@ class Generator(BaseGenerator):
         log_align.append(rf"0 &= {latex(quad_expr)}")
         log_align.append(rf"0 &= ({latex(factor1)})({latex(factor2)})")
         
-        log_sol_steps = r"\begin{aligned} " + r" \\ ".join(log_align) + r" \end{aligned}"
-        log_ans = rf"x = {sol_log} \quad \text{{(Extraneous: }} x = {ext_log} \text{{)}}"
+        # We can safely use raw & here because the template will escape it
+        log_steps = r"\begin{aligned} " + r" \\ ".join(log_align) + r" \end{aligned}"
+        
+        # FIX: Doubled the curly braces for the \boxed command
+        log_ans = rf"\boxed{{x = {sol_log}}} \quad \text{{(Extraneous: }} x = {ext_log} \text{{)}}"
         
         
         # --- EXPONENTIAL EQUATION LOGIC ---
@@ -137,40 +140,28 @@ class Generator(BaseGenerator):
                 
         exp_align.append(rf"x &= {ans_str}")
         
-        exp_sol_steps = r"\begin{aligned} " + r" \\ ".join(exp_align) + r" \end{aligned}"
-        exp_ans = rf"x = {ans_str}"
+        exp_steps = r"\begin{aligned} " + r" \\ ".join(exp_align) + r" \end{aligned}"
+        
+        # FIX: Doubled the curly braces for the \boxed command
+        exp_ans = rf"\boxed{{x = {ans_str}}}"
         
         
         # --- RANDOMIZE PART A AND PART B ORDER ---
-        is_log_first = choice([True, False])
-        
-        if is_log_first:
-            prob_a, prob_b = log_prob, exp_prob
-            outtro_a_steps, outtro_a_ans = log_sol_steps, log_ans
-            outtro_b_steps, outtro_b_ans = exp_sol_steps, exp_ans
+        if choice([True, False]):
+            return {
+                "prob_a": log_prob,
+                "step_a": log_steps,
+                "ans_a": log_ans,
+                "prob_b": exp_prob,
+                "step_b": exp_steps,
+                "ans_b": exp_ans
+            }
         else:
-            prob_a, prob_b = exp_prob, log_prob
-            outtro_a_steps, outtro_a_ans = exp_sol_steps, exp_ans
-            outtro_b_steps, outtro_b_ans = log_sol_steps, log_ans
-            
-        # Dynamically constructing separate outtros to satisfy the Zero-Text Rule
-        outtro_a = (
-            f"<outtro>\n"
-            f"    <p><m>{outtro_a_steps}</m></p>\n"
-            f"    <p><m>{outtro_a_ans}</m></p>\n"
-            f"</outtro>"
-        )
-        
-        outtro_b = (
-            f"<outtro>\n"
-            f"    <p><m>{outtro_b_steps}</m></p>\n"
-            f"    <p><m>{outtro_b_ans}</m></p>\n"
-            f"</outtro>"
-        )
-        
-        return {
-            "prob_a": prob_a,
-            "prob_b": prob_b,
-            "outtro_a": outtro_a,
-            "outtro_b": outtro_b
-        }
+            return {
+                "prob_a": exp_prob,
+                "step_a": exp_steps,
+                "ans_a": exp_ans,
+                "prob_b": log_prob,
+                "step_b": log_steps,
+                "ans_b": log_ans
+            }

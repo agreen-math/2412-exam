@@ -49,8 +49,17 @@
             <slug>C6</slug>
             <path>outcomes/C6</path>
             <description>
-                verify the given identity.
+                Verify the given identity.
             </description>
         </outcome>  
+        <outcome>
+            <title>Solve Trig Eq</title>
+            <slug>C7</slug>
+            <path>outcomes/C7</path>
+            <description>
+                Solve a linear trigonometric equation.
+            </description>
+        </outcome>
+          
     </outcomes>
 </bank>

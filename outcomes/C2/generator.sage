@@ -33,18 +33,18 @@ class Generator(BaseGenerator):
             
         # 3. Format Expression
         if H > 0:
-            inner_str = f"x - {H}" # Shift Right
+            inner_str = rf"x - {H}" # Shift Right
         else:
-            inner_str = f"x + {abs(H)}" # Shift Left
+            inner_str = rf"x + {abs(H)}" # Shift Left
             
-        func_part = f"\\log_{{{b}}}({inner_str})"
+        func_part = rf"\log_{{{b}}}({inner_str})"
             
         if K > 0:
-            k_str = f" + {K}"
+            k_str = rf" + {K}"
         else:
-            k_str = f" - {abs(K)}"
+            k_str = rf" - {abs(K)}"
             
-        expr = f"{func_part}{k_str}"
+        expr = rf"{func_part}{k_str}"
         
         # 4. Table Answers
         h_ref_ans = "NO"
@@ -72,7 +72,7 @@ class Generator(BaseGenerator):
             \draw[step=1cm, black!60] (-10,-10) grid (10,10);
             \draw[very thick, <->] (-10.5,0) -- (10.5,0);
             \draw[very thick, <->] (0,-10.5) -- (0,10.5);
-        """
+"""
         
         # --- Blank Graph ---
         graph_blank = r"\begin{tikzpicture}[scale=0.39,>=triangle 45]" + grid_setup + r"\end{tikzpicture}"
@@ -80,17 +80,21 @@ class Generator(BaseGenerator):
         # --- Solution Graph ---
         graph_sol = r"\begin{tikzpicture}[scale=0.39,>=triangle 45]" + grid_setup
         graph_sol += r"\clip (-10.5,-10.5) rectangle (10.5,10.5);"
-        graph_sol += f"\\draw[dashed, red, thick] ({H}, -10.5) -- ({H}, 10.5);"
+        graph_sol += rf"\draw[dashed, red, thick] ({H}, -10.5) -- ({H}, 10.5);"
         
         # Domain strictly to the right of the asymptote
         domain_start = H + 0.01
         domain_end = 10.5
         
         # TikZ natively uses ln(), so we use the change of base formula
-        trans_func_tikz = f"(ln(\\x - ({H}))/ln({b})) + ({K})"
+        trans_func_tikz = rf"(ln(\x - ({H}))/ln({b})) + ({K})"
             
-        graph_sol += f"\\draw[blue, very thick, samples=100, domain={domain_start}:{domain_end}, smooth] plot (\\x, {{{trans_func_tikz}}});"
+        graph_sol += rf"\draw[blue, very thick, samples=100, domain={domain_start}:{domain_end}, smooth] plot (\x, {{{trans_func_tikz}}});"
         graph_sol += r"\end{tikzpicture}"
+
+        # 6. Domain and Range
+        domain_ans = rf"({H}, \infty)"
+        range_ans = r"(-\infty, \infty)"
 
         return {
             "expr": expr,
@@ -103,5 +107,7 @@ class Generator(BaseGenerator):
             "v_dist": v_trans_dist,
             "v_dir": v_trans_dir,
             "graph_blank": graph_blank,
-            "graph_sol": graph_sol
+            "graph_sol": graph_sol,
+            "domain": domain_ans,
+            "range": range_ans
         }
