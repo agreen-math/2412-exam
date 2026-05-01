@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<knowl mode="exercise" xmlns="https://spatext.clontz.org" version="0.2">
+    <knowl>
+        <content>
+            <p>Solve the following equation. Give exact solutions.</p>
+            <p><m>{{{prob_a}}}</m></p>
+        </content>
+        {{{outtro_a}}}
+    </knowl>
+    <knowl>
+        <content>
+            <p>Solve the following equation. Give exact solutions.</p>
+            <p><m>{{{prob_b}}}</m></p>
+        </content>
+        {{{outtro_b}}}
+    </knowl>
+</knowl>

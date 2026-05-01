@@ -1,104 +1,56 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <bank xmlns="https://checkit.clontz.org" version="0.2">
-    <title>New CheckIt Bank</title>
-    <slug>new-checkit-bank</slug>
-    <url>https://checkit.clontz.org</url>
+    <title>2412 MC Exam Bank</title>
+    <slug>2412-MC</slug>
+    <url>hhttps://github.com/agreen-math/2412-exam</url>
     <outcomes>
         <outcome>
-            <title>Midterm #1</title>
-            <slug>M1</slug>
-            <path>outcomes/M1</path>
+            <title>Diff Quot</title>
+            <slug>C1</slug>
+            <path>outcomes/C1</path>
             <description>
-Evaluate a quadratic function.
+                Evaluate and simplify the difference quotient.
             </description>
         </outcome>
         <outcome>
-            <title>Midterm #2</title>
-            <slug>M2</slug>
-            <path>outcomes/M2</path>
+            <title>Graph Log</title>
+            <slug>C2</slug>
+            <path>outcomes/C2</path>
             <description>
-Find the discriminant.
+                Identify and apply transformations (logarithmic function).
+            </description>
+        </outcome>    
+        <outcome>
+            <title>Solve Exp Log Eq</title>
+            <slug>C3</slug>
+            <path>outcomes/C3</path>
+            <description>
+                Solve exponential and logarithmic equations.
             </description>
         </outcome>
         <outcome>
-            <title>Midterm #3</title>
-            <slug>M3</slug>
-            <path>outcomes/M3</path>
+            <title>Log ID</title>
+            <slug>C4</slug>
+            <path>outcomes/C4</path>
             <description>
-Solve a quadratic equation with complex solutions.
+                Use logarithm identities to determine the exact value of the expression.
             </description>
-        </outcome>
+        </outcome>      
         <outcome>
-            <title>Midterm #4</title>
-            <slug>M4</slug>
-            <path>outcomes/M4</path>
+            <title>Solve Rt Tri (No Inv)</title>
+            <slug>C5</slug>
+            <path>outcomes/C5</path>
             <description>
-Solve a radical equation with no extraneous solutions.
+                Solve a right triangle (not requiring inverse trigonometry).
             </description>
-        </outcome>
+        </outcome>   
         <outcome>
-            <title>Midterm #5</title>
-            <slug>M5</slug>
-            <path>outcomes/M5</path>
+            <title>Verify ID</title>
+            <slug>C6</slug>
+            <path>outcomes/C6</path>
             <description>
-Solve a rational equation with one extraneous solution.
+                verify the given identity.
             </description>
-        </outcome>
-        <outcome>
-            <title>Midterm #6</title>
-            <slug>M6</slug>
-            <path>outcomes/M6</path>
-            <description>
-Find the inverse of a cube root function.
-            </description>
-        </outcome>
-        <outcome>
-            <title>Midterm #7</title>
-            <slug>M7</slug>
-            <path>outcomes/M7</path>
-            <description>
-ASSESSMENT QUESTION :Find the vertex of a quadratic function (projectile motion application).
-            </description>
-        </outcome>
-        <outcome>
-            <title>Midterm #8</title>
-            <slug>M8</slug>
-            <path>outcomes/M8</path>
-            <description>
-Function Composition
-            </description>
-        </outcome>
-        <outcome>
-            <title>Midterm #9</title>
-            <slug>M9</slug>
-            <path>outcomes/M9</path>
-            <description>
-Difference Quotient
-            </description>
-        </outcome>
-        <outcome>
-            <title>Midterm #10</title>
-            <slug>M10</slug>
-            <path>outcomes/M10</path>
-            <description>
-Properties of Quadratic Functions
-            </description>
-        </outcome>
-        <outcome>
-            <title>Midterm #11</title>
-            <slug>M11</slug>
-            <path>outcomes/M11</path>
-            <description>
-Sketching Quadratic Functions
-            </description>
-        </outcome>
-        <outcome>
-            <title>Midterm #12</title>
-            <slug>M12</slug>
-            <path>outcomes/M12</path>
-            <description>
-Transformations of Functions
-            </description>
-        </outcome>
+        </outcome>  
     </outcomes>
 </bank>
