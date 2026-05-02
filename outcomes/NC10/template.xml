@@ -2,7 +2,7 @@
 <knowl mode="exercise" xmlns="https://spatext.clontz.org" version="0.2">
     <content>
         <p>% [GRAPH_TIKZ] <m>{{{graph_tikz}}}</m></p>
-        <p>% [C_MULTI] <m>{{c_multi}}</m></p>
+        <p>% [C_MULTI] <m>{{c_multi_sub}}</m></p>
         <p>% [INF_DIR] <m>{{inf_dir_sub}}</m></p>
         <p>% [CONCEPTUAL] {{{prompt_conceptual}}}</p>
     </content>

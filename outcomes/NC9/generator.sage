@@ -1,6 +1,30 @@
 from sage.all import *
 import random
 
+def format_pi_frac(expr):
+    r"""
+    Forces SageMath to format rational multiples of pi as \frac{a\pi}{b} 
+    instead of \frac{a}{b}\pi.
+    """
+    coeff = expr / pi
+    if coeff in QQ: 
+        num = coeff.numerator()
+        den = coeff.denominator()
+        
+        if num == 0:
+            return "0"
+        
+        sign = "-" if num < 0 else ""
+        num = abs(num)
+        num_str = r"\pi" if num == 1 else rf"{num}\pi"
+        
+        if den == 1:
+            return rf"{sign}{num_str}"
+        else:
+            return rf"{sign}\frac{{{num_str}}}{{{den}}}"
+            
+    return latex(expr)
+
 class Generator(BaseGenerator):
     def data(self):
         # Ensure exactly one quadrantal and one non-quadrantal angle
@@ -28,7 +52,8 @@ class Generator(BaseGenerator):
             if is_quad[i]:
                 if is_rad[i]:
                     theta = choice(quad_rads)
-                    theta_str = latex(theta)
+                    # Used our new formatting helper here
+                    theta_str = format_pi_frac(theta)
                     theta_eval = theta
                 else:
                     deg = choice(quad_degs)
@@ -37,7 +62,8 @@ class Generator(BaseGenerator):
             else:
                 if is_rad[i]:
                     theta = choice(nq_rads)
-                    theta_str = latex(theta)
+                    # Used our new formatting helper here
+                    theta_str = format_pi_frac(theta)
                     theta_eval = theta
                 else:
                     deg = choice(nq_degs)

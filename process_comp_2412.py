@@ -1,13 +1,20 @@
-import argparse
 import re
+import argparse
 import sys
+
+# ==========================================
+# CONSTANTS & CONFIGURATION
+# ==========================================
+
+CALC_PAGE_BREAKS = [1, 2, 3, 4, 5, 6, 8, 10]
+NONCALC_PAGE_BREAKS = [2, 4, 6, 8, 10]
 
 # ==========================================
 # 1. CORE UTILITIES & VACUUM EXTRACTORS
 # ==========================================
 
 def get_braced_content(text, start_index):
-    """Extracts content within nested LaTeX braces."""
+    r"""Extracts content within nested LaTeX braces."""
     if start_index >= len(text) or text[start_index] != "{":
         return None, start_index
     count = 1
@@ -18,265 +25,565 @@ def get_braced_content(text, start_index):
             return text[start_index + 1:i], i + 1
     return None, len(text)
 
-def parse_checkit_item(raw_block):
-    """Surgically splits the clean prompt data from the outtro solutions."""
+def extract_solutions_and_clean(raw_block):
+    r"""
+    Surgically unwraps CheckIt SpaTeXt tags (\stxKnowl, \stxOuttro), 
+    strips the boilerplate preambles, and cleans HTML entities.
+    """
+    # 0. Fast-forward to the actual content to drop the SpaTeXt preambles
     match = re.search(r'\\stxKnowl\s*\{', raw_block)
-    if not match: return "", ""
-    
-    outer_content, _ = get_braced_content(raw_block, match.end() - 1)
-    
-    outtro_match = re.search(r'\\stxOuttro\s*\{', outer_content)
-    if outtro_match:
-        prompt_text = outer_content[:outtro_match.start()].strip()
-        sol_content, _ = get_braced_content(outer_content, outtro_match.end() - 1)
-        sol_content = re.sub(r'^\s*SOLUTION:?\s*', '', sol_content, flags=re.IGNORECASE | re.MULTILINE).strip()
-        return prompt_text, sol_content
-    
-    return outer_content.strip(), ""
-
-def extract_math(text):
-    """Vacuums all math environments from the text block."""
-    matches = re.findall(r'\\\[(.*?)\\\]|\\\((.*?)\\\)', text, re.DOTALL)
-    return [m[0].strip() if m[0] else m[1].strip() for m in matches]
-
-def format_math(math_string):
-    """Wraps math in displaystyle, preventing double-wrapping."""
-    if not math_string: return r"\(\displaystyle{ [\text{MISSING}] }\)"
-    if r'\displaystyle' in math_string:
-        return r"\(" + math_string + r"\)"
-    return r"\(\displaystyle{ " + math_string + r" }\)"
-
-def extract_tikz(text):
-    """Vacuums the TikZ picture environment."""
-    match = re.search(r'\\begin\s*\{tikzpicture\}.*?\\end\s*\{tikzpicture\}', text, re.DOTALL)
-    return match.group(0) if match else "GRAPH MISSING"
-
-def format_solution(sol_text):
-    if not sol_text: return ""
-    return f"\n\\begin{{solution}}\n{sol_text}\n\\end{{solution}}\n"
-
-def extract_comment(tag, text):
-    """Snaps exactly to the hidden anchor variable in the CheckIt output."""
-    m = re.search(rf'%\s*\[{tag}\]\s*(.*)', text)
-    return m.group(1).strip() if m else r"[\text{MISSING}]"
-
-def extract_all_comments(text):
-    """Finds all hidden anchors and returns them as a list of tuples."""
-    return re.findall(r'%\s*\[(.*?)\]\s*(.*)', text)
-
-# ==========================================
-# 2. CUSTOM PRECALC TEMPLATE BUILDERS
-# ==========================================
-
-def build_generic(clean_text, sol, pts=5):
-    maths = extract_math(clean_text)
-    func = format_math(maths[0]) if maths else r"\(\displaystyle{ [\text{MATH MISSING}] }\)"
-    return f"\\question[{pts}] Evaluate, simplify, or solve.\\\\ \\\\ " + func + "\n\\vspace*{\\stretch{1}}\\answerline" + format_solution(sol)
-
-def build_c1_diff_quotient(clean_text, sol):
-    maths = extract_math(clean_text)
-    func = format_math(maths[0]) if maths else "MISSING"
-    return r"\question[10] Evaluate and simplify the difference quotient, \(\displaystyle{\frac{f(x+h)-f(x)}{h}}\), for the function.\\ \\ " + func + "\n\\vspace*{\\stretch{1}}\\answerline" + format_solution(sol)
-
-def build_triangle(clean_text, sol, pts=5):
-    comments = extract_all_comments(clean_text)
-    if comments:
-        parts = [f"\\({k} = {v}\\)" for k, v in comments]
-        joined = ", ".join(parts[:-1]) + ", and " + parts[-1] if len(parts) > 1 else parts[0]
-        math_str = f"Triangle \\(ABC\\) satisfies {joined}."
+    if match:
+        clean_text = raw_block[match.start():]
     else:
-        maths = extract_math(clean_text)
-        math_str = format_math(maths[0]) if maths else "MISSING"
+        clean_text = raw_block
         
-    return f"\\question[{pts}] Solve the triangle for all missing sides and angles. If more than one triangle is possible, find \\textbf{{all}} solutions.\\\\ \\\\ " + math_str + "\n\\vspace*{\\stretch{1}}" + format_solution(sol)
-
-def build_word_problem(clean_text, sol):
-    return r"\question[3] " + clean_text + "\n\\vspace*{\\stretch{2}}\\answerline" + format_solution(sol)
-
-def build_nc1_rational_graph(clean_text, sol):
-    """Ported directly from 1314 process_comp.py"""
-    maths = extract_math(clean_text)
-    func = format_math(maths[0]) if maths else r"\(\displaystyle{ [\text{MATH MISSING}] }\)"
+    # 0.5. Clean HTML entities generated by CheckIt XML
+    clean_text = clean_text.replace('&lt;', '<').replace('&gt;', '>').replace('&amp;', '&')
     
-    y_int = extract_comment('y-int', clean_text)
-    x_int = extract_comment('x-int', clean_text)
-    va = extract_comment('VA', clean_text)
-    ha = extract_comment('HA', clean_text)
-    holes = extract_comment('Holes', clean_text)
+    # 1. Unwrap \stxKnowl
+    while True:
+        match = re.search(r'\\stxKnowl\s*\{', clean_text)
+        if not match: break
+        start = match.end() - 1
+        inner, end_idx = get_braced_content(clean_text, start)
+        if inner is not None:
+            clean_text = clean_text[:match.start()] + inner + clean_text[end_idx:]
+        else:
+            clean_text = clean_text.replace(r'\stxKnowl', '')
+            break
+            
+    # 2. Extract \stxOuttro blocks into sols list
+    sols = []
+    while True:
+        match = re.search(r'\\stxOuttro\s*\{', clean_text)
+        if not match: break
+        start = match.end() - 1
+        inner, end_idx = get_braced_content(clean_text, start)
+        if inner is not None:
+            clean_sol = re.sub(r'^\s*SOLUTION\s*:?\s*', '', inner, flags=re.IGNORECASE).strip()
+            # Strip rogue \newpage commands from solutions
+            clean_sol = clean_sol.replace(r'\newpage', '')
+            if clean_sol: sols.append(clean_sol)
+            clean_text = clean_text[:match.start()] + clean_text[end_idx:]
+        else:
+            clean_text = clean_text.replace(r'\stxOuttro', '')
+            break
+            
+    clean_text = re.sub(r'\\stxTitle\s*\{.*?\}', '', clean_text)
     
-    q_latex = r"\question[12] Identify the given features of the rational function. If a feature does not exist, write \textbf{None}. Then, sketch the graph on the coordinate plane provided. Be sure to graph asymptotes as dashed lines and clearly plot the intercepts and any holes.\\ \\ " + func + "\n"
+    # 3. Strip rogue \newpage commands injected natively by CheckIt's LaTeX template
+    clean_text = clean_text.replace(r'\newpage', '')
     
-    q_latex += r"""
-\begin{multicols}{2}
-{\renewcommand{\arraystretch}{2}
-\begin{tabular}{|c|p{1.5in}|}\hline
-    $y$-intercept & """ + f"\\(\\displaystyle{{ {y_int} }}\\)" + r""" \\ \hline
-    $x$-intercept(s) & """ + f"\\(\\displaystyle{{ {x_int} }}\\)" + r""" \\ \hline
-    Vertical Asymptote(s) & """ + f"\\(\\displaystyle{{ {va} }}\\)" + r""" \\ \hline
-    Horizontal Asymptote & """ + f"\\(\\displaystyle{{ {ha} }}\\)" + r""" \\ \hline
-    Hole(s) & """ + f"\\(\\displaystyle{{ {holes} }}\\)" + r""" \\ \hline
-\end{tabular}}
-
-\vspace{\stretch{1}}
-
-\columnbreak
-\includegraphics[width=3.5in]{blankgraph.PNG}
-
-\end{multicols}"""
-    return q_latex + format_solution(sol)
-
-def build_nc2_exact_values(clean_text, sol):
-    maths = extract_math(clean_text)
-    parts_latex = "\\begin{multicols}{2}\n\\begin{parts}\n"
-    for m in maths:
-        parts_latex += f"\\part {format_math(m)} \\vspace{{36pt}} \\answerline \n"
-    parts_latex += "\\end{parts}\n\\end{multicols}"
-    return r"\question[6] Evaluate the exact values." + "\n" + parts_latex + format_solution(sol)
-
-def build_nc3_trig_eq(clean_text, sol):
-    maths = extract_math(clean_text)
-    parts_latex = "\\begin{multicols}{2}\n\\begin{parts}\n"
-    for m in maths:
-        parts_latex += f"\\part {format_math(m)} \\vspace{{\\stretch{{1}}}} \\answerline \n"
-    parts_latex += "\\end{parts}\n\\end{multicols}"
-    return r"\question[12] Solve the following trigonometric equations." + "\n" + parts_latex + format_solution(sol)
-
-def build_nc4_sinusoidal(clean_text, sol):
-    func = extract_comment('FUNC', clean_text)
-    amp = extract_comment('AMP', clean_text)
-    per = extract_comment('PER', clean_text)
-    ps = extract_comment('PS', clean_text)
+    # Clean up excessive blank lines left behind by deleted blocks
+    clean_text = re.sub(r'\n{3,}', '\n\n', clean_text)
     
-    table = f"""\\begin{{center}}
-{{\\renewcommand{{\\arraystretch}}{{2}}
-\\begin{{tabular}}{{|c|p{{2in}}|}}
-\\hline
-Period & \\(\\displaystyle{{ {per} }}\\) \\\\ \\hline
-Vertical Dilation & \\(\\displaystyle{{ {amp} }}\\) \\\\ \\hline
-Phase Shift & \\(\\displaystyle{{ {ps} }}\\) \\\\ \\hline
-\\end{{tabular}}}}
-\\end{{center}}"""
-    return r"\question[6] Identify the properties of the sinusoidal function:\\ \\ \(\displaystyle{ " + func + r" }\)" + "\n" + table + format_solution(sol)
+    return clean_text.strip(), sols
 
-def build_nc9_and_nc10(clean_text, sol):
-    pt_a = extract_comment('A', clean_text)
-    pt_b = extract_comment('B', clean_text)
+def extract_tag(tag, text, default=r"[\text{MISSING}]"):
+    r"""Extracts a single data anchor."""
+    pattern = rf"%\s*\[{tag}\]\s*(.*)"
+    match = re.search(pattern, text)
+    return match.group(1).strip() if match else default
+
+def extract_all_tags(tag, text):
+    r"""Extracts multiple occurrences of a specific data anchor."""
+    pattern = rf"%\s*\[{tag}\]\s*(.*)"
+    return [m.strip() for m in re.findall(pattern, text)]
+
+def strip_math(text):
+    r"""Removes \(, \), \[, \], and $ from extracted strings to prevent nested math mode errors."""
+    clean = re.sub(r'\\\[|\\\]|\\\(|\\\)', '', text)
+    return clean.replace('$', '').strip()
+
+def extract_math_blocks(text):
+    r"""Extracts all displayed math blocks contained within \( and \) or \[ \]."""
+    text_no_tikz = re.sub(r'\\begin\{tikzpicture\}.*?\\end\{tikzpicture\}', '', text, flags=re.DOTALL)
+    matches = re.findall(r'\\\[(.*?)\\\]|\\\((.*?)\\\)', text_no_tikz, re.DOTALL)
+    results = []
+    for m in matches:
+        for group in m:
+            if group:
+                results.append(group.strip())
+    return results
+
+def extract_array_block(text):
+    r"""Extracts the first LaTeX array environment."""
+    match = re.search(r'(\\begin\{array\}.*?\\end\{array\})', text, re.DOTALL)
+    return match.group(1).strip() if match else r"[\text{ARRAY MISSING}]"
+
+def format_solution(sols, index=0):
+    if not sols or index >= len(sols): 
+        return "\\begin{solution}\n    [\\text{SOLUTION MISSING}]\n\\end{solution}"
+    return f"\\begin{{solution}}\n{sols[index]}\n\\end{{solution}}"
+
+# ==========================================
+# 2. CUSTOM QUESTION BUILDERS (C1-C11, NC1-NC13)
+# ==========================================
+
+def build_c1(text, sols):
+    func = text.strip()
+    return (
+        f"\\question[10] Evaluate and simplify the difference quotient, $\\dfrac{{f(x+h)-f(x)}}{{h}}$, for the function.\\\\ \\\\\n"
+        f"{func}\n"
+        f"{format_solution(sols)}\n"
+        f"\\vspace{{\\stretch{{1}}}}\\answerline\n"
+    )
+
+def build_c2(text, sols):
+    func = text.strip()
+    return (
+        f"\\question[8] Use the table to identify the transformations of the toolkit function described by the equation. Circle the option that applies and fill in the blanks as appropriate to describe the transformations on the given function. If one does not apply, you may leave it blank. Then sketch the transformed graph and state the resulting domain and range.\\\\\n\n"
+        f"{func} \\\\\n\n"
+        f"\\renewcommand{{\\arraystretch}}{{2.5}}\n"
+        f"\\begin{{tabular}}{{|l|l|}}\n"
+        f"\\hline\n"
+        f"\\textbf{{Horizontal Transformations}} & \\textbf{{Vertical Transformations}} \\\\ \\hline\n"
+        f"Reflection: YES or NO & Reflection: YES or NO \\\\ \\hline\n"
+        f"Dilation: \\underline{{\\hspace{{2cm}}}} times as wide & Dilation: \\underline{{\\hspace{{2cm}}}} times as tall \\\\ \\hline\n"
+        f"Translation: \\underline{{\\hspace{{2cm}}}} units LEFT or RIGHT & Translation: \\underline{{\\hspace{{2cm}}}} units UP or DOWN \\\\ \\hline\n"
+        f"\\end{{tabular}}\n\n"
+        f"\\vspace{{\\stretch{{1}}}}\n"
+        f"\\begin{{center}}\n"
+        f"    \\begin{{tikzpicture}}[scale=0.5,>=triangle 45]\n"
+        f"      \\draw [step=1cm, style={{black!60}}] (-10,-10) grid (10,10);\n"
+        f"      \\draw [<->, very thick] (-10.5,0) -- (10.5,0);\n"
+        f"      \\draw [<->, very thick] (0,-10.5) -- (0,10.5);\n"
+        f"    \\end{{tikzpicture}}\n"
+        f"\\end{{center}}\n"
+        f"\\vspace{{\\stretch{{1}}}}\n\n"
+        f"Domain: \\fillin[][2in] \\hspace{{\\stretch{{1}}}} Range: \\fillin[][2in]\n\n"
+        f"{format_solution(sols)}"
+    )
+
+def build_c3(text, sols):
+    eq1 = extract_tag("PROB_A", text, r"[\text{MISSING EQ 1}]")
+    eq2 = extract_tag("PROB_B", text, r"[\text{MISSING EQ 2}]")
+    return (
+        f"\\question[5] Solve each of the following equations. Give exact solutions.\\\\\n"
+        f"\\begin{{parts}}\n"
+        f"\\part\n{eq1}\n{format_solution(sols, 0)}\n\\vspace{{\\stretch{{1}}}}\\answerline\n\n"
+        f"\\part\n{eq2}\n{format_solution(sols, 1)}\n\\vspace{{\\stretch{{1}}}}\\answerline\n"
+        f"\\end{{parts}}"
+    )
+
+def build_c4(text, sols):
+    m_val = strip_math(extract_tag("M_VAL", text))
+    n_val = strip_math(extract_tag("N_VAL", text))
+    p_val = strip_math(extract_tag("P_VAL", text))
     
-    q9 = r"\question[4] Plot the polar coordinates: \(\displaystyle{ " + pt_a + r" }\) and \(\displaystyle{ " + pt_b + r" }\)." + "\n\\vspace*{\\stretch{1}}"
-    q10 = r"\question[4] Convert the polar coordinates to rectangular coordinates: \(\displaystyle{ " + pt_a + r" }\) and \(\displaystyle{ " + pt_b + r" }\)." + "\n\\vspace*{\\stretch{1}}\\answerline" + format_solution(sol)
+    # Strip the CheckIt delimiters and manually wrap with \displaystyle
+    raw_expr = strip_math(extract_tag("EXPR_LATEX", text))
+    expr = f"\\( \\displaystyle {raw_expr} \\)"
     
+    return (
+        f"\\question[5] Use logarithm identities to determine the exact value of the expression, given $\\log_b(m)={m_val}$, $\\log_b(n-1)={n_val}$, and $\\log_b(p)={p_val}$.\\\\ \\\\\n\n"
+        f"{expr}\n"
+        f"{format_solution(sols)}\n"
+        f"\\vspace{{\\stretch{{1}}}}\\answerline"
+    )
+
+def build_c5(text, sols):
+    ang_a = extract_tag("ANGLE_A", text)
+    side_a = extract_tag("GIVEN_SIDE", text)
+    return (
+        f"\\question[5] Right triangle $ABC$ has the following measurements:\\\\\n\n"
+        f"$\\triangle ABC:$ \\qquad {ang_a} \\qquad {side_a}\\\\\n"
+        f"\\begin{{parts}}\n"
+        f"    \\part Sketch the triangle.\n"
+        f"    \\vspace{{\\stretch{{1}}}}\n"
+        f"    \\part Solve $\\triangle ABC$.\\\\\n"
+        f"           \\hspace*{{2.5in}}\n"
+        f"        \\renewcommand{{\\arraystretch}}{{2.5}}\n"
+        f"       \\begin{{tabular}}{{|p{{4cm}}|p{{4cm}}|}}\\hline\n"
+        f"         $A=$  & $a=$ \\\\\\hline\n"
+        f"        $B=$  & $b=$ \\\\\\hline\n"
+        f"        $C=$  & $c=$ \\\\\\hline\n"
+        f"      \\end{{tabular}}\n"
+        f"        \\vspace{{\\stretch{{1}}}}   \n"
+        f"\\end{{parts}}\n"
+        f"{format_solution(sols)}"
+    )
+
+def build_c6(text, sols):
+    eq = extract_tag("EQ", text)
+    return (
+        f"\\question[5] Verify the given identity.\\\\ \\\\\n"
+        f"\\displaystyle{{{eq}}}\n"
+        f"{format_solution(sols)}\n"
+        f"\\vspace{{\\stretch{{1}}}}"
+    )
+
+def build_c7(text, sols):
+    eq = text.strip()
+    return (
+        f"\\question[5] Find all solutions on the interval $[0^\\circ,360^\\circ)$. Round approximate solutions to the nearest tenth of a degree as appropriate.\\\\ \\\\\n"
+        f"{eq}\n"
+        f"{format_solution(sols)}\n"
+        f"\\vspace{{\\stretch{{1}}}}\n"
+        f"\\answerline"
+    )
+
+def build_c8(text, sols):
+    ang_a = extract_tag("ANGLE_A", text)
+    side_a = extract_tag("SIDE_A", text)
+    side_b = extract_tag("SIDE_B", text)
+    return (
+        f"\\question[5] Solve for \\textit{{\\textbf{{all possible}}}} triangles. Round approximate values to the nearest tenth as appropriate. \\emph{{(Note: If only one possible triangle exists, you may leave the other table blank.)}}\n\n"
+        f"$\\triangle{{ABC}}$: \\quad {ang_a} \\qquad {side_a} \\qquad {side_b}\n"
+        f"{format_solution(sols)}\n"
+        f"\\begin{{multicols}}{{2}}\n"
+        f"    \\renewcommand{{\\arraystretch}}{{2.5}}\n"
+        f"\\begin{{tabular}}{{|p{{3cm}}|p{{3cm}}|}}\\hline\n"
+        f"   $A=$  & $a=$ \\\\\\hline\n"
+        f"   $B=$  & $b=$ \\\\\\hline\n"
+        f"   $C=$  & $c=$ \\\\\\hline\n"
+        f"\\end{{tabular}}\n\n"
+        f"\\columnbreak\n\n"
+        f"\\renewcommand{{\\arraystretch}}{{2.5}}\n"
+        f"\\begin{{tabular}}{{|p{{3cm}}|p{{3cm}}|}}\\hline\n"
+        f"   $A=$  & $a=$ \\\\\\hline\n"
+        f"   $B=$  & $b=$ \\\\\\hline\n"
+        f"   $C=$  & $c=$ \\\\\\hline\n"
+        f"\\end{{tabular}}\n"
+        f"\\end{{multicols}}\n"
+        f"\\vspace{{\\stretch{{1}}}}"
+    )
+
+def build_c9(text, sols):
+    return (
+        f"\\question[3]\n{text}\n"
+        f"{format_solution(sols)}\n"
+        f"\\vspace{{\\stretch{{1}}}}\n"
+        f"\\answerline"
+    )
+
+def build_c10(text, sols):
+    eq_x = extract_tag("X_EQ", text)
+    eq_y = extract_tag("Y_EQ", text)
+    return (
+        f"\\question[3] Eliminate the parameter of the pair of parametric equations.\\\\ \\\\\n"
+        f"{eq_x} \\qquad {eq_y}\n"
+        f"{format_solution(sols)}\n"
+        f"\\vspace{{\\stretch{{1}}}}\n"
+        f"\\answerline"
+    )
+
+def build_c11(text, sols):
+    limits = extract_all_tags("LIMIT_PROB", text)
+    while len(limits) < 3: limits.append(r"[\text{MISSING}]")
+    return (
+        f"\\question[6]{{Determine each of the following limits. If the limit does not exist, write \\emph{{DNE}}.}}\n"
+        f"\\begin{{parts}}\n"
+        f"   \\part {limits[0]}\n\\vspace{{\\stretch{{1}}}}\n\\answerline\n"
+        f"   \\part {limits[1]}\n\\vspace{{\\stretch{{1}}}}\n\\answerline\n"
+        f"   \\part {limits[2]}\n\\vspace{{\\stretch{{1}}}}\n\\answerline\n"
+        f"\\end{{parts}}\n"
+        f"{format_solution(sols)}"
+    )
+
+def build_nc1_rational(text, sols):
+    array_data = extract_array_block(text)
+    return (
+        f"\\question[3] Suppose a \\textbf{{rational}} function has the attributes in the table given below. Using only the holes, asymptotes, and intercepts listed, along with as many of the helpful points as required, sketch the graph of the function. \\textit{{\\textbf{{Be careful not to include any intercepts, holes, or asymptotes other than the ones listed.}}}}\\\\\n\n"
+        f"\\begin{{multicols}}{{2}}\n"
+        f"\\renewcommand{{\\arraystretch}}{{2}}\n"
+        f"\\[ {array_data} \\]\n\n"
+        f"\\,\\\\\n"
+        f"\\columnbreak\n\n"
+        f"    \\begin{{tikzpicture}}[scale=0.4,>=triangle 45]\n"
+        f"      \\draw [step=1cm, style={{black!60}}] (-10,-10) grid (10,10);\n"
+        f"      \\draw [<->, very thick] (-10.5,0) -- (10.5,0); \n"
+        f"      \\draw [<->, very thick] (0,-10.5) -- (0,10.5);\n"
+        f"    \\end{{tikzpicture}}\n"
+        f"\\end{{multicols}}\n"
+        f"{format_solution(sols)}\n"
+        f"\\vspace{{\\stretch{{1}}}}"
+    )
+
+def build_nc2(text, sols):
+    math_blocks = extract_math_blocks(text)
+    while len(math_blocks) < 6: math_blocks.append(r"[\text{MISSING}]")
+    return (
+        f"\\question[6] Find the exact value of each of the following expressions.\\\\\n"
+        f"\\begin{{multicols}}{{2}}\n"
+        f"\\begin{{parts}}\n"
+        f"    \\part $\\displaystyle {math_blocks[0]}$  \\hrulefill \\vspace{{36pt}}\n"
+        f"    \\part $\\displaystyle {math_blocks[1]}$  \\hrulefill \\vspace{{36pt}}\n"
+        f"    \\part $\\displaystyle {math_blocks[2]}$  \\hrulefill \\vspace{{36pt}}\n"
+        f"\\columnbreak\n"
+        f"    \\part $\\displaystyle {math_blocks[3]}$  \\hrulefill \\vspace{{12pt}}\n"
+        f"    \\part $\\displaystyle {math_blocks[4]}$  \\hrulefill \\vspace{{12pt}}\n"
+        f"    \\part $\\displaystyle {math_blocks[5]}$  \\hrulefill \n"
+        f"\\end{{parts}}\n"
+        f"\\end{{multicols}}\n"
+        f"{format_solution(sols)}"
+    )
+
+def build_nc3(text, sols):
+    math_blocks = extract_math_blocks(text)
+    while len(math_blocks) < 6: math_blocks.append(r"[\text{MISSING}]")
+    return (
+        f"\\question[10] Find the exact value(s) of $\\theta$ in the indicated units.\n"
+        f"\\begin{{multicols}}{{2}}\n"
+        f"\\begin{{parts}}\n"
+        f"    \\uplevel{{\\textbf{{Degrees: $[0^\\circ,360^\\circ)$}}}} \n"
+        f"    \\vspace{{12pt}}\n"
+        f"    \\part $\\displaystyle {math_blocks[0]}$, so $\\theta=$ \\hrulefill\\\\  \n"
+        f"    \\vspace{{12pt}}\n"
+        f"    \\part $\\displaystyle {math_blocks[1]}$, so $\\theta=$ \\hrulefill\\\\ \n"
+        f"    \\vspace{{12pt}}\n"
+        f"    \\part $\\displaystyle {math_blocks[2]}$, so $\\theta=$ \\hrulefill\\\\ \n"
+        f"    \\vspace{{12pt}}    \n"
+        f"\\columnbreak\n"
+        f"    \\uplevel{{\\textbf{{Radians: $[0,2\\pi)$}}}} \n"
+        f"    \\vspace{{12pt}}\n"
+        f"    \\part $\\displaystyle {math_blocks[3]}$, so $\\theta=$ \\hrulefill\\\\ \n"
+        f"    \\vspace{{12pt}}\n"
+        f"    \\part $\\displaystyle {math_blocks[4]}$, so $\\theta=$ \\hrulefill\\\\ \n"
+        f"    \\vspace{{12pt}}\n"
+        f"    \\part $\\displaystyle {math_blocks[5]}$, so $\\theta=$ \\hrulefill\\\\ \n"
+        f"    \\vspace{{12pt}}\n"
+        f"\\end{{parts}}\n"
+        f"\\end{{multicols}}\n"
+        f"{format_solution(sols)}"
+    )
+
+def build_nc4(text, sols):
+    per = strip_math(extract_tag("PERIOD", text))
+    dil = strip_math(extract_tag("DILATION", text))
+    shift = strip_math(extract_tag("SHIFT", text))
+    return (
+        f"\\question[2]\n"
+        f"Suppose a trigonometric function has the attributes in the table given below. Using only the information provided, sketch the \\textbf{{transformed wave of interest}} for the function of your choice. \\textit{{\\textbf{{Be careful not to include any changes to the function other than the ones listed.}}}}\n\n"
+        f"\\begin{{multicols}}{{2}}\n"
+        f"    Select \\textbf{{one}} of the following functions to sketch. \\textbf{{\\textit{{You MUST indicate your selection to earn credit}}}}.\n"
+        f"    \\begin{{checkboxes}}\n"
+        f"    \\choice Sine   \n"
+        f"    \\choice Cosine    \n"
+        f"    \\choice Tangent\n"
+        f"\\end{{checkboxes}}\n\n"
+        f"\\columnbreak\n"
+        f"\\hspace{{1in}}{{\n"
+        f"    \\renewcommand{{\\arraystretch}}{{2}}\n"
+        f"\\begin{{tabular}}{{ |r|c| }} \n"
+        f" \\hline\n"
+        f" Period: & ${per}$ \\\\\\hline\n"
+        f" Vert. Dilation: & ${dil}$\\\\\\hline\n"
+        f" Phase Shift: & ${shift}$ \\\\\\hline\n"
+        f"\\end{{tabular}}}}\n"
+        f"\\end{{multicols}}\n\n"
+        f"\\vspace{{0.25in}}\n"
+        f"\\begin{{center}}\n"
+        f"    \\begin{{tikzpicture}}[scale=.75,>=triangle 45] \n"
+        f"        % Draw horizontal axis\n"
+        f"        \\draw[<->, very thick] (-10, 0) -- (10, 0);\n"
+        f"        % Draw vertical axis\n"
+        f"        \\draw[<->, very thick] (0, -3) -- (0, 3);\n"
+        f"    \\end{{tikzpicture}}\n"
+        f"\\end{{center}}\n"
+        f"\\vspace{{0.25in}}\n"
+        f"{format_solution(sols)}"
+    )
+
+def build_nc5(text, sols):
+    given = extract_tag("GIVEN", text)
+    interval = extract_tag("INTERVAL", text)
+    return (
+        f"\\question[3]\n"
+        f"Given {given} and with {interval}, use identities to find \\(\\sin(2\\theta)\\).\\\\\n"
+        f"{format_solution(sols)}\n"
+        f"    \\vspace{{\\stretch{{1}}}}\n"
+        f"    \\answerline"
+    )
+
+def build_nc6(text, sols):
+    eq = text.strip()
+    return (
+        f"\\question[3]\n"
+        f"Write the composition of trigonometric functions as an algebraic (non-trigonometric) expression in \\(u\\) with \\(u > 0\\).\\\\ \\\\\n"
+        f"{eq}\n"
+        f"{format_solution(sols)}\n"
+        f"    \\vspace{{\\stretch{{1}}}}\n"
+        f"    \\answerline"
+    )
+
+def build_nc7(text, sols):
+    eq = text.strip()
+    return (
+        f"\\question[3]\n"
+        f"Solve the following trigonometric equation on the interval \\([0, 2\\pi)\\).\\\\ \\\\\n"
+        f"{eq}\n"
+        f"{format_solution(sols)}\n"
+        f"    \\vspace{{\\stretch{{1}}}}\n"
+        f"    \\answerline"
+    )
+
+def build_nc8(text, sols):
+    # Strip existing delimiters and force displaystyle wrapper
+    raw_eq = strip_math(text)
+    eq = f"\\( \\displaystyle {raw_eq} \\)"
+    
+    return (
+        f"\\question[3]\n"
+        f"Solve for exact values of \\(x\\).\\\\ \\\\\n"
+        f"{eq}\n"
+        f"{format_solution(sols)}\n"
+        f"    \\vspace{{\\stretch{{1}}}}\n"
+        f"    \\answerline"
+    )
+
+def build_nc9_nc10(text, sols):
+    pt_a = strip_math(extract_tag("PT_A", text))
+    pt_b = strip_math(extract_tag("PT_B", text))
+    
+    q9 = (
+        f"\\question[1] Plot \\textbf{{\\textit{{and label}}}} the given polar coordinates.\n"
+        f"\\begin{{multicols}}{{2}}\n"
+        f"\\begin{{parts}}\n"
+        f"    \\vspace*{{.01 in}}\n"
+        f"    \\part ${pt_a}$\\vspace{{.5 in}}\n"
+        f"    \\part ${pt_b}$\\vspace{{.5 in}}\n"
+        f"    \\vspace*{{.5 in}}\n"
+        f"\\end{{parts}}\n"
+        f"\\columnbreak\n"
+        f"\\includegraphics[width=3in]{{10. Final/Images/Polar.pdf}}\n"
+        f"\\end{{multicols}}"
+    )
+    q10 = (
+        f"\\question[2] Convert the previous polar coordinates $A = {pt_a}$ and $B = {pt_b}$ to rectangular coordinates.\n"
+        f"    \\begin{{parts}}\n"
+        f"    \\part ${pt_a}$\\vspace{{\\stretch{{1}}}}\\answerline\n"
+        f"    \\part ${pt_b}$\\vspace{{\\stretch{{1}}}}\\answerline\n"
+        f"    \\end{{parts}}\n"
+        f"{format_solution(sols)}"
+    )
     return q9, q10
 
-def build_nc11_to_nc13(clean_text, sol):
-    tikz = extract_tikz(clean_text)
-    maths = extract_math(clean_text)
+def build_nc11_nc13(text, sols):
+    raw_graph = extract_tag("GRAPH_TIKZ", text)
     
-    parts_latex = "\\begin{parts}\n"
-    for m in maths[0:4]:
-        parts_latex += f"\\part {format_math(m)} = \\vspace{{.15in}} \\answerline \n"
-    parts_latex += "\\end{parts}"
+    # Safely extract ONLY the tikzpicture to prevent Overleaf compiling TikZ inside an inline math wrapper
+    tikz_match = re.search(r'\\begin\{tikzpicture\}.*?\\end\{tikzpicture\}', raw_graph, re.DOTALL)
+    graph_tikz = tikz_match.group(0) if tikz_match else raw_graph
     
-    q11 = r"\question[8] Evaluate the given limits based on the graph of $f(x)$." + "\n\\begin{center}\n" + tikz + "\n\\end{center}\n" + parts_latex + format_solution(sol)
+    # FIX: CheckIt generators using SageMath sometimes export exponents as ** instead of ^
+    # When this hits the pgfmath engine in a \draw plot command, it throws a "Missing number" error.
+    # We replace any instances of ** with ^ to ensure proper LaTeX rendering.
+    graph_tikz = graph_tikz.replace('**', '^')
     
-    q12_math = format_math(maths[4]) if len(maths) > 4 else "MISSING"
-    q12 = r"\question[3] Evaluate.\\\\ \\\\ " + q12_math + "\n\\vspace*{\\stretch{1}}\\answerline"
+    c_multi = strip_math(extract_tag("C_MULTI", text))
+    inf_dir = strip_math(extract_tag("INF_DIR", text))
+    conceptual = extract_tag("CONCEPTUAL", text)
     
-    chunks = [c.strip() for c in clean_text.split('\n\n') if c.strip()]
-    q13_text = chunks[-1] if chunks else "MISSING"
-    q13 = r"\question[1] " + q13_text + "\n\\vspace*{\\stretch{1}}\\answerline"
-    
-    # We assign the answer key to the final question
-    return q11, q12, q13 + format_solution(sol)
+    q11 = (
+        f"\\uplevel{{Reference the function $f(x)$ graphed below for questions \\ref{{graph-limit-start}} through \\ref{{graph-limit-end}}. If the limit or function value does not exist, write \\emph{{DNE}}.}}\n\n"
+        f"\\begin{{center}}\n{graph_tikz}\n\\end{{center}}    \n\n"
+        f"\\question[2]\\,\\label{{graph-limit-start}}\n"
+        f"\\begin{{parts}}   \n"
+        f"\\part $\\displaystyle{{\\lim_{{x \\to {c_multi}^-}} f(x)}}=$ \\,\\fillin[][1in]\\\\ \\vspace*{{.15in}}\n"
+        f"\\part $\\displaystyle{{\\lim_{{x \\to {c_multi}^+}} f(x)}}=$ \\,\\fillin[][1in]\\\\ \\vspace*{{.15in}}\n"
+        f"\\part $\\displaystyle{{\\lim_{{x \\to {c_multi}}} f(x)}}=$ \\,\\fillin[][1in]\\\\ \\vspace*{{.15in}}\n"
+        f"\\part $f({c_multi})=$ \\,\\fillin[][1in]\\\\ \\vspace*{{.15in}}\n"
+        f"\\end{{parts}}"
+    )
+    q12 = f"\\question[1]\n  $\\displaystyle{{\\lim_{{x \\to {inf_dir}}} f(x)}}=$\\,\\fillin[][1in] \\\\ \\vspace*{{.15in}}"
+    q13 = (
+        f"\\question[1]\n  {conceptual}\\label{{graph-limit-end}} \\vspace*{{.15in}}\\answerline\n\n"
+        f"{format_solution(sols)}"
+    )
+    return q11, q12, q13
 
 # ==========================================
-# 3. MAIN COMPILATION LOOP
+# MAIN ENGINE
 # ==========================================
 
-def apply_page_breaks(questions, breaks):
-    out = ""
-    for i, q in enumerate(questions):
-        out += q + "\n\n"
-        if i in breaks:
-            out += "\\newpage\n\n"
-    return out
+def process_checkit_comp(checkit_filename, template_filename, output_filename):
+    with open(checkit_filename, "r", encoding="utf-8") as infile:
+        raw_content = infile.read()
 
-def main():
-    parser = argparse.ArgumentParser(description="CheckIt to Department Parser - PRECALC (2412)")
-    parser.add_argument("--checkit", required=True, help="Input CheckIt .tex file")
-    parser.add_argument("--template", required=True, help="Input Department Template .tex file")
-    parser.add_argument("--out", required=True, help="Output .tex file")
-    args = parser.parse_args()
+    with open(template_filename, "r", encoding="utf-8") as tempfile:
+        template_content = tempfile.read()
 
-    # E.g., [2, 5] places a \newpage after the 3rd and 6th question of a section
-    CALC_PAGE_BREAKS = [] 
-    NONCALC_PAGE_BREAKS = []
+    preamble_match = re.search(r'(.*?\\begin\{questions\})', template_content, re.DOTALL)
+    postamble_match = re.search(r'(\\end\{questions\}.*)', template_content, re.DOTALL)
 
-    with open(args.checkit, 'r', encoding='utf-8') as f:
-        checkit_content = f.read()
+    preamble = preamble_match.group(1) if preamble_match else "\\documentclass{exam}\n\\begin{document}\n\\begin{questions}"
+    postamble = postamble_match.group(1) if postamble_match else "\\end{questions}\n\\end{document}"
 
-    raw_blocks = re.split(r'\\item\s*%%%%% SpaTeXt Commands %%%%%', checkit_content)
-    if len(raw_blocks) > 0: raw_blocks = raw_blocks[1:]
-
-    q_items = []
+    raw_blocks = re.split(r'\\item\s*%%%%% SpaTeXt Commands %%%%%', raw_content)
+    if len(raw_blocks) > 0:
+        raw_blocks = raw_blocks[1:]
+    
+    items = []
     for block in raw_blocks:
         if '\\stxKnowl' in block:
-            prompt, sol = parse_checkit_item(block)
-            q_items.append({'text': prompt, 'sol': sol})
+            clean_text, sols = extract_solutions_and_clean(block)
+            items.append((clean_text, sols))
 
-    # Pad array safely in case of compile failure
-    while len(q_items) < 21:
-        q_items.append({'text': 'MISSING', 'sol': ''})
-
-    # Execute Template Builders
-    calc_questions = [
-        build_c1_diff_quotient(q_items[0]['text'], q_items[0]['sol']),  # C1
-        build_generic(q_items[1]['text'], q_items[1]['sol']),           # C2
-        build_generic(q_items[2]['text'], q_items[2]['sol']),           # C3
-        build_generic(q_items[3]['text'], q_items[3]['sol']),           # C4
-        build_triangle(q_items[4]['text'], q_items[4]['sol']),          # C5
-        build_generic(q_items[5]['text'], q_items[5]['sol']),           # C6
-        build_generic(q_items[6]['text'], q_items[6]['sol']),           # C7
-        build_triangle(q_items[7]['text'], q_items[7]['sol']),          # C8
-        build_word_problem(q_items[8]['text'], q_items[8]['sol']),      # C9
-        build_generic(q_items[9]['text'], q_items[9]['sol']),           # C10
-        build_generic(q_items[10]['text'], q_items[10]['sol'])          # C11
-    ]
-
-    q9, q10 = build_nc9_and_nc10(q_items[19]['text'], q_items[19]['sol'])
-    q11, q12, q13 = build_nc11_to_nc13(q_items[20]['text'], q_items[20]['sol'])
-
-    noncalc_questions = [
-        build_nc1_rational_graph(q_items[11]['text'], q_items[11]['sol']), # NC1
-        build_nc2_exact_values(q_items[12]['text'], q_items[12]['sol']),   # NC2
-        build_nc3_trig_eq(q_items[13]['text'], q_items[13]['sol']),        # NC3
-        build_nc4_sinusoidal(q_items[14]['text'], q_items[14]['sol']),     # NC4
-        build_generic(q_items[15]['text'], q_items[15]['sol']),            # NC5
-        build_generic(q_items[16]['text'], q_items[16]['sol']),            # NC6
-        build_generic(q_items[17]['text'], q_items[17]['sol']),            # NC7
-        build_generic(q_items[18]['text'], q_items[18]['sol']),            # NC8
-        q9,                                                                # NC9
-        q10,                                                               # NC10
-        q11,                                                               # NC11
-        q12,                                                               # NC12
-        q13                                                                # NC13
-    ]
-
-    with open(args.template, 'r', encoding='utf-8') as f:
-        template_content = f.read()
-
-    parts = re.split(r'\\begin\s*\{questions\}|\\end\s*\{questions\}', template_content)
+    out_lines = []
     
-    if len(parts) >= 5:
-        calc_out = parts[0] + r"\begin{questions}" + "\n\n" + apply_page_breaks(calc_questions, CALC_PAGE_BREAKS) + r"\end{questions}"
-        noncalc_out = parts[2] + r"\begin{questions}" + "\n\n" + apply_page_breaks(noncalc_questions, NONCALC_PAGE_BREAKS) + r"\end{questions}" + parts[4]
-        final_latex = calc_out + noncalc_out
-    else:
-        final_latex = parts[0] + r"\begin{questions}" + "\n\n" + apply_page_breaks(calc_questions + noncalc_questions, CALC_PAGE_BREAKS) + r"\end{questions}" + parts[2]
+    # ------------------------------------------
+    # SECTION 1: CALCULATOR (Items 1-11)
+    # ------------------------------------------
+    calc_builders = [build_c1, build_c2, build_c3, build_c4, build_c5, build_c6, build_c7, build_c8, build_c9, build_c10, build_c11]
+    for i, builder in enumerate(calc_builders):
+        if i < len(items):
+            out_lines.append(builder(items[i][0], items[i][1]))
+            if (i + 1) in CALC_PAGE_BREAKS:
+                out_lines.append("\\newpage")
+                
+    # ------------------------------------------
+    # SECTION 2: NON-CALCULATOR
+    # ------------------------------------------
+    transition_block = (
+        "\n% --- NON-CALCULATOR SECTION ---\n\n"
+        "\\calcfoot\n"
+        "\\newpage\n"
+        "\\includepdf[]{Formula Sheet/Formulas.pdf}\n"
+        "\\blankpage\n"
+        "\\blankpage\n\n"
+        "\\nocalc{\\version}\n\n"
+        "\\setcounter{question}{0}\n"
+    )
+    out_lines.append(transition_block)
+    
+    nc_counter = 1
+    def pg_check():
+        nonlocal nc_counter
+        if nc_counter in NONCALC_PAGE_BREAKS:
+            out_lines.append("\\newpage")
+        nc_counter += 1
 
-    with open(args.out, 'w', encoding='utf-8') as f:
-        f.write(final_latex)
+    # NC1-NC8
+    nc_builders = [build_nc1_rational, build_nc2, build_nc3, build_nc4, build_nc5, build_nc6, build_nc7, build_nc8]
+    for i, builder in enumerate(nc_builders):
+        item_idx = 11 + i
+        if item_idx < len(items):
+            out_lines.append(builder(items[item_idx][0], items[item_idx][1]))
+            pg_check()
 
-    print(f"Successfully processed PreCalculus exam. Output saved to {args.out}")
+    # NC9, NC10 (Item 20)
+    if 19 < len(items):
+        q9, q10 = build_nc9_nc10(items[19][0], items[19][1])
+        out_lines.append(q9); pg_check()
+        out_lines.append(q10); pg_check()
+
+    # NC11, NC12, NC13 (Item 21)
+    if 20 < len(items):
+        q11, q12, q13 = build_nc11_nc13(items[20][0], items[20][1])
+        out_lines.append(q11); pg_check()
+        out_lines.append(q12); pg_check()
+        out_lines.append(q13); pg_check()
+
+    with open(output_filename, "w", encoding="utf-8") as outfile:
+        outfile.write(preamble + "\n\n")
+        outfile.write("\n\n".join(out_lines))
+        outfile.write("\n\n" + postamble)
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Compile CheckIt 2412 into Department Final format")
+    parser.add_argument("--checkit", dest="checkit_file", required=True)
+    parser.add_argument("--template", dest="template_file", required=True)
+    parser.add_argument("--out", dest="output_file", required=True)
+    args = parser.parse_args()
+    process_checkit_comp(args.checkit_file, args.template_file, args.output_file)

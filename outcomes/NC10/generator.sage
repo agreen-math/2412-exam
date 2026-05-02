@@ -46,7 +46,6 @@ class Generator(BaseGenerator):
         random.shuffle(keys)
         q_multi = features[keys[0]]      # Multi-part (Task 1)
         q_conceptual = features[keys[1]] # Conceptual (Task 3)
-        # Note: keys[2] is unused, providing variety across different generated exams.
 
         def fmt(val):
             return r"\text{DNE}" if val == "DNE" else latex(val)
@@ -73,17 +72,29 @@ class Generator(BaseGenerator):
             \draw[very thick, &lt;-&gt;] (-8.5,0) -- (8.5,0) node[right] {{x}};
             \draw[very thick, &lt;-&gt;] (0,-5.5) -- (0,5.5) node[above] {{y}};
         """
+        
+        # Calculate Asymptotes
+        va_x = sx * (-3) + h
+        # Start and end points of the slant asymptote based on the original domain [-8.5, 1]
+        sa_start = T(-8.5, -1.25)
+        sa_end = T(1, 3.5)
+        
+        asymp = rf"""
+            \draw[&lt;-&gt;, very thick, dashed, orange] ({va_x},-5.5) -- ({va_x},5.5);
+            \draw[&lt;-&gt;, very thick, dashed, orange] ({sa_start[0]}, {sa_start[1]}) -- ({sa_end[0]}, {sa_end[1]});
+        """
+        
         labels = ""
         for i in range(-8, 9, 2):
             if i != 0: labels += rf"\node[below, fill=white, inner sep=1pt] at ({i},0) {{\tiny {i}}};"
         for j in range(-4, 5, 2):
             if j != 0: labels += rf"\node[left, fill=white, inner sep=1pt] at (0,{j}) {{\tiny {j}}};"
-            
+
         p1 = rf"\draw[blue, ultra thick, &lt;-&gt;, domain={sx*(-8.5)+h}:{sx*(-3.25)+h}, samples=50] plot (\x, {{ {sy}*(0.5*((\x-{h})/{sx}) + 3 - 1/( ((\x-{h})/{sx}) + 3)) + {k} }});"
         p2 = rf"\draw[blue, ultra thick, -&gt;, domain={sx*(-2.85)+h}:{sx*(-1)+h}, samples=50] plot (\x, {{ {sy}*(0.5*((\x-{h})/{sx}) + 3 - 1/( ((\x-{h})/{sx}) + 3)) + {k} }});"
         p3 = rf"\draw[blue, ultra thick] ({T(-1,-2)[0]}, {T(-1,-2)[1]}) -- ({T(3,2)[0]}, {T(3,2)[1]});"
         p4 = rf"\draw[blue, ultra thick, -&gt;, domain={sx*(3)+h}:{sx*(7)+h}, samples=50] plot (\x, {{ {sy}*(-(((\x-{h})/{sx})-4)**2 + 3) + {k} }});"
-        
+
         dots = rf"""
             \filldraw[white, draw=blue, thick] ({T(-5,1)[0]}, {T(-5,1)[1]}) circle (5pt);
             \filldraw[white, draw=blue, thick] ({T(-1,2.5)[0]}, {T(-1,2.5)[1]}) circle (5pt);
@@ -91,8 +102,8 @@ class Generator(BaseGenerator):
             \filldraw[white, draw=blue, thick] ({T(3,2)[0]}, {T(3,2)[1]}) circle (5pt);
             \filldraw[blue] ({T(3,-3)[0]}, {T(3,-3)[1]}) circle (5pt);
         """
-    
-        graph_tikz = rf"\begin{{tikzpicture}}[scale=0.5, &gt;=triangle 45]{grid}{labels}{p1}{p2}{p3}{p4}{dots}\end{{tikzpicture}}"
+        
+        graph_tikz = rf"\begin{{tikzpicture}}[scale=0.5, &gt;=triangle 45]{grid}{asymp}{labels}{p1}{p2}{p3}{p4}{dots}\end{{tikzpicture}}"
 
         # 6. Dynamic Outtro Assembly utilizing Zero-Text Rule
         outtro_lines = [
@@ -109,6 +120,7 @@ class Generator(BaseGenerator):
         return {
             "graph_tikz": graph_tikz,
             "c_multi": q_multi["x"],
+            "c_multi_sub": sub_fmt(q_multi["x"]),
             "inf_dir_sub": inf_dir_str,
             "prompt_conceptual": q_conceptual["conceptual_prompt"],
             "outtro": outtro
