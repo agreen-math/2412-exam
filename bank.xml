@@ -2,7 +2,7 @@
 <bank xmlns="https://checkit.clontz.org" version="0.2">
     <title>2412 MC Exam Bank</title>
     <slug>2412-MC</slug>
-    <url>hhttps://github.com/agreen-math/2412-exam</url>
+    <url>https://github.com/agreen-math/2412-exam</url>
     <outcomes>
         <outcome>
             <title>Diff Quot</title>
