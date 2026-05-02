@@ -1,3 +1,4 @@
+from sage.all import *
 import random
 
 class Generator(BaseGenerator):

@@ -1,4 +1,5 @@
 import random
+from sage.all import *
 
 class Generator(BaseGenerator):
     def data(self):

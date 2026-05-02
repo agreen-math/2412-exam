@@ -22,22 +22,22 @@ class Generator(BaseGenerator):
         y_eq = (y == y_expr)
         
         # Construct the outtro dynamically to satisfy the Zero-Text Rule
-        outtro = f"<outtro>\n"
+        outtro_lines = []
         
         step1 = (trig_func(t) == x / a)
-        outtro += rf"    <p><m>{latex(step1)}</m></p>\n"
+        outtro_lines.append(rf"    <p><m>{latex(step1)}</m></p>")
         
         # Construct unsimplified substitution string
         y_sub = c * u + b
         fraction_latex = latex(x / a)
         step2_latex = r"y = " + latex(y_sub).replace('u', rf"\left({fraction_latex}\right)")
-        outtro += rf"    <p><m>{step2_latex}</m></p>\n"
+        outtro_lines.append(rf"    <p><m>{step2_latex}</m></p>")
         
         # Provide final simplified equation in a box
         final_eq = (y == m * x + b)
-        outtro += rf"    <p><m>\boxed{{ {latex(final_eq)} }}</m></p>\n"
+        outtro_lines.append(rf"    <p><m>\boxed{{{latex(final_eq)}}}</m></p>")
         
-        outtro += f"</outtro>"
+        outtro = "<outtro>\n" + "\n".join(outtro_lines) + "\n</outtro>"
         
         return {
             "x_eq": latex(x_eq),
