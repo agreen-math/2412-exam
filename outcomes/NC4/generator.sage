@@ -21,7 +21,7 @@ class Generator(BaseGenerator):
         for i in range(-int(X), int(X) + 1, x_step):
             if i != 0:
                 ticks += rf"\draw ({i}, 0.15) -- ({i}, -0.15) node[below] {{\tiny ${i}$}};"
-                
+
         y_step = 2 if Y > 5 else 1
         for j in range(-int(Y), int(Y) + 1, y_step):
             if j != 0:
@@ -30,7 +30,7 @@ class Generator(BaseGenerator):
         # Common TikZ Setup (Origin perfectly centered)
         # CRITICAL FIX: Replaced < and > with &lt; and &gt; to prevent XML parsing crash
         grid_setup = rf"""
-            \clip (-{X},- {Y}) rectangle ({X}, {Y});
+            \clip (-{X},-{Y}) rectangle ({X}, {Y});
             \draw[step=1cm, black!40] (-{X},-{Y}) grid ({X},{Y});
             \draw[very thick, &lt;-&gt;] (-{X},0) -- ({X},0) node[right] {{x}};
             \draw[very thick, &lt;-&gt;] (0,-{Y}) -- (0,{Y}) node[above] {{y}};
@@ -66,6 +66,7 @@ class Generator(BaseGenerator):
         # Asymptotes
         tikz_tan += rf"\draw[dashed, very thick, purple] ({float(h - P/2.0)}, -{Y}) -- ({float(h - P/2.0)}, {Y});"
         tikz_tan += rf"\draw[dashed, very thick, purple] ({float(h + P/2.0)}, -{Y}) -- ({float(h + P/2.0)}, {Y});"
+
         # Curve (domain slightly restricted to avoid calculating infinite values at asymptotes)
         domain_start = float(h - P/2.0) + 0.05
         domain_end = float(h + P/2.0) - 0.05
@@ -78,11 +79,8 @@ class Generator(BaseGenerator):
 
         # 3. Assemble dynamic HTML outtro string
         outtro = f"<outtro>\n"
-        outtro += rf"    <p><m>\textbf{{Sine (Wave of Interest):}}</m></p>\n"
         outtro += rf"    <p><m>{tikz_sin}</m></p>\n"
-        outtro += rf"    <p><m>\textbf{{Cosine (Wave of Interest):}}</m></p>\n"
         outtro += rf"    <p><m>{tikz_cos}</m></p>\n"
-        outtro += rf"    <p><m>\textbf{{Tangent (Wave of Interest):}}</m></p>\n"
         outtro += rf"    <p><m>{tikz_tan}</m></p>\n"
         outtro += f"</outtro>"
         

@@ -14,7 +14,6 @@ class Generator(BaseGenerator):
 
         # 2. Define Master Feature Data
         # Locations: Hole Only @ -5, VA @ -3, Jump @ -1, Hole+Point @ 3
-        # FIXED: Replaced $ with <m> tags for SpaTeXt XML compatibility
         features = {
             "hole_only": {
                 "x": sx * (-5) + h,
@@ -79,12 +78,12 @@ class Generator(BaseGenerator):
             if i != 0: labels += rf"\node[below, fill=white, inner sep=1pt] at ({i},0) {{\tiny {i}}};"
         for j in range(-4, 5, 2):
             if j != 0: labels += rf"\node[left, fill=white, inner sep=1pt] at (0,{j}) {{\tiny {j}}};"
-
+            
         p1 = rf"\draw[blue, ultra thick, &lt;-&gt;, domain={sx*(-8.5)+h}:{sx*(-3.25)+h}, samples=50] plot (\x, {{ {sy}*(0.5*((\x-{h})/{sx}) + 3 - 1/( ((\x-{h})/{sx}) + 3)) + {k} }});"
         p2 = rf"\draw[blue, ultra thick, -&gt;, domain={sx*(-2.85)+h}:{sx*(-1)+h}, samples=50] plot (\x, {{ {sy}*(0.5*((\x-{h})/{sx}) + 3 - 1/( ((\x-{h})/{sx}) + 3)) + {k} }});"
         p3 = rf"\draw[blue, ultra thick] ({T(-1,-2)[0]}, {T(-1,-2)[1]}) -- ({T(3,2)[0]}, {T(3,2)[1]});"
         p4 = rf"\draw[blue, ultra thick, -&gt;, domain={sx*(3)+h}:{sx*(7)+h}, samples=50] plot (\x, {{ {sy}*(-(((\x-{h})/{sx})-4)**2 + 3) + {k} }});"
-
+        
         dots = rf"""
             \filldraw[white, draw=blue, thick] ({T(-5,1)[0]}, {T(-5,1)[1]}) circle (5pt);
             \filldraw[white, draw=blue, thick] ({T(-1,2.5)[0]}, {T(-1,2.5)[1]}) circle (5pt);
@@ -92,18 +91,25 @@ class Generator(BaseGenerator):
             \filldraw[white, draw=blue, thick] ({T(3,2)[0]}, {T(3,2)[1]}) circle (5pt);
             \filldraw[blue] ({T(3,-3)[0]}, {T(3,-3)[1]}) circle (5pt);
         """
+    
         graph_tikz = rf"\begin{{tikzpicture}}[scale=0.5, &gt;=triangle 45]{grid}{labels}{p1}{p2}{p3}{p4}{dots}\end{{tikzpicture}}"
+
+        # 6. Dynamic Outtro Assembly utilizing Zero-Text Rule
+        outtro_lines = [
+            rf"    <p><m>\displaystyle \lim_{{x \to {sub_fmt(q_multi['x'])}^-}} f(x) = \boxed{{ {fmt(q_multi['L_lim'])} }}</m></p>",
+            rf"    <p><m>\displaystyle \lim_{{x \to {sub_fmt(q_multi['x'])}^+}} f(x) = \boxed{{ {fmt(q_multi['R_lim'])} }}</m></p>",
+            rf"    <p><m>\displaystyle \lim_{{x \to {sub_fmt(q_multi['x'])}}} f(x) = \boxed{{ {fmt(q_multi['full_lim'])} }}</m></p>",
+            rf"    <p><m>f({q_multi['x']}) = \boxed{{ {fmt(q_multi['f_val'])} }}</m></p>",
+            rf"    <p><m>\displaystyle \lim_{{x \to {inf_dir_str}}} f(x) = \boxed{{ {ans_inf} }}</m></p>",
+            rf"    <p><m>\boxed{{ a = {q_conceptual['x']} }}</m></p>"
+        ]
+        
+        outtro = "<outtro>\n" + "\n".join(outtro_lines) + "\n</outtro>"
 
         return {
             "graph_tikz": graph_tikz,
             "c_multi": q_multi["x"],
-            "c_multi_sub": sub_fmt(q_multi["x"]),
-            "ans_L": rf"\boxed{{ {fmt(q_multi['L_lim'])} }}",
-            "ans_R": rf"\boxed{{ {fmt(q_multi['R_lim'])} }}",
-            "ans_full": rf"\boxed{{ {fmt(q_multi['full_lim'])} }}",
-            "ans_val": rf"\boxed{{ {fmt(q_multi['f_val'])} }}",
-            "prompt_conceptual": q_conceptual["conceptual_prompt"],
-            "ans_conceptual": rf"\boxed{{ a = {q_conceptual['x']} }}",
             "inf_dir_sub": inf_dir_str,
-            "ans_inf": rf"\boxed{{ {ans_inf} }}"
+            "prompt_conceptual": q_conceptual["conceptual_prompt"],
+            "outtro": outtro
         }

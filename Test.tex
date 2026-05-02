@@ -59,26 +59,26 @@
 \end{solution}
 
 
-\question[5] Evaluate, simplify, or solve.\\ \\ \(\displaystyle{ f(x) = \log_{2}(x + 3) + 7 }\)
+\question[5] Evaluate, simplify, or solve.\\ \\ \(\displaystyle{ f(x) = \log_{2}(x + 6) - 5 }\)
 \vspace*{\stretch{1}}\answerline
 \begin{solution}
 \begin{itemize}
 \item
- \(\textbf{Horizontal: } \text{Reflection: NO, Dilation: 1, Shift: 3 units LEFT.}\) 
+ \(\textbf{Horizontal: } \text{Reflection: NO, Dilation: 1, Shift: 6 units LEFT.}\) 
 
 \item
- \(\textbf{Vertical: } \text{Reflection: NO, Dilation: 1, Shift: 7 units UP.}\) 
+ \(\textbf{Vertical: } \text{Reflection: NO, Dilation: 1, Shift: 5 units DOWN.}\) 
 
 \end{itemize}
 
 
- \[\begin{tikzpicture}[scale=0.39,>=triangle 45] \draw[step=1cm, black!60] (-10,-10) grid (10,10); \draw[very thick, <->] (-10.5,0) -- (10.5,0); \draw[very thick, <->] (0,-10.5) -- (0,10.5); \clip (-10.5,-10.5) rectangle (10.5,10.5);\draw[dashed, red, thick] (-3, -10.5) -- (-3, 10.5);\draw[blue, very thick, samples=100, domain=-2.99000000000000:10.5000000000000, smooth] plot (\x, {(ln(\x - (-3))/ln(2)) + (7)});\end{tikzpicture}\] 
+ \[\begin{tikzpicture}[scale=0.39,>=triangle 45] \draw[step=1cm, black!60] (-10,-10) grid (10,10); \draw[very thick, <->] (-10.5,0) -- (10.5,0); \draw[very thick, <->] (0,-10.5) -- (0,10.5); \clip (-10.5,-10.5) rectangle (10.5,10.5);\draw[dashed, red, thick] (-6, -10.5) -- (-6, 10.5);\draw[blue, very thick, samples=100, domain=-5.99000000000000:10.5000000000000, smooth] plot (\x, {(ln(\x - (-6))/ln(2)) + (-5)});\end{tikzpicture}\] 
 
 
 
 \begin{itemize}
 \item
- \(\textbf{Domain: } (-3, \infty)\) 
+ \(\textbf{Domain: } (-6, \infty)\) 
 
 \item
  \(\textbf{Range: } (-\infty, \infty)\) 
@@ -87,118 +87,110 @@
 \end{solution}
 
 
-\question[5] Evaluate, simplify, or solve.\\ \\ \(\displaystyle{ 5^{-4 \, x} \cdot 5^{3 \, x} = 5 }\)
+\question[5] Evaluate, simplify, or solve.\\ \\ \(\displaystyle{ 8^{-3 \, x + 3} \cdot 8^{x + 2} = 8^{-3} }\)
 \vspace*{\stretch{1}}\answerline
 \begin{solution}
-\(\begin{aligned} 5^{-4 \, x+3 \, x} &= 5 \\ -4 \, x+3 \, x &= 1 \\ -x &= 1 \\ x &= -1 \end{aligned}\)
+\(\begin{aligned} 8^{-3 \, x + 3+x + 2} &= 8^{-3} \\ -3 \, x + 3+x + 2 &= -3 \\ -2 \, x + 5 &= -3 \\ -2 \, x &= -8 \\ x &= 4 \end{aligned}\)
 
-\(\boxed{x = -1}\)
-
-\(\begin{aligned} \log_{3}((x + 1)(x - 1)) &= 1 \\ 3 &= (x + 1)(x - 1) \\ 3 &= x^{2} - 1 \\ 0 &= x^{2} - 4 \\ 0 &= (x - 2)(x + 2) \end{aligned}\)
-
-\(\boxed{x = 2} \quad \text{(Extraneous: } x = -2 \text{)}\)
+\(\boxed{x = 4}\)
 \end{solution}
 
 
-\question[5] Evaluate, simplify, or solve.\\ \\ \(\displaystyle{ \log_b(m)=9 }\)
+\question[5] Evaluate, simplify, or solve.\\ \\ \(\displaystyle{ 9 }\)
 \vspace*{\stretch{1}}\answerline
 \begin{solution}
-\(9 + \frac{1}{4}(8) - 4(4)\)
+\(9 + \frac{1}{4}(12) - 2(8)\)
 
-\(9 + 2 - 16\)
+\(9 + 3 - 16\)
 
-\(\boxed{-5}\)
+\(\boxed{-4}\)
 \end{solution}
 
 
-\question[5] Solve the triangle for all missing sides and angles. If more than one triangle is possible, find \textbf{all} solutions.\\ \\ \(\displaystyle{ \angle A = 29 }\)
+\question[5] Solve the triangle for all missing sides and angles. If more than one triangle is possible, find \textbf{all} solutions.\\ \\ Triangle \(ABC\) satisfies \(ANGLE_A = \(\angle A = 52.0^\circ\)\), and \(GIVEN_SIDE = \(a = 22\)\).
 \vspace*{\stretch{1}}
 \begin{solution}
-\(B = 90^\circ - 29.7^\circ = 60.3^\circ\)
+\(B = 90^\circ - 52.0^\circ = 38.0^\circ\)
 
-\(\tan(29.7^\circ) = \frac{a}{44} \implies a = 44\tan(29.7^\circ) \approx 25.10\)
+\(\tan(52.0^\circ) = \frac{22}{b} \implies b = \frac{22}{\tan(52.0^\circ)} \approx 17.19\)
 
-\(\cos(29.7^\circ) = \frac{44}{c} \implies c = \frac{44}{\cos(29.7^\circ)} \approx 50.65\)
+\(\sin(52.0^\circ) = \frac{22}{c} \implies c = \frac{22}{\sin(52.0^\circ)} \approx 27.92\)
 
-\(\boxed{\begin{aligned} A &= 29.7^\circ & a &\approx 25.10 \\ B &= 60.3^\circ & b &\approx 44.00 \\ C &= 90^\circ & c &\approx 50.65 \end{aligned}}\)
+\(\boxed{\begin{aligned} A &= 52.0^\circ & a &\approx 22.00 \\ B &= 38.0^\circ & b &\approx 17.19 \\ C &= 90^\circ & c &\approx 27.92 \end{aligned}}\)
 \end{solution}
 
 
-\question[5] Evaluate, simplify, or solve.\\ \\ \(\displaystyle{ \frac{\cos^2(\alpha) - \sin^2(\alpha)}{2\sin(\alpha)\cos(\alpha)} = \cot(2\alpha) }\)
+\question[5] Evaluate, simplify, or solve.\\ \\ \(\displaystyle{ \frac{2\cos^2(\theta) - 1}{2\sin(\theta)\cos(\theta)} = \cot(2\theta) }\)
 \vspace*{\stretch{1}}\answerline
 \begin{solution}
-\(\frac{\cos^2(\alpha) - \sin^2(\alpha)}{2\sin(\alpha)\cos(\alpha)}\)
+\(\frac{2\cos^2(\theta) - 1}{2\sin(\theta)\cos(\theta)}\)
 
-\(= \frac{\cos(2\alpha)}{\sin(2\alpha)}\)
+\(= \frac{\cos(2\theta)}{\sin(2\theta)}\)
 
-\(= \boxed{\cot(2\alpha)}\)
+\(= \boxed{\cot(2\theta)}\)
 \end{solution}
 
 
-\question[5] Evaluate, simplify, or solve.\\ \\ \(\displaystyle{ [0^\circ, 360^\circ) }\)
+\question[5] Evaluate, simplify, or solve.\\ \\ \(\displaystyle{ 4 \cos \theta = 1 }\)
 \vspace*{\stretch{1}}\answerline
 \begin{solution}
-\(\cos \theta = -\frac{2}{3}\)
+\(\cos \theta = \frac{1}{4}\)
 
-\(\theta = \cos^{-1}\left(-\frac{2}{3}\right)\)
+\(\theta = \cos^{-1}\left(\frac{1}{4}\right)\)
 
-\(\theta \approx 131.8103^\circ \dots\)
+\(\theta \approx 75.5225^\circ \dots\)
 
-\(360^\circ - 131.8103^\circ \approx 228.1897^\circ\)
+\(360^\circ - 75.5225^\circ \approx 284.4775^\circ\)
 
-\(\boxed{\theta = 131.8^\circ, 228.2^\circ}\)
+\(\boxed{\theta = 75.5^\circ, 284.5^\circ}\)
 \end{solution}
 
 
-\question[5] Solve the triangle for all missing sides and angles. If more than one triangle is possible, find \textbf{all} solutions.\\ \\ \(\displaystyle{ \angle A = 29^\circ, a = 6 }\)
+\question[5] Solve the triangle for all missing sides and angles. If more than one triangle is possible, find \textbf{all} solutions.\\ \\ Triangle \(ABC\) satisfies \(ANGLE_A = \(\angle A = 27^\circ\)\), \(SIDE_A = \(a = 9.7\)\), and \(SIDE_B = \(b = 11.6\)\).
 \vspace*{\stretch{1}}
 \begin{solution}
 \(\frac{\sin(B)}{b} = \frac{\sin(A)}{a}\)
 
-\(\sin(B) = \frac{11.4\sin(29^\circ)}{6.9} \approx 0.8010\)
+\(\sin(B) = \frac{11.6\sin(27^\circ)}{9.7} \approx 0.5429\)
 
-\(B_1 = \sin^{-1}(0.8010) \approx 53.2^\circ\)
+\(B_1 = \sin^{-1}(0.5429) \approx 32.9^\circ\)
 
-\(B_2 = 180^\circ - 53.2^\circ = 126.8^\circ\)
+\(B_2 = 180^\circ - 32.9^\circ = 147.1^\circ\)
 
-\(29^\circ + 126.8^\circ = 155.8^\circ < 180^\circ\)
+\(27^\circ + 147.1^\circ = 174.1^\circ < 180^\circ\)
 
-\(C_1 = 180^\circ - 29^\circ - 53.2^\circ = 97.8^\circ\)
+\(C_1 = 180^\circ - 27^\circ - 32.9^\circ = 120.1^\circ\)
 
 \(c_1 = \frac{a\sin(C_1)}{\sin(A)}\)
 
-\(c_1 = \frac{6.9\sin(97.8^\circ)}{\sin(29^\circ)} \approx 14.10\)
+\(c_1 = \frac{9.7\sin(120.1^\circ)}{\sin(27^\circ)} \approx 18.48\)
 
-\(C_2 = 180^\circ - 29^\circ - 126.8^\circ = 24.2^\circ\)
+\(C_2 = 180^\circ - 27^\circ - 147.1^\circ = 5.9^\circ\)
 
 \(c_2 = \frac{a\sin(C_2)}{\sin(A)}\)
 
-\(c_2 = \frac{6.9\sin(24.2^\circ)}{\sin(29^\circ)} \approx 5.84\)
+\(c_2 = \frac{9.7\sin(5.9^\circ)}{\sin(27^\circ)} \approx 2.19\)
 
-\(\boxed{\begin{aligned} A &= 29^\circ & a &= 6.9 \\ B_1 &\approx 53.2^\circ & b &= 11.4 \\ C_1 &\approx 97.8^\circ & c_1 &\approx 14.10 \end{aligned}}\)
+\(\boxed{\begin{aligned} A &= 27^\circ & a &= 9.7 \\ B_1 &\approx 32.9^\circ & b &= 11.6 \\ C_1 &\approx 120.1^\circ & c_1 &\approx 18.48 \end{aligned}}\)
 
-\(\boxed{\begin{aligned} A &= 29^\circ & a &= 6.9 \\ B_2 &\approx 126.8^\circ & b &= 11.4 \\ C_2 &\approx 24.2^\circ & c_2 &\approx 5.84 \end{aligned}}\)
+\(\boxed{\begin{aligned} A &= 27^\circ & a &= 9.7 \\ B_2 &\approx 147.1^\circ & b &= 11.6 \\ C_2 &\approx 5.9^\circ & c_2 &\approx 2.19 \end{aligned}}\)
 \end{solution}
 
 
-\question[3] An architect is designing a custom triangular stained-glass window for a modern building. The three sides of the glass pane will measure \(57\) inches, \(33\) inches, and \(88\) inches. What is the area of the glass required in square inches?
-
-Round your final answer to two decimal places.
+\question[3] An architect is designing a custom triangular stained-glass window for a modern building. The three sides of the glass pane will measure \(79\) inches, \(64\) inches, and \(88\) inches. What is the area of the glass required for this pane?
 \vspace*{\stretch{2}}\answerline
 \begin{solution}
-Using Heron's Formula:
-
 \(s = \frac{a + b + c}{2}\)
 
-\(s = \frac{57 + 33 + 88}{2} = 89.0000000000000\)
+\(s = \frac{79 + 64 + 88}{2} = 115.500000000000\)
 
 \(\text{Area} = \sqrt{s(s-a)(s-b)(s-c)}\)
 
-\(\text{Area} = \sqrt{89.0000000000000(89.0000000000000-57)(89.0000000000000-33)(89.0000000000000-88)}\)
+\(\text{Area} = \sqrt{115.500000000000(115.500000000000-79)(115.500000000000-64)(115.500000000000-88)}\)
 
-\(\text{Area} = \sqrt{89.0000000000000(32.0000000000000)(56.0000000000000)(1.00000000000000)}\)
+\(\text{Area} = \sqrt{115.500000000000(36.5000000000000)(51.5000000000000)(27.5000000000000)}\)
 
-\(\text{Area} \approx 399.36\)
+\(\boxed{\text{Area} \approx 2443.47}\)
 \end{solution}
 
 
@@ -207,235 +199,243 @@ Using Heron's Formula:
 \begin{solution}
 \(\sin\left(t\right) = \frac{1}{4} \, x\)
 
-\(y = -4 \, \left(\frac{1}{4} \, x\right) - 6\)
+\(y = -4 \, \left(\frac{1}{4} \, x\right) + 2\)
 
-\(\boxed{ y = -x - 6 }\)
+\(\boxed{y = -x + 2}\)
 \end{solution}
 
 
-\question[5] Evaluate, simplify, or solve.\\ \\ \(\displaystyle \lim_{x \to 4} \frac{x^{2} - 6 \, x + 8}{x^{2} - 16}\)
+\question[5] Evaluate, simplify, or solve.\\ \\ \(\displaystyle \lim_{x \to (-3)} \frac{x^{2} + 2 \, x - 5}{x - 3}\)
 \vspace*{\stretch{1}}\answerline
 \begin{solution}
-\(\displaystyle \lim_{x \to 4} \frac{x^{2} - 6 \, x + 8}{x^{2} - 16} = \displaystyle \lim_{x \to 4} \frac{(x - 4)(x - 2)}{(x - 4)(x + 4)} = \displaystyle \lim_{x \to 4} \frac{x - 2}{x + 4} = \boxed{ \frac{1}{4} }\)
+\(\displaystyle \lim_{x \to (-3)} \frac{x^{2} + 2 \, x - 5}{x - 3} = \frac{-2}{-6} = \frac{1}{3}\)
 
-\(\displaystyle \lim_{x \to 2} \frac{x^{2} - 4 \, x + 4}{x + 2} = \frac{0}{4} = \boxed{ 0 }\)
+\(\displaystyle \lim_{x \to (-8)} \sqrt{x^{2} + 2 \, x + 1} = \sqrt{49} = 7\)
 
-\(\displaystyle \lim_{x \to (-8)} \sqrt{x^{2} - 6 \, x + 9} = \sqrt{121} = \boxed{ 11 }\)
+\(\displaystyle \lim_{x \to (-1)} \frac{x^{2} - 6 \, x - 7}{x^{2} - 1} = \displaystyle \lim_{x \to (-1)} \frac{(x + 1)(x - 7)}{(x + 1)(x - 1)} = \displaystyle \lim_{x \to (-1)} \frac{x - 7}{x - 1} = 4\)
 \end{solution}
 
 
-\question[8] Evaluate the given limits based on the graph of $f(x)$.
-\begin{center}
-\begin{tikzpicture}[scale=0.39,>=triangle 45] \draw[step=1cm, black!60] (-10,-10) grid (10,10); \draw[very thick, <->] (-10.5,0) -- (10.5,0); \draw[very thick, <->] (0,-10.5) -- (0,10.5); \end{tikzpicture}
-\end{center}
-\begin{parts}
-\end{parts}
-\begin{solution}
-\textbf{Instructor Note:} The generated function is: \[f(x) = \frac{-(x - 4)(x + 8)(x + 2)}{(x + 6)(x - 6)(x + 2)}\] 
+\question[12] Identify the given features of the rational function. If a feature does not exist, write \textbf{None}. Then, sketch the graph on the coordinate plane provided. Be sure to graph asymptotes as dashed lines and clearly plot the intercepts and any holes.\\ \\ \(\displaystyle{ \renewcommand{\arraystretch}{1.4} \begin{array}{|r|c|c|} \hline \textbf{Holes:} & (-5, 6) & \\ \hline \textbf{Asymptotes:} & x = -4 & x = 3 \\ & y = -4 & \\ \hline \textbf{Intercepts:} & (-7, 0) & (1, 0) \\ & (0, -2.33) & \\ \hline \textbf{Helpful Points:} & (-9, -1.33) & (-2, -6) \\ & (8, -7) & \\ \hline \end{array} }\)
 
- \[\begin{tikzpicture}[scale=0.39,>=triangle 45] \draw[step=1cm, black!60] (-10,-10) grid (10,10); \draw[very thick, <->] (-10.5,0) -- (10.5,0); \draw[very thick, <->] (0,-10.5) -- (0,10.5); \clip (-10.5,-10.5) rectangle (10.5,10.5);\draw[dashed, blue, very thick, <->] (-6, -10.5) -- (-6, 10.5); \draw[dashed, blue, very thick, <->] (6, -10.5) -- (6, 10.5); \draw[dashed, blue, very thick, <->] (-10.5, -1) -- (10.5, -1); \draw[blue, very thick, samples=80, domain=-10.5:-6.10000000000000, smooth] plot (\x, {-1 * (\x - (4)) * (\x - (-8)) / ((\x - (-6)) * (\x - (6)))}); \draw[blue, very thick, samples=80, domain=-5.90000000000000:5.90000000000000, smooth] plot (\x, {-1 * (\x - (4)) * (\x - (-8)) / ((\x - (-6)) * (\x - (6)))}); \draw[blue, very thick, samples=80, domain=6.10000000000000:10.5, smooth] plot (\x, {-1 * (\x - (4)) * (\x - (-8)) / ((\x - (-6)) * (\x - (6)))}); \fill[blue] (-8.0, 0) circle (4pt); \fill[blue] (4.0, 0) circle (4pt); \fill[blue] (0, -0.89) circle (4pt); \fill[blue] (-9.0, -0.29) circle (4pt); \fill[blue] (5.0, 1.18) circle (4pt); \fill[blue] (8.5, -2.05) circle (4pt); \draw[blue, very thick, fill=white] (-2.0, -1.12) circle (4pt); \end{tikzpicture}\]
+\begin{multicols}{2}
+{\renewcommand{\arraystretch}{2}
+\begin{tabular}{|c|p{1.5in}|}\hline
+    $y$-intercept & \(\displaystyle{ [\text{MISSING}] }\) \\ \hline
+    $x$-intercept(s) & \(\displaystyle{ [\text{MISSING}] }\) \\ \hline
+    Vertical Asymptote(s) & \(\displaystyle{ [\text{MISSING}] }\) \\ \hline
+    Horizontal Asymptote & \(\displaystyle{ [\text{MISSING}] }\) \\ \hline
+    Hole(s) & \(\displaystyle{ [\text{MISSING}] }\) \\ \hline
+\end{tabular}}
+
+\vspace{\stretch{1}}
+
+\columnbreak
+\includegraphics[width=3.5in]{blankgraph.PNG}
+
+\end{multicols}
+\begin{solution}
+\textbf{Instructor Note:} The generated function is: \[f(x) = \frac{-4(x + 7)(x - 1)(x + 5)}{(x + 4)(x - 3)(x + 5)}\] 
+
+ \[\begin{tikzpicture}[scale=0.39,>=triangle 45] \draw[step=1cm, black!60] (-10,-10) grid (10,10); \draw[very thick, <->] (-10.5,0) -- (10.5,0); \draw[very thick, <->] (0,-10.5) -- (0,10.5); \clip (-10.5,-10.5) rectangle (10.5,10.5);\draw[dashed, blue, very thick, <->] (-4, -10.5) -- (-4, 10.5); \draw[dashed, blue, very thick, <->] (3, -10.5) -- (3, 10.5); \draw[dashed, blue, very thick, <->] (-10.5, -4) -- (10.5, -4); \draw[blue, very thick, samples=80, domain=-10.5:-4.10000000000000, smooth] plot (\x, {-4 * (\x - (-7)) * (\x - (1)) / ((\x - (-4)) * (\x - (3)))}); \draw[blue, very thick, samples=80, domain=-3.90000000000000:2.90000000000000, smooth] plot (\x, {-4 * (\x - (-7)) * (\x - (1)) / ((\x - (-4)) * (\x - (3)))}); \draw[blue, very thick, samples=80, domain=3.10000000000000:10.5, smooth] plot (\x, {-4 * (\x - (-7)) * (\x - (1)) / ((\x - (-4)) * (\x - (3)))}); \fill[blue] (-7.0, 0) circle (4pt); \fill[blue] (1.0, 0) circle (4pt); \fill[blue] (0, -2.33) circle (4pt); \fill[blue] (-9.0, -1.33) circle (4pt); \fill[blue] (-2.0, -6.0) circle (4pt); \fill[blue] (8.0, -7.0) circle (4pt); \draw[blue, very thick, fill=white] (-5.0, 6.0) circle (4pt); \end{tikzpicture}\]
 \end{solution}
 
 
 \question[6] Evaluate the exact values.
 \begin{multicols}{2}
 \begin{parts}
-\part \(\displaystyle{ \cot\left(60^\circ\right) = }\) \vspace{36pt} \answerline 
 \part \(\displaystyle{ \sin\left(0^\circ\right) = }\) \vspace{36pt} \answerline 
-\part \(\displaystyle{ \cos\left(30^\circ\right) = }\) \vspace{36pt} \answerline 
-\part \(\displaystyle{ \cos\left(\frac{4\pi}{3}\right) = }\) \vspace{36pt} \answerline 
-\part \(\displaystyle{ \cos\left(\frac{11\pi}{6}\right) = }\) \vspace{36pt} \answerline 
-\part \(\displaystyle{ \sin\left(\frac{\pi}{4}\right) = }\) \vspace{36pt} \answerline 
+\part \(\displaystyle{ \tan\left(225^\circ\right) = }\) \vspace{36pt} \answerline 
+\part \(\displaystyle{ \cos\left(300^\circ\right) = }\) \vspace{36pt} \answerline 
+\part \(\displaystyle{ \sin\left(\frac{5\pi}{3}\right) = }\) \vspace{36pt} \answerline 
+\part \(\displaystyle{ \csc\left(\frac{7\pi}{6}\right) = }\) \vspace{36pt} \answerline 
+\part \(\displaystyle{ \tan\left(\frac{4\pi}{3}\right) = }\) \vspace{36pt} \answerline 
 \end{parts}
 \end{multicols}
 \begin{solution}
-\(\text{(a)} \quad \cot\left(60^\circ\right) = \frac{\sqrt{3}}{3}\)
+\(\text{(a)} \quad \sin\left(0^\circ\right) = 0\)
 
-\(\text{(b)} \quad \sin\left(0^\circ\right) = 0\)
+\(\text{(b)} \quad \tan\left(225^\circ\right) = 1\)
 
-\(\text{(c)} \quad \cos\left(30^\circ\right) = \frac{\sqrt{3}}{2}\)
+\(\text{(c)} \quad \cos\left(300^\circ\right) = \frac{1}{2}\)
 
-\(\text{(d)} \quad \cos\left(\frac{4\pi}{3}\right) = -\frac{1}{2}\)
+\(\text{(d)} \quad \sin\left(\frac{5\pi}{3}\right) = -\frac{\sqrt{3}}{2}\)
 
-\(\text{(e)} \quad \cos\left(\frac{11\pi}{6}\right) = \frac{\sqrt{3}}{2}\)
+\(\text{(e)} \quad \csc\left(\frac{7\pi}{6}\right) = -2\)
 
-\(\text{(f)} \quad \sin\left(\frac{\pi}{4}\right) = \frac{\sqrt{2}}{2}\)
+\(\text{(f)} \quad \tan\left(\frac{4\pi}{3}\right) = \sqrt{3}\)
 \end{solution}
 
 
 \question[12] Solve the following trigonometric equations.
 \begin{multicols}{2}
 \begin{parts}
-\part \(\displaystyle{ \theta }\) \vspace{\stretch{1}} \answerline 
-\part \(\displaystyle{ [0^\circ, 360^\circ): \quad \csc\theta = 2, \quad \theta = \underline{\hspace{1.2in}} }\) \vspace{\stretch{1}} \answerline 
-\part \(\displaystyle{ [0^\circ, 360^\circ): \quad \cos\theta = -1, \quad \theta = \underline{\hspace{1.2in}} }\) \vspace{\stretch{1}} \answerline 
-\part \(\displaystyle{ [0^\circ, 360^\circ): \quad \cos\theta = 1, \quad \theta = \underline{\hspace{1.2in}} }\) \vspace{\stretch{1}} \answerline 
-\part \(\displaystyle{ [0, 2\pi): \quad \sin\theta = -1, \quad \theta = \underline{\hspace{1.2in}} }\) \vspace{\stretch{1}} \answerline 
-\part \(\displaystyle{ [0, 2\pi): \quad \cos\theta = \frac{\sqrt{3}}{2}, \quad \theta = \underline{\hspace{1.2in}} }\) \vspace{\stretch{1}} \answerline 
-\part \(\displaystyle{ [0, 2\pi): \quad \cos\theta = 1, \quad \theta = \underline{\hspace{1.2in}} }\) \vspace{\stretch{1}} \answerline 
+\part \(\displaystyle{ \cos\theta = \frac{1}{2} }\) \vspace{\stretch{1}} \answerline 
+\part \(\displaystyle{ \sin\theta = -\frac{\sqrt{2}}{2} }\) \vspace{\stretch{1}} \answerline 
+\part \(\displaystyle{ \sec\theta = -\frac{2\sqrt{3}}{3} }\) \vspace{\stretch{1}} \answerline 
+\part \(\displaystyle{ \csc\theta = -\frac{2\sqrt{3}}{3} }\) \vspace{\stretch{1}} \answerline 
+\part \(\displaystyle{ \sin\theta = -\frac{\sqrt{2}}{2} }\) \vspace{\stretch{1}} \answerline 
+\part \(\displaystyle{ \cos\theta = 0 }\) \vspace{\stretch{1}} \answerline 
 \end{parts}
 \end{multicols}
 \begin{solution}
 \textbf{Solutions:}
 
-(a) \(\theta \in \{ 30^\circ, 150^\circ \}\)
+(a) \(\theta \in \{ 60^\circ, 300^\circ \}\)
 
-(b) \(\theta \in \{ 180^\circ \}\)
+(b) \(\theta \in \{ 225^\circ, 315^\circ \}\)
 
-(c) \(\theta \in \{ 0^\circ \}\)
+(c) \(\theta \in \{ 150^\circ, 210^\circ \}\)
 
-(d) \(\theta \in \{ \frac{3}{2} \, \pi \}\)
+(d) \(\theta \in \{ \frac{4}{3} \, \pi, \frac{5}{3} \, \pi \}\)
 
-(e) \(\theta \in \{ \frac{1}{6} \, \pi, \frac{11}{6} \, \pi \}\)
+(e) \(\theta \in \{ \frac{5}{4} \, \pi, \frac{7}{4} \, \pi \}\)
 
-(f) \(\theta \in \{ 0 \}\)
+(f) \(\theta \in \{ \frac{1}{2} \, \pi, \frac{3}{2} \, \pi \}\)
 \end{solution}
 
 
-\question[6] Identify the properties of the sinusoidal function:\\ \\ \(\displaystyle{ \text{Period} = 4 }\)
+\question[6] Identify the properties of the sinusoidal function:\\ \\ \(\displaystyle{ [\text{MISSING}] }\)
 \begin{center}
 {\renewcommand{\arraystretch}{2}
 \begin{tabular}{|c|p{2in}|}
 \hline
-Period & \(\displaystyle{ [MISSING] }\) \\ \hline
-Vertical Dilation & \(\displaystyle{ [MISSING] }\) \\ \hline
-Phase Shift & \(\displaystyle{ [MISSING] }\) \\ \hline
+Period & \(\displaystyle{ [\text{MISSING}] }\) \\ \hline
+Vertical Dilation & \(\displaystyle{ [\text{MISSING}] }\) \\ \hline
+Phase Shift & \(\displaystyle{ [\text{MISSING}] }\) \\ \hline
 \end{tabular}}
 \end{center}
 \begin{solution}
-\(\textbf{Sine (Wave of Interest):}\)
+\(\begin{tikzpicture}[scale=0.35,>=triangle 45] \clip (-3.00000000000000,-9.0) rectangle (3.00000000000000, 9.0); \draw[step=1cm, black!40] (-3.00000000000000,-9.0) grid (3.00000000000000,9.0); \draw[very thick, <->] (-3.00000000000000,0) -- (3.00000000000000,0) node[right] {x}; \draw[very thick, <->] (0,-9.0) -- (0,9.0) node[above] {y}; \draw (-3, 0.15) -- (-3, -0.15) node[below] {\tiny $-3$};\draw (-2, 0.15) -- (-2, -0.15) node[below] {\tiny $-2$};\draw (-1, 0.15) -- (-1, -0.15) node[below] {\tiny $-1$};\draw (1, 0.15) -- (1, -0.15) node[below] {\tiny $1$};\draw (2, 0.15) -- (2, -0.15) node[below] {\tiny $2$};\draw (3, 0.15) -- (3, -0.15) node[below] {\tiny $3$};\draw (0.15, -9) -- (-0.15, -9) node[left] {\tiny $-9$};\draw (0.15, -7) -- (-0.15, -7) node[left] {\tiny $-7$};\draw (0.15, -5) -- (-0.15, -5) node[left] {\tiny $-5$};\draw (0.15, -3) -- (-0.15, -3) node[left] {\tiny $-3$};\draw (0.15, -1) -- (-0.15, -1) node[left] {\tiny $-1$};\draw (0.15, 1) -- (-0.15, 1) node[left] {\tiny $1$};\draw (0.15, 3) -- (-0.15, 3) node[left] {\tiny $3$};\draw (0.15, 5) -- (-0.15, 5) node[left] {\tiny $5$};\draw (0.15, 7) -- (-0.15, 7) node[left] {\tiny $7$};\draw (0.15, 9) -- (-0.15, 9) node[left] {\tiny $9$}; \draw[blue, very thick, samples=100, domain=-1.0:1.0, smooth] plot (\x, { 8 * sin( 360/2 * (\x - (-1)) ) });\filldraw[black] (-1.0, 0.0) circle (4pt);\filldraw[black] (-0.5, 8.0) circle (4pt);\filldraw[black] (0.0, 0.0) circle (4pt);\filldraw[black] (0.5, -8.0) circle (4pt);\filldraw[black] (1.0, 0.0) circle (4pt);\end{tikzpicture}\)
 
-\(\begin{tikzpicture}[scale=0.35,>=triangle 45] \clip (-7.00000000000000,- 8.0) rectangle (7.00000000000000, 8.0); \draw[step=1cm, black!40] (-7.00000000000000,-8.0) grid (7.00000000000000,8.0); \draw[very thick, <->] (-7.00000000000000,0) -- (7.00000000000000,0) node[right] {x}; \draw[very thick, <->] (0,-8.0) -- (0,8.0) node[above] {y}; \draw (-7, 0.15) -- (-7, -0.15) node[below] {\tiny $-7$};\draw (-5, 0.15) -- (-5, -0.15) node[below] {\tiny $-5$};\draw (-3, 0.15) -- (-3, -0.15) node[below] {\tiny $-3$};\draw (-1, 0.15) -- (-1, -0.15) node[below] {\tiny $-1$};\draw (1, 0.15) -- (1, -0.15) node[below] {\tiny $1$};\draw (3, 0.15) -- (3, -0.15) node[below] {\tiny $3$};\draw (5, 0.15) -- (5, -0.15) node[below] {\tiny $5$};\draw (7, 0.15) -- (7, -0.15) node[below] {\tiny $7$};\draw (0.15, -8) -- (-0.15, -8) node[left] {\tiny $-8$};\draw (0.15, -6) -- (-0.15, -6) node[left] {\tiny $-6$};\draw (0.15, -4) -- (-0.15, -4) node[left] {\tiny $-4$};\draw (0.15, -2) -- (-0.15, -2) node[left] {\tiny $-2$};\draw (0.15, 2) -- (-0.15, 2) node[left] {\tiny $2$};\draw (0.15, 4) -- (-0.15, 4) node[left] {\tiny $4$};\draw (0.15, 6) -- (-0.15, 6) node[left] {\tiny $6$};\draw (0.15, 8) -- (-0.15, 8) node[left] {\tiny $8$}; \draw[blue, very thick, samples=100, domain=-4.0:0.0, smooth] plot (\x, { 7 * sin( 360/4 * (\x - (-4)) ) });\filldraw[black] (-4.0, 0.0) circle (4pt);\filldraw[black] (-3.0, 7.0) circle (4pt);\filldraw[black] (-2.0, 0.0) circle (4pt);\filldraw[black] (-1.0, -7.0) circle (4pt);\filldraw[black] (0.0, 0.0) circle (4pt);\end{tikzpicture}\)
+\(\begin{tikzpicture}[scale=0.35,>=triangle 45] \clip (-3.00000000000000,-9.0) rectangle (3.00000000000000, 9.0); \draw[step=1cm, black!40] (-3.00000000000000,-9.0) grid (3.00000000000000,9.0); \draw[very thick, <->] (-3.00000000000000,0) -- (3.00000000000000,0) node[right] {x}; \draw[very thick, <->] (0,-9.0) -- (0,9.0) node[above] {y}; \draw (-3, 0.15) -- (-3, -0.15) node[below] {\tiny $-3$};\draw (-2, 0.15) -- (-2, -0.15) node[below] {\tiny $-2$};\draw (-1, 0.15) -- (-1, -0.15) node[below] {\tiny $-1$};\draw (1, 0.15) -- (1, -0.15) node[below] {\tiny $1$};\draw (2, 0.15) -- (2, -0.15) node[below] {\tiny $2$};\draw (3, 0.15) -- (3, -0.15) node[below] {\tiny $3$};\draw (0.15, -9) -- (-0.15, -9) node[left] {\tiny $-9$};\draw (0.15, -7) -- (-0.15, -7) node[left] {\tiny $-7$};\draw (0.15, -5) -- (-0.15, -5) node[left] {\tiny $-5$};\draw (0.15, -3) -- (-0.15, -3) node[left] {\tiny $-3$};\draw (0.15, -1) -- (-0.15, -1) node[left] {\tiny $-1$};\draw (0.15, 1) -- (-0.15, 1) node[left] {\tiny $1$};\draw (0.15, 3) -- (-0.15, 3) node[left] {\tiny $3$};\draw (0.15, 5) -- (-0.15, 5) node[left] {\tiny $5$};\draw (0.15, 7) -- (-0.15, 7) node[left] {\tiny $7$};\draw (0.15, 9) -- (-0.15, 9) node[left] {\tiny $9$}; \draw[red, very thick, samples=100, domain=-1.0:1.0, smooth] plot (\x, { 8 * cos( 360/2 * (\x - (-1)) ) });\filldraw[black] (-1.0, 8.0) circle (4pt);\filldraw[black] (-0.5, 0.0) circle (4pt);\filldraw[black] (0.0, -8.0) circle (4pt);\filldraw[black] (0.5, 0.0) circle (4pt);\filldraw[black] (1.0, 8.0) circle (4pt);\end{tikzpicture}\)
 
-\(\textbf{Cosine (Wave of Interest):}\)
-
-\(\begin{tikzpicture}[scale=0.35,>=triangle 45] \clip (-7.00000000000000,- 8.0) rectangle (7.00000000000000, 8.0); \draw[step=1cm, black!40] (-7.00000000000000,-8.0) grid (7.00000000000000,8.0); \draw[very thick, <->] (-7.00000000000000,0) -- (7.00000000000000,0) node[right] {x}; \draw[very thick, <->] (0,-8.0) -- (0,8.0) node[above] {y}; \draw (-7, 0.15) -- (-7, -0.15) node[below] {\tiny $-7$};\draw (-5, 0.15) -- (-5, -0.15) node[below] {\tiny $-5$};\draw (-3, 0.15) -- (-3, -0.15) node[below] {\tiny $-3$};\draw (-1, 0.15) -- (-1, -0.15) node[below] {\tiny $-1$};\draw (1, 0.15) -- (1, -0.15) node[below] {\tiny $1$};\draw (3, 0.15) -- (3, -0.15) node[below] {\tiny $3$};\draw (5, 0.15) -- (5, -0.15) node[below] {\tiny $5$};\draw (7, 0.15) -- (7, -0.15) node[below] {\tiny $7$};\draw (0.15, -8) -- (-0.15, -8) node[left] {\tiny $-8$};\draw (0.15, -6) -- (-0.15, -6) node[left] {\tiny $-6$};\draw (0.15, -4) -- (-0.15, -4) node[left] {\tiny $-4$};\draw (0.15, -2) -- (-0.15, -2) node[left] {\tiny $-2$};\draw (0.15, 2) -- (-0.15, 2) node[left] {\tiny $2$};\draw (0.15, 4) -- (-0.15, 4) node[left] {\tiny $4$};\draw (0.15, 6) -- (-0.15, 6) node[left] {\tiny $6$};\draw (0.15, 8) -- (-0.15, 8) node[left] {\tiny $8$}; \draw[red, very thick, samples=100, domain=-4.0:0.0, smooth] plot (\x, { 7 * cos( 360/4 * (\x - (-4)) ) });\filldraw[black] (-4.0, 7.0) circle (4pt);\filldraw[black] (-3.0, 0.0) circle (4pt);\filldraw[black] (-2.0, -7.0) circle (4pt);\filldraw[black] (-1.0, 0.0) circle (4pt);\filldraw[black] (0.0, 7.0) circle (4pt);\end{tikzpicture}\)
-
-\(\textbf{Tangent (Wave of Interest):}\)
-
-\(\begin{tikzpicture}[scale=0.35,>=triangle 45] \clip (-7.00000000000000,- 8.0) rectangle (7.00000000000000, 8.0); \draw[step=1cm, black!40] (-7.00000000000000,-8.0) grid (7.00000000000000,8.0); \draw[very thick, <->] (-7.00000000000000,0) -- (7.00000000000000,0) node[right] {x}; \draw[very thick, <->] (0,-8.0) -- (0,8.0) node[above] {y}; \draw (-7, 0.15) -- (-7, -0.15) node[below] {\tiny $-7$};\draw (-5, 0.15) -- (-5, -0.15) node[below] {\tiny $-5$};\draw (-3, 0.15) -- (-3, -0.15) node[below] {\tiny $-3$};\draw (-1, 0.15) -- (-1, -0.15) node[below] {\tiny $-1$};\draw (1, 0.15) -- (1, -0.15) node[below] {\tiny $1$};\draw (3, 0.15) -- (3, -0.15) node[below] {\tiny $3$};\draw (5, 0.15) -- (5, -0.15) node[below] {\tiny $5$};\draw (7, 0.15) -- (7, -0.15) node[below] {\tiny $7$};\draw (0.15, -8) -- (-0.15, -8) node[left] {\tiny $-8$};\draw (0.15, -6) -- (-0.15, -6) node[left] {\tiny $-6$};\draw (0.15, -4) -- (-0.15, -4) node[left] {\tiny $-4$};\draw (0.15, -2) -- (-0.15, -2) node[left] {\tiny $-2$};\draw (0.15, 2) -- (-0.15, 2) node[left] {\tiny $2$};\draw (0.15, 4) -- (-0.15, 4) node[left] {\tiny $4$};\draw (0.15, 6) -- (-0.15, 6) node[left] {\tiny $6$};\draw (0.15, 8) -- (-0.15, 8) node[left] {\tiny $8$}; \draw[dashed, very thick, purple] (-6.0, -8.0) -- (-6.0, 8.0);\draw[dashed, very thick, purple] (-2.0, -8.0) -- (-2.0, 8.0);\draw[purple, very thick, samples=100, domain=-5.95000000000000:-2.05000000000000, smooth] plot (\x, { 7 * tan( 180/4 * (\x - (-4)) ) });\filldraw[black] (-5.0, -7.0) circle (4pt);\filldraw[black] (-4.0, 0.0) circle (4pt);\filldraw[black] (-3.0, 7.0) circle (4pt);\end{tikzpicture}\)
+\(\begin{tikzpicture}[scale=0.35,>=triangle 45] \clip (-3.00000000000000,-9.0) rectangle (3.00000000000000, 9.0); \draw[step=1cm, black!40] (-3.00000000000000,-9.0) grid (3.00000000000000,9.0); \draw[very thick, <->] (-3.00000000000000,0) -- (3.00000000000000,0) node[right] {x}; \draw[very thick, <->] (0,-9.0) -- (0,9.0) node[above] {y}; \draw (-3, 0.15) -- (-3, -0.15) node[below] {\tiny $-3$};\draw (-2, 0.15) -- (-2, -0.15) node[below] {\tiny $-2$};\draw (-1, 0.15) -- (-1, -0.15) node[below] {\tiny $-1$};\draw (1, 0.15) -- (1, -0.15) node[below] {\tiny $1$};\draw (2, 0.15) -- (2, -0.15) node[below] {\tiny $2$};\draw (3, 0.15) -- (3, -0.15) node[below] {\tiny $3$};\draw (0.15, -9) -- (-0.15, -9) node[left] {\tiny $-9$};\draw (0.15, -7) -- (-0.15, -7) node[left] {\tiny $-7$};\draw (0.15, -5) -- (-0.15, -5) node[left] {\tiny $-5$};\draw (0.15, -3) -- (-0.15, -3) node[left] {\tiny $-3$};\draw (0.15, -1) -- (-0.15, -1) node[left] {\tiny $-1$};\draw (0.15, 1) -- (-0.15, 1) node[left] {\tiny $1$};\draw (0.15, 3) -- (-0.15, 3) node[left] {\tiny $3$};\draw (0.15, 5) -- (-0.15, 5) node[left] {\tiny $5$};\draw (0.15, 7) -- (-0.15, 7) node[left] {\tiny $7$};\draw (0.15, 9) -- (-0.15, 9) node[left] {\tiny $9$}; \draw[dashed, very thick, purple] (-2.0, -9.0) -- (-2.0, 9.0);\draw[dashed, very thick, purple] (0.0, -9.0) -- (0.0, 9.0);\draw[purple, very thick, samples=100, domain=-1.95000000000000:-0.0500000000000000, smooth] plot (\x, { 8 * tan( 180/2 * (\x - (-1)) ) });\filldraw[black] (-1.5, -8.0) circle (4pt);\filldraw[black] (-1.0, 0.0) circle (4pt);\filldraw[black] (-0.5, 8.0) circle (4pt);\end{tikzpicture}\)
 \end{solution}
 
 
-\question[5] Evaluate, simplify, or solve.\\ \\ \(\displaystyle \sin \theta = -\frac{5}{13}\)
+\question[5] Evaluate, simplify, or solve.\\ \\ \(\displaystyle \cos \theta = \frac{3}{5}\)
 \vspace*{\stretch{1}}\answerline
 \begin{solution}
 \(\sin(2\theta) = 2\sin\theta\cos\theta\)
 
-\(\sin\theta = -\frac{5}{13} \quad \cos\theta = \frac{12}{13}\)
+\(\sin\theta = -\frac{4}{5} \quad \cos\theta = \frac{3}{5}\)
 
-\(= 2 \left(-\frac{5}{13}\right) \left(\frac{12}{13}\right)\)
+\(= 2 \left(-\frac{4}{5}\right) \left(\frac{3}{5}\right)\)
 
-\(\boxed{-\frac{120}{169}}\)
+\(\boxed{-\frac{24}{25}}\)
 \end{solution}
 
 
-\question[5] Evaluate, simplify, or solve.\\ \\ \(\displaystyle \cos\left(2\sin^{-1}\left(\frac{3u}{5}\right)\right)\)
+\question[5] Evaluate, simplify, or solve.\\ \\ \(\displaystyle \cos\left(2\sin^{-1}\left(\frac{4u}{5}\right)\right)\)
 \vspace*{\stretch{1}}\answerline
 \begin{solution}
-\(\text{Let } \theta = \sin^{-1}\left(\frac{3u}{5}\right) \implies \sin\theta = \frac{3u}{5} = \frac{y}{r}\)
+\(\text{Let } \theta = \sin^{-1}\left(\frac{4u}{5}\right) \implies \sin\theta = \frac{4u}{5} = \frac{y}{r}\)
 
-\(x = \sqrt{r^2 - y^2} = \sqrt{5^2 - (3u)^2} = \sqrt{25 - 9u^2}\)
+\(x = \sqrt{r^2 - y^2} = \sqrt{5^2 - (4u)^2} = \sqrt{25 - 16u^2}\)
 
-\(\cos\theta = \frac{x}{r} = \frac{\sqrt{25 - 9u^2}}{5}\)
+\(\cos\theta = \frac{x}{r} = \frac{\sqrt{25 - 16u^2}}{5}\)
 
 \(\cos(2\theta) = 2\cos^2\theta - 1\)
 
-\(= 2\left(\frac{\sqrt{25 - 9u^2}}{5}\right)^2 - 1\)
+\(= 2\left(\frac{\sqrt{25 - 16u^2}}{5}\right)^2 - 1\)
 
-\(= 2 \cdot \frac{25 - 9u^2}{25} - 1\)
+\(= 2 \cdot \frac{25 - 16u^2}{25} - 1\)
 
-\(= \frac{50 - 18u^2}{25} - \frac{25}{25}\)
+\(= \frac{50 - 32u^2}{25} - \frac{25}{25}\)
 
-\(= \frac{50 - 18u^2 - 25}{25}\)
+\(= \frac{50 - 32u^2 - 25}{25}\)
 
-\(\boxed{\frac{25 - 18u^2}{25}}\)
+\(\boxed{\frac{25 - 32u^2}{25}}\)
 \end{solution}
 
 
-\question[5] Evaluate, simplify, or solve.\\ \\ \(\displaystyle{ [0, 2\pi) }\)
+\question[5] Evaluate, simplify, or solve.\\ \\ \(\displaystyle{ 2\sin^2 \theta + 5\sin \theta = 3 }\)
 \vspace*{\stretch{1}}\answerline
 \begin{solution}
-\(2\sin^2 \theta + 7\sin \theta + 3 = 0\)
+\(2\sin^2 \theta + 5\sin \theta - 3 = 0\)
 
-\((\sin \theta + 1)(\sin \theta + 3) = 0\)
+\((\sin \theta - 1)(\sin \theta + 3) = 0\)
 
-\(\sin \theta + 1 = 0 \quad \text{OR} \quad \sin \theta + 3 = 0\)
+\(\sin \theta - 1 = 0 \quad \text{OR} \quad \sin \theta + 3 = 0\)
 
-\(\sin \theta = -1 \quad \text{OR} \quad \sin \theta = -3\)
+\(\sin \theta = 1 \quad \text{OR} \quad \sin \theta = -3\)
 
-\(\sin \theta = -1 \quad \text{OR} \quad \text{No real solution}\)
+\(\sin \theta = 1 \quad \text{OR} \quad \text{No real solution}\)
 
-\(\boxed{\theta = \frac{7\pi}{6}, \frac{11\pi}{6}}\)
+\(\boxed{\theta = \frac{\pi}{6}, \frac{5\pi}{6}}\)
 \end{solution}
 
 
-\question[5] Evaluate, simplify, or solve.\\ \\ \(\displaystyle{ x }\)
+\question[5] Evaluate, simplify, or solve.\\ \\ \(\displaystyle{ \cos^{-1}(x) - \sin^{-1}\left(\frac{\sqrt{2}}{2}\right) = \frac{7\pi}{12} }\)
 \vspace*{\stretch{1}}\answerline
 \begin{solution}
-\(\cos^{-1}(x) = \frac{\pi}{2} + \frac{\pi}{2}\)
+\(\cos^{-1}(x) = \frac{7\pi}{12} + \frac{\pi}{4}\)
 
-\(\cos^{-1}(x) = \pi\)
+\(\cos^{-1}(x) = \frac{5\pi}{6}\)
 
-\(x = \cos\left(\pi\right)\)
+\(x = \cos\left(\frac{5\pi}{6}\right)\)
 
-\(\boxed{x = -1}\)
+\(\boxed{x = -\frac{\sqrt{3}}{2}}\)
 \end{solution}
 
 
-\question[4] Plot the polar coordinates: \(\displaystyle{ \left(2, 0^\circ\right) }\) and \(\displaystyle{ \left(2, \frac{1}{3} \, \pi\right) }\).
+\question[4] Plot the polar coordinates: \(\displaystyle{ [\text{MISSING}] }\) and \(\displaystyle{ [\text{MISSING}] }\).
 \vspace*{\stretch{1}}
 
-\question[4] Convert the polar coordinates to rectangular coordinates: \(\displaystyle{ \left(2, 0^\circ\right) }\) and \(\displaystyle{ \left(2, \frac{1}{3} \, \pi\right) }\).
+\question[4] Convert the polar coordinates to rectangular coordinates: \(\displaystyle{ [\text{MISSING}] }\) and \(\displaystyle{ [\text{MISSING}] }\).
 \vspace*{\stretch{1}}\answerline
 \begin{solution}
-\(\begin{tikzpicture}[scale=0.5,baseline=(current bounding box.center)]\draw[lightgray,very thin] (0,0) circle (1) circle (2) circle (3) circle (4) circle (5);\foreach \a in {0,15,...,345} \draw[lightgray,very thin] (0,0) -- (\a:5);\draw[gray,thin] (0,0) circle (1) circle (2) circle (3) circle (4) circle (5);\foreach \a in {0,30,...,330} \draw[gray,thin] (0,0) -- (\a:5);\draw[->,thick] (-5.5,0) -- (5.5,0) node[right] {$x$};\draw[->,thick] (0,-5.5) -- (0,5.5) node[above] {$y$};\fill[blue] (0.0:2) circle (3pt) node[above right,blue,fill=white,inner sep=1pt] {A};\fill[red] (60.0:2) circle (3pt) node[above right,red,fill=white,inner sep=1pt] {B};\end{tikzpicture}\)
+\(\begin{tikzpicture}[scale=0.5,baseline=(current bounding box.center)]\draw[lightgray,very thin] (0,0) circle (1) circle (2) circle (3) circle (4) circle (5);\foreach \a in {0,15,...,345} \draw[lightgray,very thin] (0,0) -- (\a:5);\draw[gray,thin] (0,0) circle (1) circle (2) circle (3) circle (4) circle (5);\foreach \a in {0,30,...,330} \draw[gray,thin] (0,0) -- (\a:5);\draw[->,thick] (-5.5,0) -- (5.5,0) node[right] {$x$};\draw[->,thick] (0,-5.5) -- (0,5.5) node[above] {$y$};\fill[blue] (180.0:5) circle (3pt) node[above right,blue,fill=white,inner sep=1pt] {A};\fill[red] (150.0:-3) circle (3pt) node[above right,red,fill=white,inner sep=1pt] {B};\end{tikzpicture}\)
 
-\(A: (x, y) = \left(2, 0\right)\)
+\(A: (x, y) = \left(-5, 0\right)\)
 
-\(B: (x, y) = \left(1, \sqrt{3}\right)\)
+\(B: (x, y) = \left(\frac{3}{2} \, \sqrt{3}, -\frac{3}{2}\right)\)
 \end{solution}
 
 
-\question[3] Evaluate the following at \(x = -1\):
-
-\begin{itemize}
-\item
-\(\displaystyle \lim_{x \to (-1)^-} f(x)\)
-
-\item
-\(\displaystyle \lim_{x \to (-1)^+} f(x)\)
-
-\item
-\(\displaystyle \lim_{x \to (-1)} f(x)\)
-
-\item
-\(f(-1)\)
-
-\end{itemize}
-\vspace*{\stretch{1}}\answerline
+\question[8] Evaluate the given limits based on the graph of $f(x)$.
+\begin{center}
+\begin{tikzpicture}[scale=0.5, >=triangle 45] \clip (-8.5,-5.5) rectangle (8.5,5.5); \draw[black!40] (-8,-5) grid (8,5); \draw[very thick, <->] (-8.5,0) -- (8.5,0) node[right] {x}; \draw[very thick, <->] (0,-5.5) -- (0,5.5) node[above] {y}; \node[below, fill=white, inner sep=1pt] at (-8,0) {\tiny -8};\node[below, fill=white, inner sep=1pt] at (-6,0) {\tiny -6};\node[below, fill=white, inner sep=1pt] at (-4,0) {\tiny -4};\node[below, fill=white, inner sep=1pt] at (-2,0) {\tiny -2};\node[below, fill=white, inner sep=1pt] at (2,0) {\tiny 2};\node[below, fill=white, inner sep=1pt] at (4,0) {\tiny 4};\node[below, fill=white, inner sep=1pt] at (6,0) {\tiny 6};\node[below, fill=white, inner sep=1pt] at (8,0) {\tiny 8};\node[left, fill=white, inner sep=1pt] at (0,-4) {\tiny -4};\node[left, fill=white, inner sep=1pt] at (0,-2) {\tiny -2};\node[left, fill=white, inner sep=1pt] at (0,2) {\tiny 2};\node[left, fill=white, inner sep=1pt] at (0,4) {\tiny 4};\draw[blue, ultra thick, <->, domain=8.50000000000000:3.25000000000000, samples=50] plot (\x, { 1*(0.5*((\x-0)/-1) + 3 - 1/( ((\x-0)/-1) + 3)) + 0 });\draw[blue, ultra thick, ->, domain=2.85000000000000:1, samples=50] plot (\x, { 1*(0.5*((\x-0)/-1) + 3 - 1/( ((\x-0)/-1) + 3)) + 0 });\draw[blue, ultra thick] (1, -2) -- (-3, 2);\draw[blue, ultra thick, ->, domain=-3:-7, samples=50] plot (\x, { 1*(-(((\x-0)/-1)-4)**2 + 3) + 0 }); \filldraw[white, draw=blue, thick] (5, 1) circle (5pt); \filldraw[white, draw=blue, thick] (1, 2.50000000000000) circle (5pt); \filldraw[blue] (1, -2) circle (5pt); \filldraw[white, draw=blue, thick] (-3, 2) circle (5pt); \filldraw[blue] (-3, -3) circle (5pt); \end{tikzpicture}
+\end{center}
+\begin{parts}
+\part \(\displaystyle{ \begin{tikzpicture}[scale=0.5, >=triangle 45] \clip (-8.5,-5.5) rectangle (8.5,5.5); \draw[black!40] (-8,-5) grid (8,5); \draw[very thick, <->] (-8.5,0) -- (8.5,0) node[right] {x}; \draw[very thick, <->] (0,-5.5) -- (0,5.5) node[above] {y}; \node[below, fill=white, inner sep=1pt] at (-8,0) {\tiny -8};\node[below, fill=white, inner sep=1pt] at (-6,0) {\tiny -6};\node[below, fill=white, inner sep=1pt] at (-4,0) {\tiny -4};\node[below, fill=white, inner sep=1pt] at (-2,0) {\tiny -2};\node[below, fill=white, inner sep=1pt] at (2,0) {\tiny 2};\node[below, fill=white, inner sep=1pt] at (4,0) {\tiny 4};\node[below, fill=white, inner sep=1pt] at (6,0) {\tiny 6};\node[below, fill=white, inner sep=1pt] at (8,0) {\tiny 8};\node[left, fill=white, inner sep=1pt] at (0,-4) {\tiny -4};\node[left, fill=white, inner sep=1pt] at (0,-2) {\tiny -2};\node[left, fill=white, inner sep=1pt] at (0,2) {\tiny 2};\node[left, fill=white, inner sep=1pt] at (0,4) {\tiny 4};\draw[blue, ultra thick, <->, domain=8.50000000000000:3.25000000000000, samples=50] plot (\x, { 1*(0.5*((\x-0)/-1) + 3 - 1/( ((\x-0)/-1) + 3)) + 0 });\draw[blue, ultra thick, ->, domain=2.85000000000000:1, samples=50] plot (\x, { 1*(0.5*((\x-0)/-1) + 3 - 1/( ((\x-0)/-1) + 3)) + 0 });\draw[blue, ultra thick] (1, -2) -- (-3, 2);\draw[blue, ultra thick, ->, domain=-3:-7, samples=50] plot (\x, { 1*(-(((\x-0)/-1)-4)**2 + 3) + 0 }); \filldraw[white, draw=blue, thick] (5, 1) circle (5pt); \filldraw[white, draw=blue, thick] (1, 2.50000000000000) circle (5pt); \filldraw[blue] (1, -2) circle (5pt); \filldraw[white, draw=blue, thick] (-3, 2) circle (5pt); \filldraw[blue] (-3, -3) circle (5pt); \end{tikzpicture} }\) = \vspace{.15in} \answerline 
+\part \(\displaystyle{ 5 }\) = \vspace{.15in} \answerline 
+\part \(\displaystyle{ (-\infty) }\) = \vspace{.15in} \answerline 
+\part \(\displaystyle{ a }\) = \vspace{.15in} \answerline 
+\end{parts}
 \begin{solution}
-\(\displaystyle \lim_{x \to (-1)^-} f(x) = \boxed{ 1.50000000000000 }\)
+\(\displaystyle \lim_{x \to 5^-} f(x) = \boxed{ 1 }\)
 
-\(\displaystyle \lim_{x \to (-1)^+} f(x) = \boxed{ -3 }\)
+\(\displaystyle \lim_{x \to 5^+} f(x) = \boxed{ 1 }\)
 
-\(\displaystyle \lim_{x \to (-1)} f(x) = \boxed{ \text{DNE} }\)
+\(\displaystyle \lim_{x \to 5} f(x) = \boxed{ 1 }\)
 
-\(f(-1) = \boxed{ -3 }\)
-\end{solution}
+\(f(5) = \boxed{ \text{DNE} }\)
 
-
-\question[3] Evaluate \(\displaystyle \lim_{x \to 3} f(x)\).
-\vspace*{\stretch{1}}\answerline
-\begin{solution}
-\(\displaystyle \lim_{x \to 3} f(x) = \boxed{ 1 }\)
-\end{solution}
-
-
-\question[1] Evaluate \(\displaystyle \lim_{x \to (-\infty)} f(x)\).
-\vspace*{\stretch{1}}\answerline
-\begin{solution}
 \(\displaystyle \lim_{x \to (-\infty)} f(x) = \boxed{ -\infty }\)
+
+\(\boxed{ a = -3 }\)
+\end{solution}
+
+
+\question[3] Evaluate.\\\\ \\\\ \(\displaystyle\lim_{x \to a} f(x)\)
+\vspace*{\stretch{1}}\answerline
+
+\question[1] % [CONCEPTUAL] For what value \(a\) do both \(\displaystyle\lim_{x \to a} f(x)\) and \(f(a)\) exist, but \(\displaystyle\lim_{x \to a} f(x) \neq f(a)\)?
+\vspace*{\stretch{1}}\answerline
+\begin{solution}
+\(\displaystyle \lim_{x \to 5^-} f(x) = \boxed{ 1 }\)
+
+\(\displaystyle \lim_{x \to 5^+} f(x) = \boxed{ 1 }\)
+
+\(\displaystyle \lim_{x \to 5} f(x) = \boxed{ 1 }\)
+
+\(f(5) = \boxed{ \text{DNE} }\)
+
+\(\displaystyle \lim_{x \to (-\infty)} f(x) = \boxed{ -\infty }\)
+
+\(\boxed{ a = -3 }\)
 \end{solution}
 
 

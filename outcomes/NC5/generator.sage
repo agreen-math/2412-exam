@@ -11,11 +11,12 @@ class Generator(BaseGenerator):
 
         # Quadrant mappings: (quad_num, x_sign, y_sign, interval_latex)
         # Added \displaystyle to all interval strings
+        # CRITICAL FIX: Replaced < with &lt; to prevent XML parsing errors in SpaTeXt
         quadrants = [
-            (1, 1, 1, r"\displaystyle 0 < \theta < \frac{\pi}{2}"),
-            (2, -1, 1, r"\displaystyle \frac{\pi}{2} < \theta < \pi"),
-            (3, -1, -1, r"\displaystyle \pi < \theta < \frac{3\pi}{2}"),
-            (4, 1, -1, r"\displaystyle \frac{3\pi}{2} < \theta < 2\pi")
+            (1, 1, 1, r"\displaystyle 0 &lt; \theta &lt; \frac{\pi}{2}"),
+            (2, -1, 1, r"\displaystyle \frac{\pi}{2} &lt; \theta &lt; \pi"),
+            (3, -1, -1, r"\displaystyle \pi &lt; \theta &lt; \frac{3\pi}{2}"),
+            (4, 1, -1, r"\displaystyle \frac{3\pi}{2} &lt; \theta &lt; 2\pi")
         ]
 
         # Randomly select the triangle and quadrant

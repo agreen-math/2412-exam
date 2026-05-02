@@ -1,3 +1,4 @@
+from sage.all import *
 import random
 
 class Generator(BaseGenerator):
@@ -57,16 +58,17 @@ class Generator(BaseGenerator):
         deg_b = float(theta_evals[1] * 180 / pi)
         
         # Build TikZ string - wrapped in <p><m> to satisfy Zero-Text Rule
+        # CRITICAL FIX: Replaced -> with -&gt; to prevent XML parsing issues
         tikz_code = (
             r"\begin{tikzpicture}[scale=0.5,baseline=(current bounding box.center)]"
             r"\draw[lightgray,very thin] (0,0) circle (1) circle (2) circle (3) circle (4) circle (5);"
             r"\foreach \a in {0,15,...,345} \draw[lightgray,very thin] (0,0) -- (\a:5);"
             r"\draw[gray,thin] (0,0) circle (1) circle (2) circle (3) circle (4) circle (5);"
             r"\foreach \a in {0,30,...,330} \draw[gray,thin] (0,0) -- (\a:5);"
-            r"\draw[->,thick] (-5.5,0) -- (5.5,0) node[right] {$x$};"
-            r"\draw[->,thick] (0,-5.5) -- (0,5.5) node[above] {$y$};"
-            f"\\fill[blue] ({deg_a}:{r_vals[0]}) circle (3pt) node[above right,blue,fill=white,inner sep=1pt] {{A}};"
-            f"\\fill[red] ({deg_b}:{r_vals[1]}) circle (3pt) node[above right,red,fill=white,inner sep=1pt] {{B}};"
+            r"\draw[-&gt;,thick] (-5.5,0) -- (5.5,0) node[right] {$x$};"
+            r"\draw[-&gt;,thick] (0,-5.5) -- (0,5.5) node[above] {$y$};"
+            rf"\fill[blue] ({deg_a}:{r_vals[0]}) circle (3pt) node[above right,blue,fill=white,inner sep=1pt] {{A}};"
+            rf"\fill[red] ({deg_b}:{r_vals[1]}) circle (3pt) node[above right,red,fill=white,inner sep=1pt] {{B}};"
             r"\end{tikzpicture}"
         )
             
